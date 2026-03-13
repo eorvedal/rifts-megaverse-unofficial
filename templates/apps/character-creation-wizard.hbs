@@ -1,0 +1,60 @@
+<section class="rifts-character-creation">
+  <header>
+    <h2>{{localize "RIFTS.Creation.WizardTitle"}}: {{actorName}}</h2>
+    <p>{{localize "RIFTS.Creation.WizardIntro"}}</p>
+  </header>
+
+  <section class="sheet-section">
+    <h3>1. {{localize "RIFTS.Creation.StepRollStats"}}</h3>
+    <div class="item-actions">
+      <button type="button" data-action="roll-all-stats">{{localize "RIFTS.Creation.RollAllStats"}}</button>
+    </div>
+    <div class="creation-attr-grid">
+      {{#each attributes as |attr|}}
+        <div class="creation-attr-cell">
+          <span>{{attr.label}}</span>
+          <strong>{{attr.value}}</strong>
+        </div>
+      {{/each}}
+    </div>
+  </section>
+
+  <section class="sheet-section">
+    <h3>2. {{localize "RIFTS.Creation.StepPickOcc"}}</h3>
+    {{#if hasOccRows}}
+      <div class="item-list">
+        <div class="item-row item-header creation-occ-row">
+          <span>{{localize "RIFTS.Item.Name"}}</span>
+          <span>{{localize "RIFTS.Item.Category"}}</span>
+          <span>{{localize "RIFTS.Sheet.Status"}}</span>
+          <span>{{localize "RIFTS.Sheet.RequirementsNotMet"}}</span>
+          <span>{{localize "RIFTS.Sheet.Action"}}</span>
+        </div>
+        {{#each occRows as |row|}}
+          <div class="item-row creation-occ-row {{#if row.isActive}}is-active{{/if}}">
+            <span>{{row.name}}</span>
+            <span>{{row.category}}</span>
+            <span>{{row.requirementsLabel}}</span>
+            <span>{{row.requirementsSummary}}</span>
+            <span>
+              <button type="button" data-action="select-occ" data-occ-id="{{row.id}}" {{#if row.isActive}}disabled{{/if}}>
+                {{#if row.isActive}}{{localize "RIFTS.Sheet.ActiveClass"}}{{else}}{{localize "RIFTS.Creation.SelectOcc"}}{{/if}}
+              </button>
+            </span>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>{{localize "RIFTS.Creation.NoOccItems"}}</p>
+    {{/if}}
+  </section>
+
+  <section class="sheet-section">
+    <h3>3. {{localize "RIFTS.Creation.StepApplyPools"}}</h3>
+    <p><strong>{{localize "RIFTS.Creation.SelectedOcc"}}:</strong> {{selectedOccName}}</p>
+    <p>{{defaultRuleHint}}</p>
+    <div class="item-actions">
+      <button type="button" data-action="apply-starting-pools">{{localize "RIFTS.Creation.ApplyStartingPools"}}</button>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,600 @@
+<form class="rifts-item-sheet">
+  <header class="sheet-header">
+    <h1>{{localize "RIFTS.Sheet.Item"}}: {{itemType}}</h1>
+  </header>
+
+  <section class="sheet-section">
+    <label for="item-name">{{localize "RIFTS.Item.Name"}}</label>
+    <input id="item-name" type="text" name="name" value="{{item.name}}">
+  </section>
+
+  {{#if isSkill}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Item.Category"}}</label>
+        <input type="text" name="system.category" value="{{system.category}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.SkillBase"}}</label>
+        <input type="number" name="system.base" value="{{system.base}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.SkillPerLevel"}}</label>
+        <input type="number" name="system.perLevel" value="{{system.perLevel}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.SkillModifier"}}</label>
+        <input type="number" name="system.modifier" value="{{system.modifier}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.OccSkill"}}</label>
+        <input type="checkbox" name="system.isOCCSkill" {{#if system.isOCCSkill}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.RelatedSkill"}}</label>
+        <input type="checkbox" name="system.isRelatedSkill" {{#if system.isRelatedSkill}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.SecondarySkill"}}</label>
+        <input type="checkbox" name="system.isSecondarySkill" {{#if system.isSecondarySkill}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.Source"}}</label>
+        <input type="text" name="system.sourceType" value="{{system.sourceType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.SourceId"}}</label>
+        <input type="text" name="system.sourceId" value="{{system.sourceId}}">
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Item.Description"}}</label>
+      <textarea name="system.description" rows="5">{{system.description}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.Notes"}}</label>
+      <textarea name="system.notes" rows="4">{{system.notes}}</textarea>
+    </section>
+  {{/if}}
+
+  {{#if isWeapon}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Item.Equipped"}}</label>
+        <input type="checkbox" name="system.equipped" {{#if system.equipped}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Active"}}</label>
+        <input type="checkbox" name="system.active" {{#if system.active}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Damage"}}</label>
+        <input type="text" name="system.weapon.damage" value="{{system.weapon.damage}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.BonusStrike"}}</label>
+        <input type="number" name="system.weapon.bonusStrike" value="{{system.weapon.bonusStrike}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.AttackType"}}</label>
+        <input type="text" name="system.weapon.attackType" value="{{system.weapon.attackType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Range"}}</label>
+        <input type="text" name="system.weapon.range" value="{{system.weapon.range}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Vehicle.IsMounted"}}</label>
+        <input type="checkbox" name="system.weapon.isMounted" {{#if system.weapon.isMounted}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Vehicle.Mount"}}</label>
+        <input type="text" name="system.weapon.mountName" value="{{system.weapon.mountName}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.PowerArmor.LinkedArmor"}}</label>
+        {{#if hasLinkedArmorChoices}}
+          <select name="system.weapon.linkedArmorId">
+            {{selectOptions linkedArmorChoices selected=system.weapon.linkedArmorId localize=false}}
+          </select>
+        {{else}}
+          <input type="text" name="system.weapon.linkedArmorId" value="{{system.weapon.linkedArmorId}}">
+        {{/if}}
+      </div>
+      <div>
+        <label>{{localize "RIFTS.PowerArmor.RequiresPowerArmor"}}</label>
+        <input type="checkbox" name="system.weapon.requiresPowerArmor" {{#if system.weapon.requiresPowerArmor}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Vehicle.LinkedToVehicle"}}</label>
+        <input type="checkbox" name="system.weapon.linkedToVehicle" {{#if system.weapon.linkedToVehicle}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Vehicle.RequiresCrew"}}</label>
+        <input type="number" min="1" name="system.weapon.requiresCrew" value="{{system.weapon.requiresCrew}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.MegaDamage"}}</label>
+        <input type="checkbox" name="system.weapon.isMegaDamage" {{#if system.weapon.isMegaDamage}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.BurstFire"}}</label>
+        <input type="checkbox" name="system.weapon.isBurstCapable" {{#if system.weapon.isBurstCapable}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.FireMode"}}</label>
+        <input type="text" name="system.weapon.fireMode" value="{{system.weapon.fireMode}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.BurstSize"}}</label>
+        <input type="number" min="1" name="system.weapon.burstSize" value="{{system.weapon.burstSize}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.BurstStrikeMod"}}</label>
+        <input type="number" name="system.weapon.burstStrikeMod" value="{{system.weapon.burstStrikeMod}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.BurstDamageMultiplier"}}</label>
+        <input type="number" min="1" name="system.weapon.burstDamageMultiplier" value="{{system.weapon.burstDamageMultiplier}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.BurstAmmoCost"}}</label>
+        <input type="number" min="1" name="system.weapon.ammoPerBurst" value="{{system.weapon.ammoPerBurst}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.AimedShotModifier"}}</label>
+        <input type="number" name="system.weapon.aimedStrikeMod" value="{{system.weapon.aimedStrikeMod}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Advanced.AimedShotCompatible"}}</label>
+        <input type="checkbox" name="system.weapon.supportsAimedShot" {{#if system.weapon.supportsAimedShot}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.Knockdown"}}</label>
+        <input type="checkbox" name="system.weapon.canKnockdown" {{#if system.weapon.canKnockdown}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.Knockback"}}</label>
+        <input type="checkbox" name="system.weapon.canKnockback" {{#if system.weapon.canKnockback}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.KnockbackValue"}}</label>
+        <input type="number" min="0" name="system.weapon.knockbackValue" value="{{system.weapon.knockbackValue}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.ImpactType"}}</label>
+        <input type="text" name="system.weapon.impactType" value="{{system.weapon.impactType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.AmmoCurrent"}}</label>
+        <input type="number" name="system.weapon.ammo.value" value="{{system.weapon.ammo.value}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.AmmoMax"}}</label>
+        <input type="number" name="system.weapon.ammo.max" value="{{system.weapon.ammo.max}}">
+      </div>
+    </section>
+  {{/if}}
+
+  {{#if isArmor}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Item.Equipped"}}</label>
+        <input type="checkbox" name="system.equipped" {{#if system.equipped}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Active"}}</label>
+        <input type="checkbox" name="system.active" {{#if system.active}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.AR"}}</label>
+        <input type="number" name="system.armor.ar" value="{{system.armor.ar}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.MegaDamageArmor"}}</label>
+        <input type="checkbox" name="system.armor.isMegaDamageArmor" {{#if system.armor.isMegaDamageArmor}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.PowerArmor.IsPowerArmor"}}</label>
+        <input type="checkbox" name="system.armor.isPowerArmor" {{#if system.armor.isPowerArmor}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.PowerArmor.Class"}}</label>
+        <input type="text" name="system.armor.powerArmorClass" value="{{system.armor.powerArmorClass}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.PowerArmor.MountCapacity"}}</label>
+        <input type="number" min="0" name="system.armor.mountCapacity" value="{{system.armor.mountCapacity}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.PowerArmor.HandlingMod"}}</label>
+        <input type="number" name="system.armor.handlingMod" value="{{system.armor.handlingMod}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.PowerArmor.SpeedMod"}}</label>
+        <input type="number" name="system.armor.speedMod" value="{{system.armor.speedMod}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.SdcCurrent"}}</label>
+        <input type="number" name="system.armor.sdc.value" value="{{system.armor.sdc.value}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.SdcMax"}}</label>
+        <input type="number" name="system.armor.sdc.max" value="{{system.armor.sdc.max}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.MdcCurrent"}}</label>
+        <input type="number" name="system.armor.mdc.value" value="{{system.armor.mdc.value}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.MdcMax"}}</label>
+        <input type="number" name="system.armor.mdc.max" value="{{system.armor.mdc.max}}">
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.PowerArmor.Notes"}}</label>
+      <textarea name="system.armor.notes" rows="4">{{system.armor.notes}}</textarea>
+    </section>
+  {{/if}}
+
+
+  {{#if isAugmentation}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Augmentation.Augmentation"}}</label>
+        <input type="text" value="{{augmentationTypeLabel}}" disabled>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Augmentation.Installed"}}</label>
+        <input type="checkbox" name="system.installed" {{#if system.installed}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Augmentation.Slot"}}</label>
+        <input type="text" name="system.slot" value="{{system.slot}}">
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Augmentation.Effects"}} (JSON)</label>
+      <textarea rows="10" data-action="augmentation-effects">{{augmentationEffectsText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.Augmentation.EffectsHelp"}}</p>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Augmentation.GrantedAbilities"}} (JSON Array)</label>
+      <textarea rows="8" data-action="augmentation-granted-abilities">{{augmentationGrantedAbilitiesText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.Augmentation.GrantedAbilitiesHelp"}}</p>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.Notes"}}</label>
+      <textarea name="system.notes" rows="5">{{system.notes}}</textarea>
+    </section>
+  {{/if}}
+  {{#if isClassItem}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Sheet.ClassType"}}</label>
+        <input type="text" value="{{classLabel}}" disabled>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Category"}}</label>
+        <input type="text" name="system.category" value="{{system.category}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.Primary"}}</label>
+        <input type="checkbox" name="system.isPrimaryClass" {{#if system.isPrimaryClass}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.ActiveClass"}}</label>
+        <input type="checkbox" name="system.active" {{#if system.active}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.AttacksPerMeleeBase"}}</label>
+        <input type="number" name="system.baseAttacksPerMelee" value="{{system.baseAttacksPerMelee}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Progression.ClassXP"}}</label>
+        <input type="number" min="0" name="system.xp.value" value="{{classXPValue}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Progression.NextLevel"}} (Max)</label>
+        <input type="number" min="1" name="system.progression.maxLevel" value="{{classMaxLevel}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.ClassBonusStrike"}}</label>
+        <input type="number" name="system.bonuses.combat.strike" value="{{system.bonuses.combat.strike}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.ClassBonusParry"}}</label>
+        <input type="number" name="system.bonuses.combat.parry" value="{{system.bonuses.combat.parry}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.ClassBonusDodge"}}</label>
+        <input type="number" name="system.bonuses.combat.dodge" value="{{system.bonuses.combat.dodge}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Sheet.ClassBonusInitiative"}}</label>
+        <input type="number" name="system.bonuses.combat.initiative" value="{{system.bonuses.combat.initiative}}">
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Progression.XPTable"}}</label>
+      <textarea rows="6" data-action="class-xp-table">{{classXPTableText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.Progression.XPTableHelp"}}</p>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.AttacksPerMeleeProgression"}}</label>
+      <textarea rows="6" data-action="class-progression">{{classProgressionText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.Sheet.AttacksProgressionHelp"}}</p>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Skills.ClassPackageOcc"}}</label>
+      <textarea rows="6" data-action="class-skill-package" data-package-key="occSkills">{{classOccSkillsText}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Skills.ClassPackageRelated"}}</label>
+      <textarea rows="6" data-action="class-skill-package" data-package-key="relatedSkills">{{classRelatedSkillsText}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Skills.ClassPackageSecondary"}}</label>
+      <textarea rows="6" data-action="class-skill-package" data-package-key="secondarySkills">{{classSecondarySkillsText}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.PassiveEffects"}} (JSON)</label>
+      <textarea rows="10" data-action="class-effects">{{classEffectsText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.Augmentation.EffectsHelp"}}</p>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.GrantedAbilities"}} (JSON Array)</label>
+      <textarea rows="6" data-action="class-granted-abilities">{{classGrantedAbilitiesText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.Augmentation.GrantedAbilitiesHelp"}}</p>
+    </section>
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Item.Description"}}</label>
+      <textarea name="system.description" rows="5">{{system.description}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.Notes"}}</label>
+      <textarea name="system.notes" rows="5">{{system.notes}}</textarea>
+    </section>
+  {{/if}}
+
+  {{#if isHandToHand}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.HandToHand.ActiveStyle"}}</label>
+        <input type="checkbox" name="system.active" {{#if system.active}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.Type"}}</label>
+        <select name="system.style">
+          {{selectOptions handToHandStyleOptions selected=system.style localize=false}}
+        </select>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.APMBonus"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="apmBonus" value="{{hthApmBonusText}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.StrikeBonus"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="strikeBonus" value="{{hthStrikeBonusText}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.ParryBonus"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="parryBonus" value="{{hthParryBonusText}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.DodgeBonus"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="dodgeBonus" value="{{hthDodgeBonusText}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.AutoDodgeLevel"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="autoDodgeLevel" value="{{hthAutoDodgeLevelText}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.DamageBonus"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="damageBonus" value="{{hthDamageBonusText}}">
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <p class="help-text">{{localize "RIFTS.HandToHand.ProgressionHelp"}}</p>
+      <label>{{localize "RIFTS.Maneuvers.ManeuverPackage"}}</label>
+      <textarea rows="8" data-action="hth-maneuver-package">{{hthManeuverPackageText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.Maneuvers.PackageHelp"}}</p>
+      <label>{{localize "RIFTS.Sheet.Notes"}}</label>
+      <textarea name="system.notes" rows="5">{{system.notes}}</textarea>
+    </section>
+  {{/if}}
+
+
+  {{#if isSpecialManeuver}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Maneuvers.Key"}}</label>
+        <input type="text" name="system.key" value="{{system.key}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Category"}}</label>
+        <select name="system.category">
+          {{selectOptions specialManeuverCategoryOptions selected=system.category localize=false}}
+        </select>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Maneuvers.ActionCost"}}</label>
+        <input type="number" min="0" name="system.actionCost" value="{{system.actionCost}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Maneuvers.StrikeModifier"}}</label>
+        <input type="number" name="system.strikeModifier" value="{{system.strikeModifier}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Maneuvers.DamageFormula"}}</label>
+        <input type="text" name="system.damageFormula" value="{{system.damageFormula}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Maneuvers.MinLevel"}}</label>
+        <input type="number" min="1" name="system.minLevel" value="{{system.minLevel}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Maneuvers.ReactiveManeuver"}}</label>
+        <input type="checkbox" name="system.isReactive" {{#if system.isReactive}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.RequiresTarget"}}</label>
+        <input type="checkbox" name="system.requiresTarget" {{#if system.requiresTarget}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.Knockdown"}}</label>
+        <input type="checkbox" name="system.canKnockdown" {{#if system.canKnockdown}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.Knockback"}}</label>
+        <input type="checkbox" name="system.canKnockback" {{#if system.canKnockback}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.KnockbackValue"}}</label>
+        <input type="number" min="0" name="system.knockbackValue" value="{{system.knockbackValue}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Impact.ImpactType"}}</label>
+        <input type="text" name="system.impactType" value="{{system.impactType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.Source"}}</label>
+        <input type="text" name="system.sourceType" value="{{system.sourceType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.SourceId"}}</label>
+        <input type="text" name="system.sourceId" value="{{system.sourceId}}">
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Item.Description"}}</label>
+      <textarea name="system.description" rows="5">{{system.description}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.Notes"}}</label>
+      <textarea name="system.notes" rows="5">{{system.notes}}</textarea>
+    </section>
+  {{/if}}
+  {{#if isPower}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Powers.PowerType"}}</label>
+        <select name="system.powerType">
+          {{selectOptions powerTypeOptions selected=system.powerType localize=false}}
+        </select>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.SubType"}}</label>
+        <input type="text" name="system.subType" value="{{system.subType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.CostType"}}</label>
+        <select name="system.costType">
+          {{selectOptions costTypeOptions selected=system.costType localize=false}}
+        </select>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.Cost"}}</label>
+        <input type="number" min="0" name="system.cost" value="{{system.cost}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.Range"}}</label>
+        <input type="text" name="system.range" value="{{system.range}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.Duration"}}</label>
+        <input type="text" name="system.duration" value="{{system.duration}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.ActivationTime"}}</label>
+        <input type="text" name="system.activationTime" value="{{system.activationTime}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.SaveType"}}</label>
+        <input type="text" name="system.saveType" value="{{system.saveType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Damage"}}</label>
+        <input type="text" name="system.damage" value="{{system.damage}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.Scale"}}</label>
+        <select name="system.scale">
+          {{selectOptions powerScaleOptions selected=system.scale localize=false}}
+        </select>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.RequiresTarget"}}</label>
+        <input type="checkbox" name="system.requiresTarget" {{#if system.requiresTarget}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.RequiresAttackRoll"}}</label>
+        <input type="checkbox" name="system.requiresAttackRoll" {{#if system.requiresAttackRoll}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.RequiresSave"}}</label>
+        <input type="checkbox" name="system.requiresSave" {{#if system.requiresSave}}checked{{/if}}>
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Powers.Sustained"}}</label>
+        <input type="checkbox" name="system.active" {{#if system.active}}checked{{/if}}>
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Item.Description"}}</label>
+      <textarea name="system.description" rows="6">{{system.description}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.Notes"}}</label>
+      <textarea name="system.notes" rows="5">{{system.notes}}</textarea>
+    </section>
+  {{/if}}
+
+  {{#if isGear}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.Item.Quantity"}}</label>
+        <input type="number" name="system.quantity" value="{{system.quantity}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Item.Weight"}}</label>
+        <input type="number" name="system.weight" value="{{system.weight}}">
+      </div>
+    </section>
+  {{/if}}
+
+  {{#if isFeature}}
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Item.Description"}}</label>
+      <textarea name="system.description" rows="6">{{system.description}}</textarea>
+    </section>
+  {{/if}}
+</form>
+
+
+
+
+
+
+
+
+

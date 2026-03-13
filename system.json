@@ -1,0 +1,56 @@
+{
+  "id": "rifts-megaverse",
+  "title": "Rifts Megaverse (Unofficial)",
+  "description": "Foundry VTT system scaffold for Palladium Rifts-compatible play.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": [
+    {
+      "name": "Rifts Megaverse Contributors"
+    }
+  ],
+  "esmodules": [
+    "module/rifts.mjs"
+  ],
+  "styles": [
+    "styles/rifts.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "npc": {},
+      "vehicle": {}
+    },
+    "Item": {
+      "occ": {},
+      "rcc": {},
+      "skill": {},
+      "weapon": {},
+      "armor": {},
+      "power": {},
+      "gear": {},
+      "feature": {},
+      "cybernetic": {},
+      "bionic": {},
+      "handToHand": {},
+      "specialManeuver": {}
+    }
+  },
+  "grid": {
+    "distance": 5,
+    "units": "ft"
+  },
+  "initiative": "1d20 + @system.combat.derived.initiativeTotal",
+  "primaryTokenAttribute": "system.resources.hp"
+}
+

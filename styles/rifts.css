@@ -1,0 +1,911 @@
+/* Emergency containment stylesheet: all selectors are strictly rooted to system DOM. */
+
+.rifts.sheet {
+  min-height: 100%;
+}
+
+.rifts.sheet .window-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rifts-sheet,
+.rifts-item-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  min-height: 0;
+}
+
+.rifts-sheet {
+  overflow-y: auto;
+}
+
+.rifts-sheet .sheet-header,
+.rifts-item-sheet .sheet-header {
+  border-bottom: 1px solid #666;
+  padding-bottom: 0.5rem;
+}
+
+.rifts-sheet .sheet-tabs,
+.rifts-item-sheet .sheet-tabs {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.rifts-sheet .tab-btn,
+.rifts-item-sheet .tab-btn {
+  border: 1px solid #666;
+  background: #e0e0e0;
+  color: #000;
+  padding: 0.25rem 0.5rem;
+}
+
+.rifts-sheet .tab-btn.active,
+.rifts-item-sheet .tab-btn.active {
+  background: #cfcfcf;
+  color: #000;
+  font-weight: 700;
+}
+
+.rifts-sheet .tab-panel,
+.rifts-item-sheet .tab-panel {
+  display: block;
+}
+
+.rifts-sheet .field-row,
+.rifts-item-sheet .field-row {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.rifts-sheet .field-row input,
+.rifts-item-sheet .field-row input {
+  width: 100%;
+}
+
+.rifts-sheet .grid,
+.rifts-item-sheet .grid,
+.rifts-sheet .two-col,
+.rifts-item-sheet .two-col {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.rifts-sheet .two-col,
+.rifts-item-sheet .two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rifts-sheet .item-list,
+.rifts-item-sheet .item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rifts-sheet .item-row,
+.rifts-item-sheet .item-row {
+  display: grid;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 0.25rem 0.35rem;
+}
+
+.rifts-sheet .item-actions,
+.rifts-item-sheet .item-actions {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.rifts-sheet .help-text,
+.rifts-item-sheet .help-text {
+  margin: 0.25rem 0 0;
+  color: #444;
+  font-size: 0.85rem;
+}
+
+.rifts-sheet .label-key,
+.rifts-item-sheet .label-key,
+.rifts-roll-card .label-key,
+.rifts-attack-card .label-key,
+.rifts-damage-card .label-key,
+.rifts-power-card .label-key {
+  text-transform: uppercase;
+}
+
+.rifts-sheet textarea,
+.rifts-item-sheet textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.rifts-roll-card,
+.rifts-attack-card,
+.rifts-damage-card,
+.rifts-power-card {
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.rifts-roll-card .subtitle {
+  color: #666;
+}
+
+#combat-tracker .rifts-melee-tracker-summary {
+  margin: 0.35rem 0;
+  padding: 0.4rem;
+  border: 1px solid #777;
+  border-radius: 4px;
+  background: rgba(224, 224, 224, 0.35);
+}
+
+#combat-tracker .rifts-melee-summary-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 0.5rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+
+#combat-tracker .rifts-melee-controls-row {
+  margin-bottom: 0.25rem;
+}
+
+#combat-tracker .rifts-melee-order {
+  margin-top: 0.25rem;
+}
+
+#combat-tracker .rifts-melee-order-list {
+  margin: 0.25rem 0 0;
+  padding-left: 1.2rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+#combat-tracker .rifts-melee-order-item.is-current {
+  font-weight: 700;
+}
+
+#combat-tracker .rifts-melee-order-item.is-consumed {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+#combat-tracker li.combatant.rifts-melee-current {
+  outline: 2px solid #0a5c1f;
+  outline-offset: -2px;
+  background: rgba(20, 110, 40, 0.08);
+}
+
+#combat-tracker .rifts-melee-combatant-meta {
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+  color: #111;
+}
+
+.rifts.app.bulk-importer .window-content {
+  overflow-y: auto;
+  background: #ececec;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.65rem;
+  color: #111;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .field-row,
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-data-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 0.7rem;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer label,
+.rifts.app.bulk-importer .rifts-bulk-importer strong,
+.rifts.app.bulk-importer .rifts-bulk-importer td,
+.rifts.app.bulk-importer .rifts-bulk-importer th,
+.rifts.app.bulk-importer .rifts-bulk-importer div {
+  color: #111;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer select,
+.rifts.app.bulk-importer .rifts-bulk-importer input,
+.rifts.app.bulk-importer .rifts-bulk-importer textarea {
+  color: #111;
+  background: #fff;
+  border: 1px solid #777;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer textarea {
+  width: 100%;
+  min-height: 220px;
+  resize: vertical;
+  font-family: monospace;
+  background: #f8f8f8;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer button {
+  border: 1px solid #666;
+  background: #d9d9d9;
+  color: #000;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer button:hover,
+.rifts.app.bulk-importer .rifts-bulk-importer button:focus {
+  background: #cfcfcf;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-sample,
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-preview,
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-report {
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 0.4rem 0.5rem;
+  background: #f4f4f4;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-sample h3,
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-preview h3,
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-report h3 {
+  margin: 0 0 0.35rem 0;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-sample pre {
+  margin: 0;
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+  border: 1px solid #bbb;
+  background: #fff;
+  border-radius: 3px;
+  padding: 0.35rem;
+  color: #111;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.3rem 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-errors {
+  border: 1px solid #b66;
+  background: #fbeeee;
+  border-radius: 3px;
+  padding: 0.3rem 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-errors ul {
+  margin: 0.2rem 0 0;
+  padding-left: 1rem;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-row-table {
+  max-height: 260px;
+  overflow: auto;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-row-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-row-table th,
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-row-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.2rem 0.35rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.rifts.app.bulk-importer .rifts-bulk-importer .importer-row-table th {
+  position: sticky;
+  top: 0;
+  background: #e0e0e0;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .rifts.app.bulk-importer .rifts-bulk-importer .importer-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .rifts.app.bulk-importer .rifts-bulk-importer .importer-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Restored sheet layout rules (strictly scoped) */
+.rifts-sheet .rifts-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.rifts-sheet .header-portrait-wrap {
+  width: 84px;
+  height: 84px;
+  border: 1px solid #666;
+  border-radius: 4px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.rifts-sheet .header-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: transparent;
+}
+
+.rifts-sheet .header-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.rifts-sheet .header-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  border: 1px solid #666;
+  padding: 0.25rem 0.4rem;
+  background: #fff;
+  color: #000;
+}
+
+.rifts-sheet .header-meta {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.rifts-sheet .header-meta input {
+  width: 86px;
+}
+
+.rifts-sheet .progression-meta {
+  align-items: center;
+}
+
+.rifts-sheet .progression-meta > strong {
+  min-width: 2.4rem;
+}
+
+.rifts-sheet .xp-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rifts-sheet .xp-progress-wrap label {
+  font-size: 0.9rem;
+}
+
+.rifts-sheet .xp-progress-bar {
+  width: 100%;
+  height: 10px;
+  border: 1px solid #666;
+  background: #f1f1f1;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.rifts-sheet .xp-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6b9f4f 0%, #86b55e 100%);
+}
+
+.rifts-sheet .sheet-lock-controls {
+  display: flex;
+  align-items: center;
+}
+
+.rifts-sheet .lock-toggle-btn {
+  border: 1px solid #666;
+  background: #e0e0e0;
+  color: #000;
+  padding: 0.25rem 0.5rem;
+}
+
+.rifts-sheet .sheet-locked-pill {
+  border: 1px solid #b33;
+  color: #811;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.85em;
+}
+
+.rifts-sheet .sheet-lock-note {
+  margin: 0;
+  color: #811;
+  font-weight: 700;
+}
+
+.rifts-sheet .rifts-layout {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr) 220px;
+  gap: 0.6rem;
+  min-height: 640px;
+}
+
+.rifts-sheet .vehicle-layout {
+  grid-template-columns: 320px minmax(0, 1fr) 280px;
+}
+
+.rifts-sheet .rifts-left,
+.rifts-sheet .rifts-center,
+.rifts-sheet .rifts-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 0;
+}
+
+.rifts-sheet .rifts-center {
+  border-left: 1px solid #777;
+  border-right: 1px solid #777;
+  padding: 0 0.6rem;
+}
+
+.rifts-sheet .rifts-center,
+.rifts-sheet .rifts-right,
+.rifts-sheet .rifts-left {
+  min-width: 0;
+}
+
+.rifts-sheet .rifts-center .sheet-section,
+.rifts-sheet .rifts-center .tab-panel,
+.rifts-sheet .rifts-center .item-list,
+.rifts-sheet .rifts-center .item-row {
+  min-width: 0;
+}
+
+.rifts-sheet .rifts-center .item-list {
+  overflow-x: auto;
+}
+
+.rifts-sheet .item-row > span,
+.rifts-sheet .class-summary > div > span,
+.rifts-sheet .class-summary > div > strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.rifts-sheet .sheet-section h2,
+.rifts-item-sheet .sheet-section h2,
+.rifts-sheet .sheet-section h3,
+.rifts-item-sheet .sheet-section h3 {
+  margin: 0 0 0.35rem 0;
+}
+
+.rifts-sheet .attributes-grid,
+.rifts-sheet .resources-grid,
+.rifts-sheet .details-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rifts-sheet .derived-combat-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+}
+
+.rifts-sheet .derived-cell {
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 0.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rifts-sheet .combat-row {
+  display: grid;
+  grid-template-columns: 1fr 92px 130px;
+  gap: 0.35rem;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.rifts-sheet .targeting-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.rifts-sheet .quick-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.rifts-sheet .quick-summary > div {
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 0.3rem 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.rifts-sheet .item-header {
+  font-weight: 700;
+  background: #e0e0e0;
+  color: #000;
+}
+
+.rifts-sheet .weapons-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.8fr) minmax(0, 1.4fr);
+}
+
+.rifts-sheet .armor-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.3fr);
+}
+
+.rifts-sheet .skills-row,
+.rifts-sheet .gear-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr);
+}
+
+.rifts-sheet .powers-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1.6fr) minmax(0, 1.2fr);
+}
+
+.rifts-sheet .augmentation-row {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 0.8fr) minmax(0, 1.2fr) minmax(0, 1.2fr);
+}
+
+.rifts-sheet .mounted-weapons-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 0.7fr) minmax(0, 0.7fr) minmax(0, 0.7fr) minmax(0, 1.8fr) minmax(0, 1.2fr);
+}
+
+.rifts-sheet .vehicle-inventory-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 0.9fr) minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.2fr);
+}
+
+.rifts-sheet .vehicle-mounted-summary-row {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+
+.rifts-sheet .class-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 0.9fr) minmax(0, 1.6fr);
+}
+
+.rifts-sheet .class-overview-row {
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.8fr) minmax(0, 0.9fr) minmax(0, 0.7fr) minmax(0, 1.5fr);
+}
+
+.rifts-sheet .class-overview-scroll {
+  overflow-x: auto;
+}
+
+.rifts-sheet .class-overview-scroll .item-list {
+  min-width: 980px;
+}
+
+.rifts-sheet .class-package-row {
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.rifts-sheet .class-skill-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 0.9fr);
+}
+
+.rifts-sheet .power-armor-mount-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 0.9fr);
+}
+
+.rifts-sheet .class-summary,
+.rifts-sheet .class-skill-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.rifts-sheet .class-summary > div {
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 0.3rem 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.rifts-sheet .inventory-item-row {
+  cursor: pointer;
+}
+
+.rifts-sheet .inventory-item-row button,
+.rifts-sheet .inventory-item-row input,
+.rifts-sheet .inventory-item-row select,
+.rifts-sheet .inventory-item-row textarea {
+  cursor: default;
+}
+
+.rifts-sheet .melee-queue-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.rifts-sheet .held-action-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto auto;
+  gap: 0.35rem;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.rifts-sheet .melee-state-active {
+  margin: 0 0 0.35rem;
+  font-weight: 700;
+  color: #0a5c1f;
+}
+
+.rifts-sheet .melee-state-waiting {
+  margin: 0 0 0.35rem;
+  color: #444;
+}
+
+@media (max-width: 1200px) {
+  .rifts-sheet .rifts-layout {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .rifts-sheet .rifts-right {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .rifts-sheet .vehicle-layout {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .rifts-sheet .rifts-header {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .rifts-sheet .header-portrait-wrap {
+    width: 72px;
+    height: 72px;
+  }
+
+  .rifts-sheet .rifts-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .rifts-sheet .rifts-center {
+    border: 0;
+    padding: 0;
+  }
+
+  .rifts-sheet .rifts-right {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+.rifts-sheet .combat-subtabs {
+  margin-top: 0.25rem;
+}
+
+.rifts-sheet .combat-subtab-section {
+  display: none;
+}
+
+.rifts-sheet .combat-subtab-section.active {
+  display: block;
+}
+
+.rifts-sheet .available-pools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.rifts-sheet .active-class-panel {
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+.rifts.app.selection-dialog .window-content {
+  overflow-y: auto;
+  background: #ececec;
+}
+
+.rifts.app.selection-dialog .rifts-selection-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  color: #111;
+}
+
+.rifts.app.selection-dialog .selection-row {
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.9fr);
+}
+
+.rifts.app.selection-dialog .rifts-selection-dialog .item-row {
+  background: #f7f7f7;
+  color: #111;
+  border-color: #777;
+}
+
+.rifts.app.selection-dialog .rifts-selection-dialog .item-row.item-header {
+  background: #d9d9d9;
+  color: #000;
+}
+
+.rifts.app.selection-dialog .rifts-selection-dialog button {
+  border: 1px solid #666;
+  background: #d9d9d9;
+  color: #000;
+  font-weight: 600;
+  padding: 0.2rem 0.45rem;
+}
+
+.rifts.app.selection-dialog .rifts-selection-dialog button:hover,
+.rifts.app.selection-dialog .rifts-selection-dialog button:focus {
+  background: #cfcfcf;
+}
+
+.rifts.app.selection-dialog .rifts-selection-dialog button:disabled {
+  background: #e5e5e5;
+  border-color: #999;
+  color: #555;
+  opacity: 1;
+}
+
+
+.rifts.app.level-up .window-content {
+  overflow-y: auto;
+  background: #ececec;
+}
+
+.rifts.app.level-up .rifts-level-up {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  color: #111;
+}
+
+.rifts.app.level-up .level-up-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.rifts.app.level-up .level-up-summary-grid > div {
+  border: 1px solid #777;
+  border-radius: 4px;
+  background: transparent;
+  padding: 0.25rem 0.35rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.rifts.app.level-up .level-up-choice-row {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) minmax(0, 1.8fr) minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(0, 1.8fr);
+}
+
+.rifts.app.level-up .level-up-automatic-row {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr) minmax(0, 2.2fr) minmax(0, 0.8fr);
+}
+
+.rifts.app.level-up button {
+  border: 1px solid #666;
+  background: #d9d9d9;
+  color: #000;
+}
+
+.rifts.app.level-up button:hover,
+.rifts.app.level-up button:focus {
+  background: #cfcfcf;
+}
+
+@media (max-width: 1000px) {
+  .rifts.app.level-up .level-up-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rifts.app.level-up .level-up-choice-row,
+  .rifts.app.level-up .level-up-automatic-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rifts.app.character-creation-wizard .window-content {
+  overflow-y: auto;
+  background: #ececec;
+}
+
+.rifts.app.character-creation-wizard .rifts-character-creation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.7rem;
+  color: #111;
+}
+
+.rifts.app.character-creation-wizard .rifts-character-creation .creation-attr-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.rifts.app.character-creation-wizard .rifts-character-creation .creation-attr-cell {
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 0.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f7f7f7;
+}
+
+.rifts.app.character-creation-wizard .rifts-character-creation .creation-occ-row {
+  grid-template-columns: minmax(140px, 1.1fr) minmax(120px, 1fr) minmax(110px, 0.9fr) minmax(180px, 1.5fr) minmax(130px, 0.8fr);
+}
+
+.rifts.app.character-creation-wizard .rifts-character-creation .creation-occ-row.is-active {
+  border-color: #0a5c1f;
+  background: rgba(20, 110, 40, 0.08);
+}
+
+@media (max-width: 900px) {
+  .rifts.app.character-creation-wizard .rifts-character-creation .creation-attr-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rifts.app.character-creation-wizard .rifts-character-creation .creation-occ-row {
+    grid-template-columns: 1fr;
+  }
+}

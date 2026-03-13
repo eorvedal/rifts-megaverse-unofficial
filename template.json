@@ -1,0 +1,784 @@
+{
+  "Actor": {
+    "types": [
+      "character",
+      "npc",
+      "vehicle"
+    ],
+    "character": {
+      "details": {
+        "level": 1,
+        "experience": 0,
+        "credits": 0,
+        "sizeCategory": "human"
+      },
+      "sheet": {
+        "locked": false
+      },
+      "debug": {
+        "useLevelOverride": false,
+        "overrideLevel": 1
+      },
+      "attributes": {
+        "iq": { "value": 10, "mod": 0 },
+        "me": { "value": 10, "mod": 0 },
+        "ma": { "value": 10, "mod": 0 },
+        "ps": { "value": 10, "mod": 0 },
+        "pp": { "value": 10, "mod": 0 },
+        "pe": { "value": 10, "mod": 0 },
+        "pb": { "value": 10, "mod": 0 },
+        "spd": { "value": 10, "mod": 0 }
+      },
+      "resources": {
+        "hp": { "value": 10, "max": 10 },
+        "sdc": { "value": 10, "max": 10 },
+        "mdc": { "value": 0, "max": 0 },
+        "ppe": { "value": 0, "max": 0 },
+        "isp": { "value": 0, "max": 0 }
+      },
+      "combat": {
+        "ar": 0,
+        "mdcEnabled": false,
+        "damageMode": "SDC",
+        "lastTargetId": "",
+        "lastTargetTokenId": "",
+        "scale": "sdc",
+        "isMdcEntity": false,
+        "isVehicleScale": false,
+        "isPowerArmorUser": false,
+        "initiativeMod": 0,
+        "strikeMod": 0,
+        "parryMod": 0,
+        "dodgeMod": 0,
+        "pilotBonus": 0,
+        "apmTotal": 0,
+        "apmRemaining": 0,
+        "apmSpent": 0,
+        "lastActionType": "",
+        "reactionAvailable": true,
+        "autoDodgeAvailable": false,
+        "heldAction": false,
+        "heldActionCount": 0,
+        "heldActionReady": false,
+        "lastAdvancedAction": "",
+        "derived": {
+          "strikeTotal": 0,
+          "parryTotal": 0,
+          "dodgeTotal": 0,
+          "initiativeTotal": 0,
+          "equippedWeaponStrikeBonus": 0,
+          "equippedArmorAR": 0,
+          "effectiveDurability": "sdc",
+          "effectiveDurabilityLabelKey": "RIFTS.Combat.SDC",
+          "activeArmorDurability": "sdc",
+          "activeArmorDurabilityLabelKey": "RIFTS.Combat.SDC",
+          "effectiveScale": "sdc",
+          "effectiveScaleLabelKey": "RIFTS.Combat.SDC",
+          "activeArmorProtectionScale": "sdc",
+          "activeArmorProtectionScaleLabelKey": "RIFTS.Combat.SDC",
+          "hasValidVehicleMdc": true,
+          "activeWeaponId": "",
+          "activeArmorId": "",
+          "classStrikeBonus": 0,
+          "classParryBonus": 0,
+          "classDodgeBonus": 0,
+          "classInitiativeBonus": 0,
+          "handToHandStyleId": "",
+          "handToHandStyleName": "",
+          "handToHandApmBonus": 0,
+          "handToHandStrikeBonus": 0,
+          "handToHandParryBonus": 0,
+          "handToHandDodgeBonus": 0,
+          "handToHandDamageBonus": 0,
+          "handToHandAutoDodgeLevel": 0,
+          "attacksPerMelee": 0,
+          "apmTotal": 0,
+          "apmRemaining": 0,
+          "autoDodgeAvailable": false,
+          "heldAction": false,
+          "heldActionCount": 0,
+          "heldActionReady": false,
+          "hasActivePowerArmor": false,
+          "activePowerArmorId": "",
+          "activePowerArmorName": "",
+          "activePowerArmorClass": "",
+          "activePowerArmorMountCapacity": 0,
+          "activePowerArmorHandlingMod": 0,
+          "activePowerArmorSpeedMod": 0,
+          "activePowerArmorNotes": "",
+          "activePowerArmorSdcValue": 0,
+          "activePowerArmorSdcMax": 0,
+          "activePowerArmorMdcValue": 0,
+          "activePowerArmorMdcMax": 0,
+          "mountedWeaponsOnPowerArmor": [],
+          "powerArmorMountedWeaponCount": 0
+        }
+      },
+      "skills": {
+        "derived": {}
+      },
+      "progression": {
+        "activeClassId": "",
+        "activeClassType": "",
+        "activeClassName": "",
+        "activeClassCategory": "",
+        "activeOccId": "",
+        "activeOccName": "",
+        "activeOccCategory": "",
+        "activeRccId": "",
+        "activeRccName": "",
+        "activeRccCategory": "",
+        "activeClassExperience": 0,
+        "nextLevelXP": null,
+        "xpProgress": 0,
+        "attacksPerMelee": 0,
+        "attacksPerMeleeBase": 0,
+        "attacksPerMeleeProgressionBonus": 0,
+        "attacksPerMeleeModifierBonus": 0,
+        "classBonuses": { "strike": 0, "parry": 0, "dodge": 0, "initiative": 0 },
+        "classEffectsSummary": "",
+        "occEffectsSummary": "",
+        "rccEffectsSummary": "",
+        "classGrantedAbilities": [],
+        "classGrantedSkills": [],
+        "occSkillsFromClass": [],
+        "relatedSkillsFromClass": [],
+        "secondarySkillsFromClass": [],
+        "activeHandToHandId": "",
+        "activeHandToHandName": "",
+        "handToHandBonuses": {
+          "apmBonus": 0,
+          "strikeBonus": 0,
+          "parryBonus": 0,
+          "dodgeBonus": 0,
+          "damageBonus": 0,
+          "autoDodgeLevel": 0,
+          "autoDodgeAvailable": false
+        },
+        "occStartingBionics": [],
+        "occStartingCybernetics": [],
+        "occStartingAbilities": [],
+        "occStartingGear": [],
+        "occAttributeRequirements": {
+          "iq": null,
+          "me": null,
+          "ma": null,
+          "ps": null,
+          "pp": null,
+          "pe": null,
+          "pb": null,
+          "spd": null
+        },
+        "occRequirementsMet": true,
+        "occRequirementsUnmet": [],
+        "occRequirementsSummary": "",
+        "occSkillSelection": {
+          "occ": 0,
+          "related": 0,
+          "secondary": 0,
+          "occProgression": {},
+          "relatedProgression": {},
+          "secondaryProgression": {}
+        },
+        "occStartingResources": {
+          "hp": 0,
+          "sdc": 0,
+          "isp": 0,
+          "ppe": 0
+        },
+        "occResourceProgression": {
+          "hpPerLevel": "1d6",
+          "sdcPerLevel": "1d6",
+          "ispPerLevel": "",
+          "ppePerLevel": ""
+        },
+        "occStartingPowers": {
+          "spells": [],
+          "psionics": []
+        },
+        "occPowerProgression": {
+          "spellProgression": {},
+          "psionicProgression": {}
+        },
+        "occStartingCredits": {
+          "credits": 0
+        },
+        "occStartingResourcesInitializedForOccId": ""
+      },
+      "derived": {
+        "level": 1,
+        "currentXP": 0,
+        "nextLevelXP": null,
+        "xpProgress": 0,
+        "classEffectsSummary": "",
+        "occEffectsSummary": "",
+        "rccEffectsSummary": "",
+        "cyberneticEffectsSummary": "",
+        "bionicEffectsSummary": "",
+        "actorGrantedFlags": {},
+        "classGrantedAbilities": [],
+        "classGrantedSkills": [],
+        "grantedAbilities": [],
+        "grantedSkills": [],
+        "cyberneticsInstalled": 0,
+        "bionicsInstalled": 0,
+        "augmentationEffects": {
+          "attributes": {},
+          "combat": {},
+          "resources": {}
+        },
+        "classEffects": {
+          "attributes": {},
+          "combat": {},
+          "resources": {}
+        },
+        "occPackageBionicsCount": 0,
+        "occPackageCyberneticsCount": 0
+      }
+    },
+    "npc": {
+      "details": {
+        "level": 1,
+        "experience": 0,
+        "credits": 0,
+        "sizeCategory": "human"
+      },
+      "sheet": {
+        "locked": false
+      },
+      "debug": {
+        "useLevelOverride": false,
+        "overrideLevel": 1
+      },
+      "attributes": {
+        "iq": { "value": 10, "mod": 0 },
+        "me": { "value": 10, "mod": 0 },
+        "ma": { "value": 10, "mod": 0 },
+        "ps": { "value": 10, "mod": 0 },
+        "pp": { "value": 10, "mod": 0 },
+        "pe": { "value": 10, "mod": 0 },
+        "pb": { "value": 10, "mod": 0 },
+        "spd": { "value": 10, "mod": 0 }
+      },
+      "resources": {
+        "hp": { "value": 10, "max": 10 },
+        "sdc": { "value": 10, "max": 10 },
+        "mdc": { "value": 0, "max": 0 },
+        "ppe": { "value": 0, "max": 0 },
+        "isp": { "value": 0, "max": 0 }
+      },
+      "combat": {
+        "ar": 0,
+        "mdcEnabled": false,
+        "damageMode": "SDC",
+        "lastTargetId": "",
+        "lastTargetTokenId": "",
+        "scale": "sdc",
+        "isMdcEntity": false,
+        "isVehicleScale": false,
+        "isPowerArmorUser": false,
+        "initiativeMod": 0,
+        "strikeMod": 0,
+        "parryMod": 0,
+        "dodgeMod": 0,
+        "pilotBonus": 0,
+        "apmTotal": 0,
+        "apmRemaining": 0,
+        "apmSpent": 0,
+        "lastActionType": "",
+        "reactionAvailable": true,
+        "autoDodgeAvailable": false,
+        "heldAction": false,
+        "heldActionCount": 0,
+        "heldActionReady": false,
+        "lastAdvancedAction": "",
+        "derived": {
+          "strikeTotal": 0,
+          "parryTotal": 0,
+          "dodgeTotal": 0,
+          "initiativeTotal": 0,
+          "equippedWeaponStrikeBonus": 0,
+          "equippedArmorAR": 0,
+          "effectiveDurability": "sdc",
+          "effectiveDurabilityLabelKey": "RIFTS.Combat.SDC",
+          "activeArmorDurability": "sdc",
+          "activeArmorDurabilityLabelKey": "RIFTS.Combat.SDC",
+          "effectiveScale": "sdc",
+          "effectiveScaleLabelKey": "RIFTS.Combat.SDC",
+          "activeArmorProtectionScale": "sdc",
+          "activeArmorProtectionScaleLabelKey": "RIFTS.Combat.SDC",
+          "hasValidVehicleMdc": true,
+          "activeWeaponId": "",
+          "activeArmorId": "",
+          "classStrikeBonus": 0,
+          "classParryBonus": 0,
+          "classDodgeBonus": 0,
+          "classInitiativeBonus": 0,
+          "handToHandStyleId": "",
+          "handToHandStyleName": "",
+          "handToHandApmBonus": 0,
+          "handToHandStrikeBonus": 0,
+          "handToHandParryBonus": 0,
+          "handToHandDodgeBonus": 0,
+          "handToHandDamageBonus": 0,
+          "handToHandAutoDodgeLevel": 0,
+          "attacksPerMelee": 0,
+          "apmTotal": 0,
+          "apmRemaining": 0,
+          "autoDodgeAvailable": false,
+          "heldAction": false,
+          "heldActionCount": 0,
+          "heldActionReady": false
+        }
+      },
+      "skills": {
+        "derived": {}
+      },
+      "progression": {},
+      "derived": {}
+    },
+    "vehicle": {
+      "details": {
+        "level": 1,
+        "sizeCategory": "large"
+      },
+      "vehicle": {
+        "classification": "",
+        "crewRequired": 1,
+        "passengerCapacity": 0,
+        "speedGround": 0,
+        "speedAir": 0,
+        "speedWater": 0,
+        "handling": 0,
+        "sizeCategory": "large",
+        "notes": "",
+        "derived": {
+          "mountedWeapons": [],
+          "mountedWeaponCount": 0
+        }
+      },
+      "stats": {
+        "speed": 0,
+        "handling": 0
+      },
+      "resources": {
+        "mdc": { "value": 100, "max": 100 },
+        "sdc": { "value": 0, "max": 0 },
+        "fuel": { "value": 100, "max": 100 }
+      },
+      "combat": {
+        "ar": 0,
+        "mdcEnabled": true,
+        "damageMode": "MDC",
+        "lastTargetId": "",
+        "lastTargetTokenId": "",
+        "scale": "mdc",
+        "isMdcEntity": true,
+        "isVehicleScale": true,
+        "isPowerArmorUser": false,
+        "initiativeMod": 0,
+        "strikeMod": 0,
+        "parryMod": 0,
+        "dodgeMod": 0,
+        "pilotBonus": 0,
+        "apmTotal": 1,
+        "apmRemaining": 1,
+        "apmSpent": 0,
+        "lastActionType": "",
+        "reactionAvailable": true,
+        "autoDodgeAvailable": false,
+        "heldAction": false,
+        "heldActionCount": 0,
+        "heldActionReady": false,
+        "lastAdvancedAction": "",
+        "derived": {
+          "strikeTotal": 0,
+          "parryTotal": 0,
+          "dodgeTotal": 0,
+          "initiativeTotal": 0,
+          "mountedWeapons": [],
+          "mountedWeaponCount": 0,
+          "apmTotal": 1,
+          "apmRemaining": 1
+        }
+      },
+      "progression": {},
+      "derived": {}
+    }
+  },
+  "Item": {
+    "types": [
+      "skill",
+      "weapon",
+      "armor",
+      "occ",
+      "rcc",
+      "power",
+      "gear",
+      "feature",
+      "cybernetic",
+      "bionic",
+      "specialManeuver",
+      "handToHand"
+    ],
+    "occ": {
+      "description": "",
+      "category": "",
+      "isPrimaryClass": false,
+      "active": false,
+      "notes": "",
+      "experience": 0,
+      "xp": { "value": 0 },
+      "baseAttacksPerMelee": 2,
+      "attacksPerMeleePerLevel": {},
+      "progression": {
+        "xpTable": [0, 2200, 4400, 8800, 17600],
+        "maxLevel": 15
+      },
+      "bonuses": {
+        "combat": {
+          "strike": 0,
+          "parry": 0,
+          "dodge": 0,
+          "initiative": 0
+        },
+        "skills": {}
+      },
+      "effects": {
+        "attributes": { "iq": 0, "me": 0, "ma": 0, "ps": 0, "pp": 0, "pe": 0, "pb": 0, "spd": 0 },
+        "combat": { "strike": 0, "parry": 0, "dodge": 0, "initiative": 0, "apm": 0 },
+        "resources": { "hp": 0, "sdc": 0, "mdc": 0, "ppe": 0, "isp": 0 },
+        "flags": {}
+      },
+      "grantedAbilities": [],
+      "grantedSkills": [],
+      "skillPackage": {
+        "occSkills": [],
+        "relatedSkills": [],
+        "secondarySkills": []
+      },
+      "attributeRequirements": {
+        "iq": null,
+        "me": null,
+        "ma": null,
+        "ps": null,
+        "pp": null,
+        "pe": null,
+        "pb": null,
+        "spd": null
+      },
+      "skillSelection": {
+        "occ": 0,
+        "related": 0,
+        "secondary": 0,
+        "occProgression": {},
+        "relatedProgression": {},
+        "secondaryProgression": {}
+      },
+      "startingResources": {
+        "hp": 0,
+        "sdc": 0,
+        "isp": 0,
+        "ppe": 0
+      },
+      "resourceProgression": {
+        "hpPerLevel": "1d6",
+        "sdcPerLevel": "1d6",
+        "ispPerLevel": "",
+        "ppePerLevel": ""
+      },
+      "startingPowers": {
+        "spells": [],
+        "psionics": []
+      },
+      "powerProgression": {
+        "spellProgression": {},
+        "psionicProgression": {}
+      },
+      "choiceProgression": {
+        "spells": {},
+        "psionics": {},
+        "maneuvers": {},
+        "weaponProficiencies": {},
+        "packageChoices": {},
+        "optionalChoices": {}
+      },
+      "choicePools": {
+        "spells": [],
+        "psionics": [],
+        "maneuvers": [],
+        "weaponProficiencies": [],
+        "packageChoices": [],
+        "optionalChoices": []
+      },
+      "startingCredits": {
+        "credits": 0
+      },
+      "startingPackages": {
+        "bionics": [],
+        "cybernetics": [],
+        "abilities": [],
+        "gear": []
+      }
+    },
+    "rcc": {
+      "description": "",
+      "category": "",
+      "isPrimaryClass": false,
+      "active": false,
+      "notes": "",
+      "experience": 0,
+      "xp": { "value": 0 },
+      "baseAttacksPerMelee": 2,
+      "attacksPerMeleePerLevel": {},
+      "progression": {
+        "xpTable": [0, 2200, 4400, 8800, 17600],
+        "maxLevel": 15
+      },
+      "bonuses": {
+        "combat": {
+          "strike": 0,
+          "parry": 0,
+          "dodge": 0,
+          "initiative": 0
+        },
+        "skills": {}
+      },
+      "effects": {
+        "attributes": { "iq": 0, "me": 0, "ma": 0, "ps": 0, "pp": 0, "pe": 0, "pb": 0, "spd": 0 },
+        "combat": { "strike": 0, "parry": 0, "dodge": 0, "initiative": 0, "apm": 0 },
+        "resources": { "hp": 0, "sdc": 0, "mdc": 0, "ppe": 0, "isp": 0 },
+        "flags": {}
+      },
+      "grantedAbilities": [],
+      "grantedSkills": [],
+      "skillPackage": {
+        "occSkills": [],
+        "relatedSkills": [],
+        "secondarySkills": []
+      },
+      "attributeRequirements": {
+        "iq": null,
+        "me": null,
+        "ma": null,
+        "ps": null,
+        "pp": null,
+        "pe": null,
+        "pb": null,
+        "spd": null
+      },
+      "skillSelection": {
+        "occ": 0,
+        "related": 0,
+        "secondary": 0,
+        "occProgression": {},
+        "relatedProgression": {},
+        "secondaryProgression": {}
+      },
+      "startingResources": {
+        "hp": 0,
+        "sdc": 0,
+        "isp": 0,
+        "ppe": 0
+      },
+      "resourceProgression": {
+        "hpPerLevel": "1d6",
+        "sdcPerLevel": "1d6",
+        "ispPerLevel": "",
+        "ppePerLevel": ""
+      },
+      "startingPowers": {
+        "spells": [],
+        "psionics": []
+      },
+      "powerProgression": {
+        "spellProgression": {},
+        "psionicProgression": {}
+      },
+      "choiceProgression": {
+        "spells": {},
+        "psionics": {},
+        "maneuvers": {},
+        "weaponProficiencies": {},
+        "packageChoices": {},
+        "optionalChoices": {}
+      },
+      "choicePools": {
+        "spells": [],
+        "psionics": [],
+        "maneuvers": [],
+        "weaponProficiencies": [],
+        "packageChoices": [],
+        "optionalChoices": []
+      },
+      "startingCredits": {
+        "credits": 0
+      },
+      "startingPackages": {
+        "bionics": [],
+        "cybernetics": [],
+        "abilities": [],
+        "gear": []
+      }
+    },
+    "skill": {
+      "description": "",
+      "category": "",
+      "base": 30,
+      "perLevel": 0,
+      "modifier": 0,
+      "isOCCSkill": false,
+      "isRelatedSkill": false,
+      "isSecondarySkill": false,
+      "sourceType": "",
+      "sourceId": "",
+      "notes": ""
+    },
+    "weapon": {
+      "equipped": false,
+      "active": false,
+      "weapon": {
+        "isMegaDamage": false,
+        "attackType": "strike",
+        "damage": "1d6",
+        "bonusStrike": 0,
+        "range": "",
+        "ammo": { "value": 0, "max": 0 },
+        "isMounted": false,
+        "mountName": "",
+        "linkedToVehicle": false,
+        "requiresCrew": 1,
+        "linkedArmorId": "",
+        "requiresPowerArmor": false,
+        "isBurstCapable": false,
+        "fireMode": "single",
+        "burstSize": 3,
+        "burstStrikeMod": 1,
+        "burstDamageMultiplier": 2,
+        "ammoPerBurst": 3,
+        "aimedStrikeMod": -3,
+        "supportsAimedShot": true,
+        "canKnockdown": false,
+        "canKnockback": false,
+        "impactType": "",
+        "knockbackValue": 0
+      }
+    },
+    "armor": {
+      "equipped": false,
+      "active": false,
+      "armor": {
+        "ar": 0,
+        "sdc": { "value": 0, "max": 0 },
+        "mdc": { "value": 0, "max": 0 },
+        "isMegaDamageArmor": false,
+        "isPowerArmor": false,
+        "mountCapacity": 0,
+        "powerArmorClass": "",
+        "handlingMod": 0,
+        "speedMod": 0,
+        "notes": ""
+      }
+    },
+    "power": {
+      "powerType": "ability",
+      "subType": "",
+      "costType": "none",
+      "cost": 0,
+      "range": "",
+      "duration": "",
+      "activationTime": "",
+      "saveType": "",
+      "damage": "",
+      "description": "",
+      "notes": "",
+      "requiresTarget": false,
+      "requiresAttackRoll": false,
+      "requiresSave": false,
+      "scale": "",
+      "active": false
+    },
+    "gear": {
+      "description": "",
+      "notes": "",
+      "quantity": 1,
+      "weight": 0
+    },
+    "feature": {
+      "description": ""
+    },
+    "cybernetic": {
+      "installed": false,
+      "slot": "",
+      "sourceType": "",
+      "sourceId": "",
+      "sourceName": "",
+      "notes": "",
+      "effects": {
+        "attributes": { "iq": 0, "me": 0, "ma": 0, "ps": 0, "pp": 0, "pe": 0, "pb": 0, "spd": 0 },
+        "combat": { "strike": 0, "parry": 0, "dodge": 0, "initiative": 0, "apm": 0 },
+        "resources": { "hp": 0, "sdc": 0, "mdc": 0, "ppe": 0, "isp": 0 },
+        "flags": {}
+      },
+      "grantedAbilities": []
+    },
+    "bionic": {
+      "installed": false,
+      "slot": "",
+      "sourceType": "",
+      "sourceId": "",
+      "sourceName": "",
+      "notes": "",
+      "effects": {
+        "attributes": { "iq": 0, "me": 0, "ma": 0, "ps": 0, "pp": 0, "pe": 0, "pb": 0, "spd": 0 },
+        "combat": { "strike": 0, "parry": 0, "dodge": 0, "initiative": 0, "apm": 0 },
+        "resources": { "hp": 0, "sdc": 0, "mdc": 0, "ppe": 0, "isp": 0 },
+        "flags": {}
+      },
+      "grantedAbilities": []
+    },
+    "handToHand": {
+      "active": false,
+      "style": "basic",
+      "notes": "",
+      "progression": {
+        "apmBonus": [],
+        "strikeBonus": [],
+        "parryBonus": [],
+        "dodgeBonus": [],
+        "autoDodgeLevel": [],
+        "damageBonus": []
+      },
+      "maneuverPackage": {
+        "grantedManeuvers": []
+      },
+      "selectionProgression": {
+        "maneuvers": {}
+      }
+    },    "specialManeuver": {
+      "key": "",
+      "category": "",
+      "description": "",
+      "actionCost": 1,
+      "strikeModifier": 0,
+      "damageFormula": "0",
+      "damageMultiplier": 1,
+      "isReactive": false,
+      "requiresTarget": true,
+      "requiresHit": true,
+      "minLevel": 1,
+      "sourceType": "",
+      "sourceId": "",
+      "sourceName": "",
+      "specialRules": "",
+      "tags": [],
+      "grantable": true,
+      "notes": "",
+      "canKnockdown": false,
+      "canKnockback": false,
+      "impactType": "",
+      "knockbackValue": 0
+    }
+  }
+}
+

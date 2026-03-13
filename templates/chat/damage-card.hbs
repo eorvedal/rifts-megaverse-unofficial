@@ -1,0 +1,45 @@
+<div class="rifts-damage-card">
+  <h3>{{localize "RIFTS.Combat.DamageCardTitle"}}</h3>
+  <p><strong>{{localize "RIFTS.Combat.Attacker"}}:</strong> {{attackerName}}</p>
+  <p><strong>{{localize "RIFTS.Combat.Weapon"}}:</strong> {{weaponName}}</p>
+  <p><strong>{{localize "RIFTS.Combat.Target"}}:</strong> {{targetName}}</p>
+  <p><strong>{{localize "RIFTS.Combat.HitLocationLabel"}}:</strong> {{hitLocationLabel}}</p>
+  {{#if attackerScaleLabel}}
+    <p><strong>{{localize "RIFTS.Combat.AttackerDurability"}}:</strong> {{attackerScaleLabel}}</p>
+  {{/if}}
+  {{#if targetScaleLabel}}
+    <p><strong>{{localize "RIFTS.Combat.TargetDurability"}}:</strong> {{targetScaleLabel}}</p>
+  {{/if}}
+  {{#if weaponScaleLabel}}
+    <p><strong>{{localize "RIFTS.Combat.AttackType"}}:</strong> {{weaponScaleLabel}}</p>
+  {{/if}}
+  {{#if damageModeLabel}}
+    <p><strong>{{localize "RIFTS.Combat.DamageMode"}}:</strong> {{damageModeLabel}}</p>
+  {{/if}}
+  {{#if scaleReasonLabel}}
+    <p><strong>{{localize "RIFTS.Combat.DurabilityResolution"}}:</strong> {{scaleReasonLabel}}</p>
+  {{/if}}
+  <p><strong>{{localize "RIFTS.Rolls.Formula"}}:</strong> {{formula}}</p>
+  <p><strong>{{localize "RIFTS.Rolls.Total"}}:</strong> {{total}}</p>
+
+  {{#if outcomeText}}
+    <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{outcomeText}}</p>
+  {{/if}}
+
+  {{#if canApplyDamage}}
+    <button
+      type="button"
+      data-action="apply-damage"
+      data-attacker-id="{{attackerId}}"
+      data-attacker-token-id="{{attackerTokenId}}"
+      data-target-id="{{targetId}}"
+      data-target-token-id="{{targetTokenId}}"
+      data-weapon-id="{{weaponId}}"
+      data-hit-location="{{hitLocation}}"
+      data-is-mega-damage="{{isMegaDamage}}"
+      data-amount="{{amount}}"
+      data-unarmed-maneuver-key="{{unarmedManeuverKey}}"
+      data-unarmed-damage-formula="{{unarmedDamageFormula}}"
+    >{{localize "RIFTS.Combat.ApplyDamage"}}</button>
+  {{/if}}
+</div>

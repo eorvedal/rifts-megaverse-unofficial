@@ -1,0 +1,55 @@
+<div class="rifts-power-card">
+  <h3>{{localize "RIFTS.Powers.PowerActivation"}}</h3>
+  <p><strong>{{localize "RIFTS.Combat.Attacker"}}:</strong> {{actorName}}</p>
+  <p><strong>{{localize "RIFTS.Item.Name"}}:</strong> {{powerName}}</p>
+  <p><strong>{{localize "RIFTS.Powers.PowerType"}}:</strong> {{powerTypeLabel}}</p>
+  {{#if subType}}
+    <p><strong>{{localize "RIFTS.Powers.SubType"}}:</strong> {{subType}}</p>
+  {{/if}}
+  <p><strong>{{localize "RIFTS.Powers.Cost"}}:</strong> {{cost}} {{costTypeLabel}}</p>
+  {{#if hasResourceSpend}}
+    <p><strong>{{resourceLabel}}:</strong> {{remaining}}</p>
+  {{/if}}
+  {{#if attackTotal}}
+    <p><strong>{{localize "RIFTS.Rolls.Formula"}}:</strong> {{attackFormula}}</p>
+    <p><strong>{{localize "RIFTS.Rolls.Total"}}:</strong> {{attackTotal}}</p>
+  {{/if}}
+  {{#if range}}
+    <p><strong>{{localize "RIFTS.Powers.Range"}}:</strong> {{range}}</p>
+  {{/if}}
+  {{#if duration}}
+    <p><strong>{{localize "RIFTS.Powers.Duration"}}:</strong> {{duration}}</p>
+  {{/if}}
+  {{#if activationTime}}
+    <p><strong>{{localize "RIFTS.Powers.ActivationTime"}}:</strong> {{activationTime}}</p>
+  {{/if}}
+  {{#if saveType}}
+    <p><strong>{{localize "RIFTS.Powers.SaveType"}}:</strong> {{saveType}}</p>
+  {{/if}}
+  {{#if damage}}
+    <p><strong>{{localize "RIFTS.Item.Damage"}}:</strong> {{damage}}</p>
+  {{/if}}
+  {{#if scale}}
+    <p><strong>{{localize "RIFTS.Powers.Scale"}}:</strong> {{scaleLabel}}</p>
+  {{/if}}
+  <p>
+    <strong>{{localize "RIFTS.Powers.RequiresTarget"}}:</strong>
+    {{#if requiresTarget}}{{localize "RIFTS.Sheet.Yes"}}{{else}}{{localize "RIFTS.Sheet.No"}}{{/if}}
+  </p>
+  <p>
+    <strong>{{localize "RIFTS.Powers.RequiresAttackRoll"}}:</strong>
+    {{#if requiresAttackRoll}}{{localize "RIFTS.Sheet.Yes"}}{{else}}{{localize "RIFTS.Sheet.No"}}{{/if}}
+  </p>
+  <p>
+    <strong>{{localize "RIFTS.Powers.RequiresSave"}}:</strong>
+    {{#if requiresSave}}{{localize "RIFTS.Sheet.Yes"}}{{else}}{{localize "RIFTS.Sheet.No"}}{{/if}}
+  </p>
+  <p>
+    <strong>{{localize "RIFTS.Powers.Sustained"}}:</strong>
+    {{#if isActive}}{{localize "RIFTS.Sheet.Active"}}{{else}}{{localize "RIFTS.Sheet.Inactive"}}{{/if}}
+  </p>
+  {{#if deactivated}}
+    <p><strong>{{localize "RIFTS.Powers.Deactivate"}}</strong></p>
+  {{/if}}
+</div>
+

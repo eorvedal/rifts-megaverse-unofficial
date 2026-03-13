@@ -1,0 +1,114 @@
+﻿<section class="rifts-level-up">
+  <header class="sheet-section">
+    <h2>{{localize "RIFTS.LevelUp.LevelUp"}}: {{actor.name}}</h2>
+    <div class="level-up-summary-grid">
+      <div><span>{{localize "RIFTS.Progression.Level"}}</span><strong>{{session.currentLevel}}</strong></div>
+      <div><span>{{localize "RIFTS.LevelUp.LastCompletedLevel"}}</span><strong>{{session.lastCompletedLevel}}</strong></div>
+      <div><span>{{localize "RIFTS.LevelUp.PendingChoices"}}</span><strong>{{session.totals.pendingChoices}}</strong></div>
+      <div><span>{{localize "RIFTS.LevelUp.RequiredChoices"}}</span><strong>{{session.totals.requiredCompleted}} / {{session.totals.requiredTotal}}</strong></div>
+      <div><span>{{localize "RIFTS.LevelUp.OptionalChoices"}}</span><strong>{{session.totals.optionalCompleted}} / {{session.totals.optionalTotal}}</strong></div>
+      <div><span>{{localize "RIFTS.LevelUp.Status"}}</span><strong>{{statusLabel}}</strong></div>
+    </div>
+    <div class="xp-progress-bar">
+      <div class="xp-progress-fill" style="{{progressStyle}}"></div>
+    </div>
+    <div class="item-actions">
+      <button type="button" data-action="refresh-level-up">{{localize "RIFTS.LevelUp.Refresh"}}</button>
+      <button type="button" data-action="apply-automatic-gains" {{#unless canManage}}disabled{{/unless}}>{{localize "RIFTS.LevelUp.ApplyAutomatic"}}</button>
+      <button type="button" data-action="finalize-level-up" {{#unless canManage}}disabled{{/unless}}>{{localize "RIFTS.LevelUp.Finalize"}}</button>
+      {{#if canGmOverride}}
+        <button type="button" data-action="finalize-level-up" data-force="true">{{localize "RIFTS.LevelUp.GmForceFinalize"}}</button>
+      {{/if}}
+    </div>
+  </header>
+
+  <section class="sheet-section">
+    <h3>{{localize "RIFTS.LevelUp.AutomaticGains"}}</h3>
+    {{#if hasAutomaticGains}}
+      <div class="item-list">
+        <div class="item-row level-up-automatic-row item-header">
+          <span>{{localize "RIFTS.Progression.Level"}}</span>
+          <span>{{localize "RIFTS.Item.Name"}}</span>
+          <span>{{localize "RIFTS.SelectionDialog.Details"}}</span>
+          <span>{{localize "RIFTS.LevelUp.Completed"}}</span>
+        </div>
+        {{#each session.automaticGains as |gain|}}
+          <div class="item-row level-up-automatic-row">
+            <span>{{gain.level}}</span>
+            <span>{{gain.label}}</span>
+            <span>{{gain.description}}</span>
+            <span>{{#if gain.applied}}{{localize "RIFTS.LevelUp.Completed"}}{{else}}{{localize "RIFTS.LevelUp.PendingChoices"}}{{/if}}</span>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>{{localize "RIFTS.Sheet.None"}}</p>
+    {{/if}}
+  </section>
+
+  <section class="sheet-section">
+    <h3>{{localize "RIFTS.LevelUp.RequiredChoices"}}</h3>
+    {{#if hasRequiredChoices}}
+      <div class="item-list">
+        <div class="item-row level-up-choice-row item-header">
+          <span>{{localize "RIFTS.Progression.Level"}}</span>
+          <span>{{localize "RIFTS.Item.Category"}}</span>
+          <span>{{localize "RIFTS.Item.Name"}}</span>
+          <span>{{localize "RIFTS.LevelUp.Completed"}}</span>
+          <span>{{localize "RIFTS.LevelUp.Remaining"}}</span>
+          <span>{{localize "RIFTS.Sheet.Action"}}</span>
+        </div>
+        {{#each requiredChoices as |choice|}}
+          <div class="item-row level-up-choice-row">
+            <span>{{choice.level}}</span>
+            <span>{{choice.typeLabel}} / {{choice.categoryLabel}}</span>
+            <span>{{choice.label}} ({{choice.poolSize}})</span>
+            <span>{{choice.completionLabel}}</span>
+            <span>{{choice.remainingCount}}</span>
+            <span class="item-actions">
+              <button type="button" data-action="choose-choice" data-choice-id="{{choice.id}}" {{#unless choice.canChoose}}disabled{{/unless}}>{{localize "RIFTS.LevelUp.Choose"}}</button>
+              <button type="button" data-action="clear-choice" data-choice-id="{{choice.id}}" {{#unless canManage}}disabled{{/unless}}>{{localize "RIFTS.LevelUp.Clear"}}</button>
+              {{#if ../canGmOverride}}
+                <button type="button" data-action="mark-choice-complete" data-choice-id="{{choice.id}}" data-completed="true">{{localize "RIFTS.LevelUp.GmMarkComplete"}}</button>
+                <button type="button" data-action="mark-choice-complete" data-choice-id="{{choice.id}}" data-completed="false">{{localize "RIFTS.LevelUp.GmUnmarkComplete"}}</button>
+              {{/if}}
+            </span>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>{{localize "RIFTS.LevelUp.NoRequiredChoices"}}</p>
+    {{/if}}
+  </section>
+
+  <section class="sheet-section">
+    <h3>{{localize "RIFTS.LevelUp.OptionalChoices"}}</h3>
+    {{#if hasOptionalChoices}}
+      <div class="item-list">
+        <div class="item-row level-up-choice-row item-header">
+          <span>{{localize "RIFTS.Progression.Level"}}</span>
+          <span>{{localize "RIFTS.Item.Category"}}</span>
+          <span>{{localize "RIFTS.Item.Name"}}</span>
+          <span>{{localize "RIFTS.LevelUp.Completed"}}</span>
+          <span>{{localize "RIFTS.LevelUp.Remaining"}}</span>
+          <span>{{localize "RIFTS.Sheet.Action"}}</span>
+        </div>
+        {{#each optionalChoices as |choice|}}
+          <div class="item-row level-up-choice-row">
+            <span>{{choice.level}}</span>
+            <span>{{choice.typeLabel}} / {{choice.categoryLabel}}</span>
+            <span>{{choice.label}} ({{choice.poolSize}})</span>
+            <span>{{choice.completionLabel}}</span>
+            <span>{{choice.remainingCount}}</span>
+            <span class="item-actions">
+              <button type="button" data-action="choose-choice" data-choice-id="{{choice.id}}" {{#unless choice.canChoose}}disabled{{/unless}}>{{localize "RIFTS.LevelUp.Choose"}}</button>
+              <button type="button" data-action="clear-choice" data-choice-id="{{choice.id}}" {{#unless ../canManage}}disabled{{/unless}}>{{localize "RIFTS.LevelUp.Clear"}}</button>
+            </span>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <p>{{localize "RIFTS.LevelUp.NoOptionalChoices"}}</p>
+    {{/if}}
+  </section>
+</section>

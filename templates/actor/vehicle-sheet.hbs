@@ -1,0 +1,350 @@
+<form class="rifts-sheet rifts-vehicle-sheet">
+  <header class="sheet-header rifts-header">
+    <div class="header-portrait-wrap">
+      {{#if portraitImg}}
+        <img class="header-portrait" src="{{portraitImg}}" alt="{{actor.name}}">
+      {{/if}}
+    </div>
+
+    <div class="header-main">
+      <input class="header-name" type="text" name="name" value="{{actor.name}}">
+      <div class="header-meta">
+        <label>{{localize "RIFTS.Vehicle.Classification"}}</label>
+        <input type="text" name="system.vehicle.classification" value="{{classification}}">
+        <button type="button" data-action="roll-initiative">{{localize "RIFTS.Rolls.Initiative"}}</button>
+        {{#if hasCombat}}
+          <button type="button" data-action="roll-initiative-combat">{{localize "RIFTS.Rolls.InitiativeCombat"}}</button>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="sheet-lock-controls">
+      <span class="sheet-locked-pill">{{localize "RIFTS.Sheet.Vehicle"}}</span>
+    </div>
+  </header>
+
+  <div class="rifts-layout vehicle-layout">
+    <aside class="rifts-left">
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.Resources"}}</h2>
+        <div class="grid resources-grid">
+          <div class="field">
+            <label>MDC</label>
+            <div class="field-row">
+              <input type="number" name="system.resources.mdc.value" value="{{system.resources.mdc.value}}">
+              <span>/</span>
+              <input type="number" name="system.resources.mdc.max" value="{{system.resources.mdc.max}}">
+            </div>
+          </div>
+          <div class="field">
+            <label>SDC</label>
+            <div class="field-row">
+              <input type="number" name="system.resources.sdc.value" value="{{system.resources.sdc.value}}">
+              <span>/</span>
+              <input type="number" name="system.resources.sdc.max" value="{{system.resources.sdc.max}}">
+            </div>
+          </div>
+          <div class="field">
+            <label>{{localize "RIFTS.Vehicle.Fuel"}}</label>
+            <div class="field-row">
+              <input type="number" name="system.resources.fuel.value" value="{{system.resources.fuel.value}}">
+              <span>/</span>
+              <input type="number" name="system.resources.fuel.max" value="{{system.resources.fuel.max}}">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Vehicle.Speeds"}}</h2>
+        <div class="grid details-grid">
+          <div class="field">
+            <label>{{localize "RIFTS.Vehicle.GroundSpeed"}}</label>
+            <input type="number" name="system.vehicle.speedGround" value="{{speedGround}}">
+          </div>
+          <div class="field">
+            <label>{{localize "RIFTS.Vehicle.AirSpeed"}}</label>
+            <input type="number" name="system.vehicle.speedAir" value="{{speedAir}}">
+          </div>
+          <div class="field">
+            <label>{{localize "RIFTS.Vehicle.WaterSpeed"}}</label>
+            <input type="number" name="system.vehicle.speedWater" value="{{speedWater}}">
+          </div>
+          <div class="field">
+            <label>{{localize "RIFTS.Vehicle.Handling"}}</label>
+            <input type="number" name="system.vehicle.handling" value="{{handling}}">
+          </div>
+        </div>
+      </section>
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.Combat"}}</h2>
+        <div class="combat-row">
+          <label>{{localize "RIFTS.Sheet.PilotBonus"}}</label>
+          <input type="number" name="system.combat.pilotBonus" value="{{pilotBonus}}">
+          <span></span>
+        </div>
+        <div class="combat-row">
+          <label>{{localize "RIFTS.Rolls.Initiative"}}</label>
+          <input type="number" name="system.combat.initiativeMod" value="{{system.combat.initiativeMod}}">
+          <span>{{localize "RIFTS.Sheet.InitiativeTotal"}}: <strong>{{system.combat.derived.initiativeTotal}}</strong></span>
+        </div>
+        <div class="combat-row">
+          <label>{{localize "RIFTS.Sheet.Durability"}}</label>
+          <span><strong>{{effectiveDurabilityLabel}}</strong></span>
+          <span></span>
+        </div>
+        <div class="combat-row">
+          <label>{{localize "RIFTS.Advanced.AutoDodge"}}</label>
+          <span><strong>{{#if autoDodgeAvailable}}{{localize "RIFTS.Sheet.Active"}}{{else}}{{localize "RIFTS.Sheet.Inactive"}}{{/if}}</strong></span>
+          <span>{{localize "RIFTS.Advanced.Reaction"}}</span>
+        </div>
+      </section>
+      {{#unless hasValidVehicleMdc}}
+        <section class="sheet-section">
+          <p class="sheet-lock-note">{{localize "RIFTS.Combat.Warning.VehicleNoMdc"}}</p>
+        </section>
+      {{/unless}}
+    </aside>
+
+    <main class="rifts-center">
+      <nav class="sheet-tabs" aria-label="{{localize 'RIFTS.Sheet.Tabs'}}">
+        <button type="button" data-action="switch-tab" data-tab="combat" class="tab-btn {{#if isCombatTab}}active{{/if}}">{{localize "RIFTS.Sheet.Combat"}}</button>
+        <button type="button" data-action="switch-tab" data-tab="systems" class="tab-btn {{#if isSystemsTab}}active{{/if}}">{{localize "RIFTS.Vehicle.Systems"}}</button>
+        <button type="button" data-action="switch-tab" data-tab="inventory" class="tab-btn {{#if isInventoryTab}}active{{/if}}">{{localize "RIFTS.Sheet.Inventory"}}</button>
+        <button type="button" data-action="switch-tab" data-tab="notes" class="tab-btn {{#if isNotesTab}}active{{/if}}">{{localize "RIFTS.Vehicle.Notes"}}</button>
+      </nav>
+
+      <section class="tab-panel {{#if isCombatTab}}active{{/if}}">
+        {{#if isCombatTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Targeting"}}</h2>
+            <div class="targeting-row">
+              <span>{{localize "RIFTS.Sheet.CurrentTarget"}}: <strong>{{currentTargetName}}</strong></span>
+              <span>{{localize "RIFTS.Sheet.SavedTarget"}}: <strong>{{savedTargetName}}</strong></span>
+              <button type="button" data-action="use-current-target">{{localize "RIFTS.Sheet.UseCurrentTarget"}}</button>
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Melee.Queue"}}</h2>
+            {{#if hasMeleeQueue}}
+              <div class="melee-queue-row">
+                <span><strong>{{localize "RIFTS.Melee.CurrentMeleeAction"}}:</strong> {{currentMeleeActorName}}</span>
+                <span><strong>{{localize "RIFTS.Melee.QueuePosition"}}:</strong> {{meleeQueuePosition}}</span>
+                <span><strong>{{localize "RIFTS.Melee.QueueLength"}}:</strong> {{meleeQueueTotal}}</span>
+                <span><strong>{{localize "RIFTS.Melee.Pass"}}:</strong> {{currentMeleePass}}</span>
+              </div>
+              {{#if isCurrentMeleeActor}}
+                <p class="melee-state-active">{{localize "RIFTS.Melee.ActiveNow"}}</p>
+              {{/if}}
+              {{#if isWaitingForMeleeTurn}}
+                <p class="melee-state-waiting">{{localize "RIFTS.Melee.WaitingForTurn"}}</p>
+              {{/if}}
+            {{else}}
+              <p>{{localize "RIFTS.Melee.NoQueue"}}</p>
+            {{/if}}
+
+            <div class="held-action-row">
+              <span><strong>{{localize "RIFTS.Advanced.HoldAction"}}:</strong> {{heldActionCount}}</span>
+              <span><strong>{{localize "RIFTS.Advanced.ReleaseHeldAction"}}:</strong> {{#if heldActionReady}}{{localize "RIFTS.Melee.ActiveNow"}}{{else}}{{localize "RIFTS.Melee.WaitingForTurn"}}{{/if}}</span>
+              <button type="button" data-action="hold-action">{{localize "RIFTS.Advanced.HoldAction"}}</button>
+              <button type="button" data-action="release-held-action">{{localize "RIFTS.Advanced.ReleaseHeldAction"}}</button>
+            </div>
+
+            {{#if canAdvanceMelee}}
+              <button type="button" data-action="advance-melee">{{localize "RIFTS.Melee.AdvanceQueue"}}</button>
+            {{/if}}
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Vehicle.MountedWeapons"}}</h2>
+            <div class="item-list">
+              <div class="item-row mounted-weapons-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Item.Damage"}}</span>
+                <span>{{localize "RIFTS.Item.MegaDamage"}}</span>
+                <span>{{localize "RIFTS.Vehicle.Mount"}}</span>
+                <span>{{localize "RIFTS.Vehicle.Crew"}}</span>
+                <span>{{localize "RIFTS.Item.Equipped"}}</span>
+                <span>{{localize "RIFTS.Item.Active"}}</span>
+                <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if hasMountedWeapons}}
+                {{#each mountedWeapons as |entry|}}
+                  <div class="item-row mounted-weapons-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.damage}} ({{localize "RIFTS.Advanced.FireMode"}}: {{entry.data.fireModeLabel}})</span>
+                    <span>{{#if entry.data.isMegaDamage}}MD{{else}}SDC{{/if}}</span>
+                    <span>{{#if entry.data.mountName}}{{entry.data.mountName}}{{else}}-{{/if}}</span>
+                    <span>{{entry.data.requiresCrew}}</span>
+                    <span><input type="checkbox" data-action="toggle-weapon-equipped" data-item-id="{{entry.item.id}}" {{#if entry.data.equipped}}checked{{/if}}></span>
+                    <span><input type="checkbox" data-action="toggle-weapon-active" data-item-id="{{entry.item.id}}" {{#if entry.data.active}}checked{{/if}}></span>
+                    <span class="item-actions">
+                      <button type="button" data-action="weapon-attack" data-attack-action="standard" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Combat.Attack"}}</button>
+                      {{#if entry.data.supportsAimedShot}}
+                        <button type="button" data-action="weapon-attack" data-attack-action="aimedShot" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Advanced.AimedShot"}}</button>
+                      {{/if}}
+                      {{#if entry.data.isBurstCapable}}
+                        <button type="button" data-action="weapon-attack" data-attack-action="burstFire" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Advanced.BurstFire"}}</button>
+                      {{/if}}
+                      <button type="button" data-action="weapon-attack" data-attack-action="grapple" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Advanced.GrapplePlaceholder"}}</button>
+                    </span>
+                    <span class="item-actions">
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Vehicle.NoMountedWeapons"}}</p>
+              {{/if}}
+            </div>
+          </section>
+        {{/if}}
+      </section>
+
+      <section class="tab-panel {{#if isSystemsTab}}active{{/if}}">
+        {{#if isSystemsTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Vehicle.Systems"}}</h2>
+            <div class="grid details-grid">
+              <div class="field">
+                <label>{{localize "RIFTS.Vehicle.Classification"}}</label>
+                <input type="text" name="system.vehicle.classification" value="{{classification}}">
+              </div>
+              <div class="field">
+                <label>{{localize "RIFTS.Sheet.SizeCategory"}}</label>
+                <select name="system.details.sizeCategory">
+                  {{selectOptions sizeCategoryOptions selected=system.details.sizeCategory localize=false}}
+                </select>
+              </div>
+              <div class="field">
+                <label>{{localize "RIFTS.Vehicle.Crew"}}</label>
+                <input type="number" min="1" name="system.vehicle.crewRequired" value="{{crewRequired}}">
+              </div>
+              <div class="field">
+                <label>{{localize "RIFTS.Vehicle.Passengers"}}</label>
+                <input type="number" min="0" name="system.vehicle.passengerCapacity" value="{{passengerCapacity}}">
+              </div>
+              <div class="field">
+                <label>{{localize "RIFTS.Vehicle.GroundSpeed"}}</label>
+                <input type="number" name="system.vehicle.speedGround" value="{{speedGround}}">
+              </div>
+              <div class="field">
+                <label>{{localize "RIFTS.Vehicle.AirSpeed"}}</label>
+                <input type="number" name="system.vehicle.speedAir" value="{{speedAir}}">
+              </div>
+              <div class="field">
+                <label>{{localize "RIFTS.Vehicle.WaterSpeed"}}</label>
+                <input type="number" name="system.vehicle.speedWater" value="{{speedWater}}">
+              </div>
+              <div class="field">
+                <label>{{localize "RIFTS.Vehicle.Handling"}}</label>
+                <input type="number" name="system.vehicle.handling" value="{{handling}}">
+              </div>
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Vehicle.Notes"}}</h2>
+            <textarea name="system.vehicle.notes" rows="8">{{system.vehicle.notes}}</textarea>
+          </section>
+        {{/if}}
+      </section>
+
+      <section class="tab-panel {{#if isInventoryTab}}active{{/if}}">
+        {{#if isInventoryTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Inventory"}}</h2>
+            <div class="item-list">
+              <div class="item-row vehicle-inventory-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Item.Type"}}</span>
+                <span>{{localize "RIFTS.Item.Quantity"}}</span>
+                <span>{{localize "RIFTS.Item.Weight"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if hasInventoryItems}}
+                {{#each inventoryItems as |entry|}}
+                  <div class="item-row vehicle-inventory-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.typeLabel}}</span>
+                    <span>{{entry.data.quantity}}</span>
+                    <span>{{entry.data.weight}}</span>
+                    <span class="item-actions">
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Sheet.NoGear"}}</p>
+              {{/if}}
+            </div>
+          </section>
+        {{/if}}
+      </section>
+
+      <section class="tab-panel {{#if isNotesTab}}active{{/if}}">
+        {{#if isNotesTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Vehicle.Notes"}}</h2>
+            <textarea name="system.vehicle.notes" rows="16">{{system.vehicle.notes}}</textarea>
+          </section>
+        {{/if}}
+      </section>
+    </main>
+
+    <aside class="rifts-right">
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.QuickSummary"}}</h2>
+        <div class="quick-summary">
+          <div><span>{{localize "RIFTS.Vehicle.Classification"}}</span><strong>{{#if classification}}{{classification}}{{else}}-{{/if}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.Durability"}}</span><strong>{{effectiveDurabilityLabel}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.SizeCategory"}}</span><strong>{{sizeCategoryLabel}}</strong></div>
+          <div><span>MDC</span><strong>{{quickMdc}}</strong></div>
+          <div><span>{{localize "RIFTS.Vehicle.Fuel"}}</span><strong>{{quickFuel}}</strong></div>
+          <div><span>{{localize "RIFTS.Melee.APMRemaining"}}</span><strong>{{apmRemaining}} / {{apmTotal}}</strong></div>
+          <div><span>{{localize "RIFTS.Advanced.HoldAction"}}</span><strong>{{heldActionCount}}</strong></div>
+          <div><span>{{localize "RIFTS.Vehicle.MountedWeapons"}}</span><strong>{{quickMountedCount}}</strong></div>
+          <div><span>{{localize "RIFTS.Vehicle.Crew"}}</span><strong>{{crewRequired}}</strong></div>
+          <div><span>{{localize "RIFTS.Vehicle.Passengers"}}</span><strong>{{passengerCapacity}}</strong></div>
+        </div>
+      </section>
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Vehicle.MountedWeapons"}}</h2>
+        {{#if hasMountedWeapons}}
+          <div class="item-list">
+            {{#each mountedWeapons as |entry|}}
+              <div class="item-row vehicle-mounted-summary-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                <span>{{entry.item.name}}</span>
+                <span>{{#if entry.data.mountName}}{{entry.data.mountName}}{{else}}-{{/if}}</span>
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <p>{{localize "RIFTS.Vehicle.NoMountedWeapons"}}</p>
+        {{/if}}
+      </section>
+      {{#unless hasValidVehicleMdc}}
+        <section class="sheet-section">
+          <p class="sheet-lock-note">{{localize "RIFTS.Combat.Warning.VehicleNoMdc"}}</p>
+        </section>
+      {{/unless}}
+    </aside>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+

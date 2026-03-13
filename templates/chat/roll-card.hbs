@@ -1,0 +1,26 @@
+<div class="rifts-roll-card">
+  <h3>{{title}}</h3>
+  {{#if subtitle}}
+    <p class="subtitle">{{subtitle}}</p>
+  {{/if}}
+  {{#if actorName}}
+    <p>{{actorName}}</p>
+  {{/if}}
+  {{#if showCategory}}
+    <p><strong>{{localize "RIFTS.Skills.Category"}}:</strong> {{category}}</p>
+  {{/if}}
+  {{#if showSource}}
+    <p><strong>{{localize "RIFTS.Skills.Source"}}:</strong> {{source}}</p>
+  {{/if}}
+  <p><strong>{{localize "RIFTS.Rolls.Formula"}}:</strong> {{formula}}</p>
+  <p><strong>{{localize "RIFTS.Rolls.Total"}}:</strong> {{total}}</p>
+  {{#if showBonus}}
+    <p><strong>{{localize "RIFTS.Rolls.Bonus"}}:</strong> {{bonus}}</p>
+  {{/if}}
+  {{#if showTarget}}
+    <p><strong>{{localize "RIFTS.Rolls.Target"}}:</strong> {{target}}</p>
+  {{/if}}
+  {{#if outcome}}
+    <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{outcome}}</p>
+  {{/if}}
+</div>

@@ -1,0 +1,50 @@
+<section class="rifts-selection-dialog">
+  <header class="sheet-section">
+    <h2>{{title}}</h2>
+    {{#if description}}
+      <p class="help-text">{{description}}</p>
+    {{/if}}
+  </header>
+
+  {{#if hasGroups}}
+    {{#each groups as |group|}}
+      <section class="sheet-section">
+        <h3>{{group.label}}</h3>
+
+        {{#if group.hasEntries}}
+          <div class="item-list">
+            <div class="item-row selection-row item-header">
+              <span>{{localize "RIFTS.Item.Name"}}</span>
+              <span>{{localize "RIFTS.Item.Category"}}</span>
+              <span>{{localize "RIFTS.SelectionDialog.Details"}}</span>
+              <span>{{localize "RIFTS.SelectionDialog.Source"}}</span>
+              <span>{{localize "RIFTS.SelectionDialog.Status"}}</span>
+              <span>{{localize "RIFTS.Sheet.Action"}}</span>
+            </div>
+            {{#each group.entries as |entry|}}
+              <div class="item-row selection-row">
+                <span>{{#if entry.name}}{{entry.name}}{{else}}-{{/if}}</span>
+                <span>{{#if entry.category}}{{entry.category}}{{else}}-{{/if}}</span>
+                <span>{{#if entry.detail}}{{entry.detail}}{{else}}-{{/if}}</span>
+                <span>{{#if entry.source}}{{entry.source}}{{else}}-{{/if}}</span>
+                <span>{{#if entry.status}}{{entry.status}}{{else}}-{{/if}}</span>
+                <span class="item-actions">
+                  <button
+                    type="button"
+                    data-action="select-entry"
+                    data-entry-id="{{entry.entryId}}"
+                    {{#if entry.disabled}}disabled{{/if}}
+                  >{{entry.actionLabel}}</button>
+                </span>
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <p>{{group.emptyLabel}}</p>
+        {{/if}}
+      </section>
+    {{/each}}
+  {{else}}
+    <p>{{localize "RIFTS.SelectionDialog.NoneAvailable"}}</p>
+  {{/if}}
+</section>

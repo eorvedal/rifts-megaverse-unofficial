@@ -1,0 +1,695 @@
+import { isXPTableAscending, normalizeXPThresholdTable } from "../services/progression.mjs";
+import { normalizeManeuverPackageEntries, normalizeSpecialManeuverEntry } from "../services/maneuvers.mjs";
+
+const { ItemSheetV2 } = foundry.applications.sheets;
+const { HandlebarsApplicationMixin } = foundry.applications.api;
+
+function stringifyJson(value, fallback = {}) {
+  if (typeof value === "string") return value;
+  try {
+    return JSON.stringify(value ?? fallback, null, 2);
+  } catch (_error) {
+    return JSON.stringify(fallback, null, 2);
+  }
+}
+
+function formatXPTableInput(value) {
+  const normalized = normalizeXPThresholdTable(value).xpTable;
+  return normalized.join(", ");
+}
+
+function normalizeProgressionArrayInput(value) {
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => Number(entry))
+      .filter((entry) => Number.isFinite(entry));
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) return [];
+
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .map((entry) => Number(entry))
+          .filter((entry) => Number.isFinite(entry));
+      }
+    } catch (_error) {
+      // Fall back to CSV-style entry.
+    }
+
+    return trimmed
+      .split(/[\n,;]/)
+      .map((entry) => Number(entry.trim()))
+      .filter((entry) => Number.isFinite(entry));
+  }
+
+  if (value && typeof value === "object") {
+    const mapped = [];
+    for (const [levelKey, rawValue] of Object.entries(value)) {
+      const level = Number(levelKey);
+      const numeric = Number(rawValue);
+      if (!Number.isFinite(level) || !Number.isFinite(numeric) || level <= 0) continue;
+      mapped[Math.floor(level) - 1] = numeric;
+    }
+
+    return mapped
+      .map((entry) => Number(entry))
+      .filter((entry) => Number.isFinite(entry));
+  }
+
+  return [];
+}
+
+function formatProgressionArrayInput(value) {
+  return normalizeProgressionArrayInput(value).join(", ");
+}
+const AUGMENT_ATTRIBUTE_KEYS = ["iq", "me", "ma", "ps", "pp", "pe", "pb", "spd"];
+const AUGMENT_COMBAT_KEYS = ["strike", "parry", "dodge", "initiative", "apm"];
+const AUGMENT_RESOURCE_KEYS = ["hp", "sdc", "mdc", "ppe", "isp"];
+
+function defaultAugmentationEffects() {
+  const attributes = {};
+  const combat = {};
+  const resources = {};
+
+  for (const key of AUGMENT_ATTRIBUTE_KEYS) attributes[key] = 0;
+  for (const key of AUGMENT_COMBAT_KEYS) combat[key] = 0;
+  for (const key of AUGMENT_RESOURCE_KEYS) resources[key] = 0;
+
+  return { attributes, combat, resources, flags: {} };
+}
+
+
+function decodeHtmlEntities(value) {
+  const text = String(value ?? "");
+  if (!text) return "";
+  if (typeof document === "undefined") return text;
+
+  const el = document.createElement("textarea");
+  el.innerHTML = text;
+  return el.value;
+}
+
+function parseJsonLenient(value) {
+  const raw = String(value ?? "")
+    .replace(/^\uFEFF/, "")
+    .replace(/[\u200B-\u200D\u2060]/g, "")
+    .trim();
+  const decoded = decodeHtmlEntities(raw);
+  const normalizedQuotes = decoded
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2018\u2019]/g, "'");
+
+  const variants = [raw, decoded, normalizedQuotes]
+    .filter((entry, index, list) => entry.length > 0 && list.indexOf(entry) === index);
+
+  let lastError = null;
+  for (const candidate of variants) {
+    try {
+      return JSON.parse(candidate);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError ?? new Error("Invalid JSON payload.");
+}
+
+function unwrapParsedJsonString(value, maxDepth = 3) {
+  let parsed = value;
+  for (let depth = 0; depth < maxDepth; depth += 1) {
+    if (typeof parsed !== "string") break;
+    const trimmed = parsed.trim();
+    if (!trimmed) break;
+    parsed = parseJsonLenient(trimmed);
+  }
+  return parsed;
+}
+
+function normalizeAugmentationEffectsInput(value) {
+  let parsed = value;
+  if (typeof parsed === "string") {
+    const trimmed = parsed.trim();
+    if (!trimmed) return defaultAugmentationEffects();
+    parsed = parseJsonLenient(trimmed);
+  }
+
+  parsed = unwrapParsedJsonString(parsed);
+  if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && parsed.effects && typeof parsed.effects === "object") {
+    parsed = parsed.effects;
+  }
+  if (Array.isArray(parsed) && parsed.length === 0) {
+    return defaultAugmentationEffects();
+  }
+
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("Augmentation effects payload must be an object.");
+  }
+
+  const defaults = defaultAugmentationEffects();
+  const effects = {
+    attributes: { ...defaults.attributes },
+    combat: { ...defaults.combat },
+    resources: { ...defaults.resources },
+    flags: {}
+  };
+
+  for (const key of AUGMENT_ATTRIBUTE_KEYS) {
+    effects.attributes[key] = Number(parsed?.attributes?.[key] ?? 0);
+    if (!Number.isFinite(effects.attributes[key])) effects.attributes[key] = 0;
+  }
+
+  for (const key of AUGMENT_COMBAT_KEYS) {
+    effects.combat[key] = Number(parsed?.combat?.[key] ?? 0);
+    if (!Number.isFinite(effects.combat[key])) effects.combat[key] = 0;
+  }
+
+  for (const key of AUGMENT_RESOURCE_KEYS) {
+    effects.resources[key] = Number(parsed?.resources?.[key] ?? 0);
+    if (!Number.isFinite(effects.resources[key])) effects.resources[key] = 0;
+  }
+
+  const parsedFlags = parsed?.flags;
+  if (parsedFlags && typeof parsedFlags === "object" && !Array.isArray(parsedFlags)) {
+    for (const [flagKey, flagValue] of Object.entries(parsedFlags)) {
+      const normalizedKey = String(flagKey ?? "").trim();
+      if (!normalizedKey) continue;
+      const enabled = flagValue === true || String(flagValue ?? "").trim().toLowerCase() === "true" || Number(flagValue) > 0;
+      effects.flags[normalizedKey] = enabled;
+    }
+  }
+
+  return effects;
+}
+
+function normalizeGrantedAbilitiesInput(value) {
+  let parsed = value;
+  if (typeof parsed === "string") {
+    const trimmed = parsed.trim();
+    if (!trimmed) return [];
+    parsed = parseJsonLenient(trimmed);
+  }
+
+  parsed = unwrapParsedJsonString(parsed);
+  if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && Array.isArray(parsed.grantedAbilities)) {
+    parsed = parsed.grantedAbilities;
+  }
+
+  if (!Array.isArray(parsed)) {
+    throw new Error("Granted abilities payload must be an array.");
+  }
+
+  return foundry.utils.deepClone(parsed);
+}
+
+function normalizeGrantedSkillsInput(value) {
+  let parsed = value;
+  if (typeof parsed === "string") {
+    const trimmed = parsed.trim();
+    if (!trimmed) return [];
+    parsed = parseJsonLenient(trimmed);
+  }
+
+  parsed = unwrapParsedJsonString(parsed);
+  if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && Array.isArray(parsed.grantedSkills)) {
+    parsed = parsed.grantedSkills;
+  }
+
+  if (!Array.isArray(parsed)) {
+    throw new Error("Granted skills payload must be an array.");
+  }
+
+  return foundry.utils.deepClone(parsed);
+}
+
+export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
+  _listenerAbortController = null;
+
+  static DEFAULT_OPTIONS = foundry.utils.mergeObject(super.DEFAULT_OPTIONS, {
+    classes: ["rifts", "sheet", "item"],
+    position: {
+      width: 620,
+      height: 760
+    },
+    form: {
+      submitOnChange: true,
+      closeOnSubmit: false
+    },
+    window: {
+      resizable: true,
+      title: "RIFTS.Sheet.Item"
+    }  }, { inplace: false });
+
+  static PARTS = {
+    body: {
+      template: "systems/rifts-megaverse/templates/item/item-sheet.hbs"
+    }
+  };
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const itemType = this.document.type;
+
+    context.item = this.document;
+    context.system = this.document.system;
+    context.itemType = itemType;
+
+    context.isSkill = itemType === "skill";
+    context.isWeapon = itemType === "weapon";
+    context.isArmor = itemType === "armor";
+    context.isOcc = itemType === "occ";
+    context.isRcc = itemType === "rcc";
+    context.isCybernetic = itemType === "cybernetic";
+    context.isBionic = itemType === "bionic";
+    context.isAugmentation = context.isCybernetic || context.isBionic;
+    context.isHandToHand = itemType === "handToHand";
+    context.isSpecialManeuver = itemType === "specialManeuver";
+    context.isClassItem = context.isOcc || context.isRcc;
+    context.classLabel = context.isOcc
+      ? game.i18n.localize("RIFTS.Sheet.OCC")
+      : context.isRcc
+        ? game.i18n.localize("RIFTS.Sheet.RCC")
+        : "";
+
+    context.powerScaleOptions = {
+      "": game.i18n.localize("RIFTS.Sheet.None"),
+      sdc: game.i18n.localize("RIFTS.Combat.SDC"),
+      mdc: game.i18n.localize("RIFTS.Combat.MDC"),
+      powerArmor: game.i18n.localize("RIFTS.PowerArmor.PowerArmor"),
+      vehicle: game.i18n.localize("RIFTS.Sheet.Vehicle"),
+      giantCreature: game.i18n.localize("RIFTS.Size.Giant")
+    };
+
+
+    context.classProgressionText = stringifyJson(this.document.system?.attacksPerMeleePerLevel ?? {}, {});
+    context.classXPValue = Number.isFinite(Number(this.document.system?.xp?.value))
+      ? Number(this.document.system?.xp?.value)
+      : Number(this.document.system?.experience ?? 0);
+    context.classXPTableText = formatXPTableInput(this.document.system?.progression?.xpTable ?? [0]);
+    context.classMaxLevel = Number.isFinite(Number(this.document.system?.progression?.maxLevel))
+      ? Number(this.document.system?.progression?.maxLevel)
+      : 15;
+    context.classOccSkillsText = stringifyJson(this.document.system?.skillPackage?.occSkills ?? [], []);
+    context.classRelatedSkillsText = stringifyJson(this.document.system?.skillPackage?.relatedSkills ?? [], []);
+    context.classSecondarySkillsText = stringifyJson(this.document.system?.skillPackage?.secondarySkills ?? [], []);
+    context.classEffectsText = stringifyJson(this.document.system?.effects ?? defaultAugmentationEffects(), defaultAugmentationEffects());
+    context.classGrantedAbilitiesText = stringifyJson(this.document.system?.grantedAbilities ?? [], []);
+    context.classGrantedSkillsText = stringifyJson(this.document.system?.grantedSkills ?? [], []);
+
+    if (context.isClassItem) {
+      try {
+        context.system.effects = normalizeAugmentationEffectsInput(context.system.effects ?? defaultAugmentationEffects());
+      } catch (_error) {
+        context.system.effects = defaultAugmentationEffects();
+      }
+
+      context.system.grantedAbilities = Array.isArray(context.system.grantedAbilities)
+        ? context.system.grantedAbilities
+        : [];
+      context.system.grantedSkills = Array.isArray(context.system.grantedSkills)
+        ? context.system.grantedSkills
+        : [];
+
+      context.classEffectsText = stringifyJson(context.system.effects, defaultAugmentationEffects());
+      context.classGrantedAbilitiesText = stringifyJson(context.system.grantedAbilities, []);
+      context.classGrantedSkillsText = stringifyJson(context.system.grantedSkills, []);
+    }
+
+    context.hthApmBonusText = formatProgressionArrayInput(this.document.system?.progression?.apmBonus ?? []);
+    context.hthStrikeBonusText = formatProgressionArrayInput(this.document.system?.progression?.strikeBonus ?? []);
+    context.hthParryBonusText = formatProgressionArrayInput(this.document.system?.progression?.parryBonus ?? []);
+    context.hthDodgeBonusText = formatProgressionArrayInput(this.document.system?.progression?.dodgeBonus ?? []);
+    context.hthAutoDodgeLevelText = formatProgressionArrayInput(this.document.system?.progression?.autoDodgeLevel ?? []);
+    context.hthDamageBonusText = formatProgressionArrayInput(this.document.system?.progression?.damageBonus ?? []);
+    context.hthManeuverPackageText = stringifyJson(this.document.system?.maneuverPackage?.grantedManeuvers ?? [], []);
+
+    if (context.isWeapon) {
+      context.system.weapon ??= {};
+      context.system.weapon.isBurstCapable = context.system.weapon.isBurstCapable === true;
+      context.system.weapon.fireMode = context.system.weapon.fireMode ?? "single";
+      context.system.weapon.burstSize = Number.isFinite(Number(context.system.weapon.burstSize))
+        ? Number(context.system.weapon.burstSize)
+        : 3;
+      context.system.weapon.burstStrikeMod = Number.isFinite(Number(context.system.weapon.burstStrikeMod))
+        ? Number(context.system.weapon.burstStrikeMod)
+        : 1;
+      context.system.weapon.burstDamageMultiplier = Number.isFinite(Number(context.system.weapon.burstDamageMultiplier))
+        ? Number(context.system.weapon.burstDamageMultiplier)
+        : 2;
+      context.system.weapon.ammoPerBurst = Number.isFinite(Number(context.system.weapon.ammoPerBurst))
+        ? Number(context.system.weapon.ammoPerBurst)
+        : 3;
+      context.system.weapon.aimedStrikeMod = Number.isFinite(Number(context.system.weapon.aimedStrikeMod))
+        ? Number(context.system.weapon.aimedStrikeMod)
+        : -3;
+      context.system.weapon.supportsAimedShot = context.system.weapon.supportsAimedShot !== false;
+      context.system.weapon.canKnockdown = context.system.weapon.canKnockdown === true;
+      context.system.weapon.canKnockback = context.system.weapon.canKnockback === true;
+      context.system.weapon.knockbackValue = Number.isFinite(Number(context.system.weapon.knockbackValue))
+        ? Math.max(0, Number(context.system.weapon.knockbackValue))
+        : 0;
+      context.system.weapon.impactType = String(context.system.weapon.impactType ?? "").trim().toLowerCase();
+    }
+
+    if (context.isArmor) {
+      context.system.armor ??= {};
+    }
+
+    if (context.isAugmentation) {
+      context.system.installed = context.system.installed === true;
+      context.system.slot = String(context.system.slot ?? "");
+      context.system.notes = String(context.system.notes ?? "");
+      try {
+        context.system.effects = normalizeAugmentationEffectsInput(context.system.effects ?? defaultAugmentationEffects());
+      } catch (_error) {
+        context.system.effects = defaultAugmentationEffects();
+      }
+      context.system.grantedAbilities = Array.isArray(context.system.grantedAbilities)
+        ? context.system.grantedAbilities
+        : [];
+
+      context.augmentationEffectsText = stringifyJson(context.system.effects, defaultAugmentationEffects());
+      context.augmentationGrantedAbilitiesText = stringifyJson(context.system.grantedAbilities, []);
+      context.augmentationTypeLabel = context.isCybernetic
+        ? game.i18n.localize("RIFTS.Augmentation.Cybernetics")
+        : game.i18n.localize("RIFTS.Augmentation.Bionics");
+    }
+
+    if (context.isHandToHand) {
+      context.system.maneuverPackage ??= {};
+      context.system.maneuverPackage.grantedManeuvers ??= [];
+      context.system.progression ??= {};
+      context.system.active = context.system.active === true;
+      context.system.style = String(context.system.style ?? "basic").trim().toLowerCase() || "basic";
+      context.handToHandStyleOptions = {
+        basic: game.i18n.localize("RIFTS.HandToHand.Basic"),
+        expert: game.i18n.localize("RIFTS.HandToHand.Expert"),
+        martialArts: game.i18n.localize("RIFTS.HandToHand.MartialArts"),
+        assassin: game.i18n.localize("RIFTS.HandToHand.Assassin")
+      };
+      context.system.notes = context.system.notes ?? "";
+    }
+
+    if (context.isSpecialManeuver) {
+      const normalizedManeuver = normalizeSpecialManeuverEntry({
+        ...context.system,
+        name: this.document.name
+      });
+      context.system.key = normalizedManeuver.key;
+      context.system.category = normalizedManeuver.category;
+      context.system.description = normalizedManeuver.description;
+      context.system.actionCost = normalizedManeuver.actionCost;
+      context.system.strikeModifier = normalizedManeuver.strikeModifier;
+      context.system.damageFormula = normalizedManeuver.damageFormula;
+      context.system.canKnockdown = normalizedManeuver.canKnockdown === true;
+      context.system.canKnockback = normalizedManeuver.canKnockback === true;
+      context.system.knockbackValue = Math.max(0, Number(normalizedManeuver.knockbackValue ?? 0));
+      context.system.impactType = normalizedManeuver.impactType;
+      context.system.isReactive = normalizedManeuver.isReactive === true;
+      context.system.requiresTarget = normalizedManeuver.requiresTarget === true;
+      context.system.minLevel = normalizedManeuver.minLevel;
+      context.system.sourceType = normalizedManeuver.sourceType;
+      context.system.sourceId = normalizedManeuver.sourceId;
+      context.system.notes = normalizedManeuver.notes;
+      context.specialManeuverCategoryOptions = {
+        offensive: game.i18n.localize("RIFTS.Maneuvers.OffensiveManeuver"),
+        defensive: game.i18n.localize("RIFTS.Maneuvers.ReactiveManeuver"),
+        reactive: game.i18n.localize("RIFTS.Maneuvers.ReactiveManeuver")
+      };
+    }
+
+    context.isPower = itemType === "power";
+    if (context.isPower) {
+      context.system.powerType = context.system.powerType ?? (context.system.type || "ability");
+      context.system.subType = context.system.subType ?? "";
+      context.system.costType = context.system.costType ?? "none";
+      context.system.cost = Number.isFinite(Number(context.system.cost)) ? Number(context.system.cost) : 0;
+      context.system.range = context.system.range ?? "";
+      context.system.duration = context.system.duration ?? "";
+      context.system.activationTime = context.system.activationTime ?? "";
+      context.system.saveType = context.system.saveType ?? "";
+      context.system.damage = context.system.damage ?? "";
+      context.system.description = context.system.description ?? "";
+      context.system.notes = context.system.notes ?? "";
+      context.system.requiresTarget = context.system.requiresTarget === true;
+      context.system.requiresAttackRoll = context.system.requiresAttackRoll === true;
+      context.system.requiresSave = context.system.requiresSave === true;
+      context.system.scale = context.system.scale ?? "";
+      context.system.active = context.system.active === true;
+
+      context.powerTypeOptions = {
+        psionic: game.i18n.localize("RIFTS.Powers.Psionic"),
+        spell: game.i18n.localize("RIFTS.Powers.Spell"),
+        ability: game.i18n.localize("RIFTS.Powers.Ability"),
+        "techno-wizard": game.i18n.localize("RIFTS.Powers.TechnoWizard"),
+        supernatural: game.i18n.localize("RIFTS.Powers.Supernatural")
+      };
+
+      context.costTypeOptions = {
+        none: game.i18n.localize("RIFTS.Powers.CostTypeNone"),
+        isp: game.i18n.localize("RIFTS.Powers.CostTypeISP"),
+        ppe: game.i18n.localize("RIFTS.Powers.CostTypePPE"),
+        hp: game.i18n.localize("RIFTS.Powers.CostTypeHP"),
+        sdc: game.i18n.localize("RIFTS.Powers.CostTypeSDC")
+      };
+    }
+
+    context.isGear = itemType === "gear";
+    context.isFeature = itemType === "feature";
+
+    const parentActor = this.document.parent?.documentName === "Actor" ? this.document.parent : null;
+    const linkedArmorChoices = {
+      "": game.i18n.localize("RIFTS.Sheet.None")
+    };
+
+    if (context.isWeapon && parentActor) {
+      const armors = parentActor.items
+        .filter((item) => item.type === "armor")
+        .sort((a, b) => String(a.name ?? "").localeCompare(String(b.name ?? "")));
+
+      for (const armor of armors) {
+        const isPowerArmor = armor.system?.armor?.isPowerArmor === true;
+        const isEquipped = armor.system?.equipped === true;
+        let label = armor.name;
+        if (isPowerArmor) label += ` [${game.i18n.localize("RIFTS.PowerArmor.PowerArmor")}]`;
+        if (isEquipped) label += ` [${game.i18n.localize("RIFTS.Item.Equipped")}]`;
+        linkedArmorChoices[armor.id] = label;
+      }
+    }
+
+    context.linkedArmorChoices = linkedArmorChoices;
+    context.hasLinkedArmorChoices = Object.keys(linkedArmorChoices).length > 1;
+
+    return context;
+  }
+
+  _onClose(options) {
+    this._listenerAbortController?.abort();
+    this._listenerAbortController = null;
+    return super._onClose(options);
+  }
+
+  _onRender(context, options) {
+    super._onRender(context, options);
+
+    const root = this.element instanceof HTMLElement ? this.element : this.element?.[0];
+    if (!root) return;
+
+    this._listenerAbortController?.abort();
+    this._listenerAbortController = new AbortController();
+    const signal = this._listenerAbortController.signal;
+
+    root.querySelectorAll("input[name], select[name], textarea[name]").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const target = event.currentTarget;
+        const path = target.name;
+        if (!path) return;
+
+        let value;
+        if (target.type === "checkbox") value = target.checked;
+        else if (target.type === "number") value = Number(target.value || 0);
+        else value = target.value;
+
+        await this.document.update({ [path]: value });
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='class-progression']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+        if (!raw) {
+          await this.document.update({ "system.attacksPerMeleePerLevel": {} });
+          return;
+        }
+
+        try {
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== "object") {
+            throw new Error("Progression must be an object or array.");
+          }
+
+          await this.document.update({ "system.attacksPerMeleePerLevel": parsed });
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidProgressionJSON"));
+        }
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='class-xp-table']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalizedData = normalizeXPThresholdTable(raw);
+          const normalized = normalizedData.xpTable;
+
+          if (raw && normalizedData.ignoredNonNumericCount > 0) {
+            throw new Error("XP table contains non-numeric values.");
+          }
+
+          if (!isXPTableAscending(normalized)) {
+            ui.notifications.warn(game.i18n.localize("RIFTS.Warnings.XPTableNotAscending"));
+          }
+
+          await this.document.update({ "system.progression.xpTable": normalized });
+          event.currentTarget.value = normalized.join(", ");
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidXPTableJSON"));
+        }
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='class-skill-package']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const packageKey = event.currentTarget.dataset.packageKey;
+        if (!["occSkills", "relatedSkills", "secondarySkills"].includes(packageKey)) return;
+
+        const raw = String(event.currentTarget.value ?? "").trim();
+        if (!raw) {
+          await this.document.update({ [`system.skillPackage.${packageKey}`]: [] });
+          return;
+        }
+
+        try {
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) {
+            throw new Error("Class skill package must be an array.");
+          }
+
+          await this.document.update({ [`system.skillPackage.${packageKey}`]: parsed });
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidSkillPackageJSON"));
+        }
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='class-effects']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalized = normalizeAugmentationEffectsInput(raw);
+          await this.document.update({ "system.effects": normalized });
+          event.currentTarget.value = stringifyJson(normalized, defaultAugmentationEffects());
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidAugmentationEffectsJSON"));
+        }
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='class-granted-abilities']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalized = normalizeGrantedAbilitiesInput(raw);
+          await this.document.update({ "system.grantedAbilities": normalized });
+          event.currentTarget.value = stringifyJson(normalized, []);
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidGrantedAbilitiesJSON"));
+        }
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='class-granted-skills']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalized = normalizeGrantedSkillsInput(raw);
+          await this.document.update({ "system.grantedSkills": normalized });
+          event.currentTarget.value = stringifyJson(normalized, []);
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidGrantedSkillsJSON"));
+        }
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='hth-progression-array']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const progressionKey = event.currentTarget.dataset.progressionKey;
+        if (!["apmBonus", "strikeBonus", "parryBonus", "dodgeBonus", "autoDodgeLevel", "damageBonus"].includes(progressionKey)) return;
+
+        const raw = String(event.currentTarget.value ?? "").trim();
+        const normalized = normalizeProgressionArrayInput(raw);
+        await this.document.update({ [`system.progression.${progressionKey}`]: normalized });
+        event.currentTarget.value = normalized.join(", ");
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='hth-maneuver-package']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+        if (!raw) {
+          await this.document.update({ "system.maneuverPackage.grantedManeuvers": [] });
+          return;
+        }
+
+        try {
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed)) {
+            throw new Error("HtH maneuver package must be an array.");
+          }
+
+          const normalized = normalizeManeuverPackageEntries(parsed);
+          await this.document.update({ "system.maneuverPackage.grantedManeuvers": normalized });
+          event.currentTarget.value = stringifyJson(normalized, []);
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidManeuverPackageJSON"));
+        }
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='augmentation-effects']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalized = normalizeAugmentationEffectsInput(raw);
+          await this.document.update({ "system.effects": normalized });
+          event.currentTarget.value = stringifyJson(normalized, defaultAugmentationEffects());
+        } catch (_error) {
+          const fallback = normalizeAugmentationEffectsInput(this.document.system?.effects ?? defaultAugmentationEffects());
+          await this.document.update({ "system.effects": fallback });
+          event.currentTarget.value = stringifyJson(fallback, defaultAugmentationEffects());
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidAugmentationEffectsJSON"));
+        }
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='augmentation-granted-abilities']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalized = normalizeGrantedAbilitiesInput(raw);
+          await this.document.update({ "system.grantedAbilities": normalized });
+          event.currentTarget.value = stringifyJson(normalized, []);
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidGrantedAbilitiesJSON"));
+        }
+      }, { signal });
+    });
+  }
+}
+

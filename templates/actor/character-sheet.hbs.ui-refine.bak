@@ -1,0 +1,986 @@
+<form class="rifts-sheet">
+  <header class="sheet-header rifts-header">
+    <div class="header-portrait-wrap">
+      {{#if actor.img}}
+        <img class="header-portrait" src="{{actor.img}}" alt="{{actor.name}}">
+      {{/if}}
+    </div>
+
+    <div class="header-main">
+      <input class="header-name" type="text" name="name" value="{{actor.name}}">
+      <div class="header-meta progression-meta">
+        <label>{{localize "RIFTS.Progression.Level"}}</label>
+        <strong>{{derivedLevel}}</strong>
+        <label>{{localize "RIFTS.Progression.XP"}}</label>
+        <input type="number" min="0" name="system.details.experience" value="{{currentXP}}">
+        <span>
+          {{#if hasNextLevelXP}}
+            {{localize "RIFTS.Progression.NextLevel"}}: {{nextLevelXP}}
+          {{else}}
+            {{localize "RIFTS.Progression.NextLevel"}}: -
+          {{/if}}
+        </span>
+        <button type="button" data-action="roll-initiative">{{localize "RIFTS.Rolls.Initiative"}}</button>
+        {{#if hasCombat}}
+          <button type="button" data-action="roll-initiative-combat">{{localize "RIFTS.Rolls.InitiativeCombat"}}</button>
+        {{/if}}
+      </div>
+      <div class="xp-progress-wrap">
+        <label>{{localize "RIFTS.Progression.Progress"}}: {{xpProgressLabel}}</label>
+        <div class="xp-progress-bar">
+          <div class="xp-progress-fill" style="{{xpProgressBarStyle}}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-lock-controls">
+      {{#if canToggleLock}}
+        <button type="button" data-action="toggle-lock" class="lock-toggle-btn">
+          {{#if isLocked}}
+            {{localize "RIFTS.Sheet.Unlock"}}
+          {{else}}
+            {{localize "RIFTS.Sheet.Lock"}}
+          {{/if}}
+        </button>
+      {{else}}
+        {{#if isLocked}}
+          <span class="sheet-locked-pill">{{localize "RIFTS.Sheet.Locked"}}</span>
+        {{/if}}
+      {{/if}}
+    </div>
+  </header>
+
+  {{#if isLockedForUser}}
+    <p class="sheet-lock-note">{{localize "RIFTS.Sheet.LockedNotice"}}</p>
+  {{/if}}
+
+  <div class="rifts-layout">
+    <aside class="rifts-left">
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.Attributes"}}</h2>
+        <div class="grid attributes-grid">
+          {{#each attributes as |key|}}
+            <div class="field">
+              <label for="attr-{{key}}"><span class="label-key">{{key}}</span></label>
+              <div class="field-row">
+                <input id="attr-{{key}}" type="number" name="system.attributes.{{key}}.value" value="{{lookup (lookup ../system.attributes key) "value"}}">
+                <input type="number" name="system.attributes.{{key}}.mod" value="{{lookup (lookup ../system.attributes key) "mod"}}" title="{{localize 'RIFTS.Sheet.Mod'}}">
+                <button type="button" data-action="roll-attribute" data-attribute-key="{{key}}">3d6</button>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </section>
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.Resources"}}</h2>
+        <div class="grid resources-grid">
+          {{#each leftResources as |key|}}
+            <div class="field">
+              <label><span class="label-key">{{key}}</span></label>
+              <div class="field-row">
+                <input type="number" name="system.resources.{{key}}.value" value="{{lookup (lookup ../system.resources key) "value"}}">
+                <span>/</span>
+                <input type="number" name="system.resources.{{key}}.max" value="{{lookup (lookup ../system.resources key) "max"}}">
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </section>
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.DerivedCombat"}}</h2>
+        <div class="derived-combat-grid">
+          <div class="derived-cell">
+            <span>{{localize "RIFTS.Sheet.StrikeTotal"}}</span>
+            <strong>{{system.combat.derived.strikeTotal}}</strong>
+          </div>
+          <div class="derived-cell">
+            <span>{{localize "RIFTS.Sheet.ParryTotal"}}</span>
+            <strong>{{system.combat.derived.parryTotal}}</strong>
+          </div>
+          <div class="derived-cell">
+            <span>{{localize "RIFTS.Sheet.DodgeTotal"}}</span>
+            <strong>{{system.combat.derived.dodgeTotal}}</strong>
+          </div>
+          <div class="derived-cell">
+            <span>{{localize "RIFTS.Sheet.InitiativeTotal"}}</span>
+            <strong>{{system.combat.derived.initiativeTotal}}</strong>
+          </div>
+        </div>
+      </section>
+<section class="sheet-section active-class-panel">
+            <h2>{{localize "RIFTS.Sheet.ActiveClass"}}</h2>
+            {{#if hasClassItems}}
+              <div class="class-summary">
+                <div><span>{{localize "RIFTS.Sheet.ActiveOCC"}}</span><strong>{{activeOccName}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.ActiveRCC"}}</span><strong>{{activeRccName}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.OCCSummary"}}</span><strong>{{occPassiveEffectsSummary}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.RCCSummary"}}</span><strong>{{rccPassiveEffectsSummary}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.PassiveEffects"}}</span><strong>{{classPassiveEffectsSummary}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.GrantedAbilities"}}</span><strong>{{classGrantedAbilitiesLabel}}</strong></div>
+                <div><span>{{localize "RIFTS.Progression.Level"}}</span><strong>{{derivedLevel}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.AttacksPerMelee"}}</span><strong>{{attacksPerMelee}}</strong></div>
+                <div><span>{{localize "RIFTS.Progression.ClassXP"}}</span><strong>{{activeClassExperience}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.CombatBonuses"}}</span><strong>{{activeOccBonusesSummary}}</strong></div>
+              </div>
+
+              <section class="sheet-section">
+                <h3>{{localize "RIFTS.Sheet.OCCSummary"}}</h3>
+                <div class="class-summary">
+                  <div><span>{{localize "RIFTS.Sheet.AttributeRequirements"}}</span><strong>{{occRequirementsStatusLabel}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.RequirementsNotMet"}}</span><strong>{{occRequirementsSummary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.SkillSelection"}}</span><strong>{{localize "RIFTS.Skills.OccSkill"}}: {{occSkillSelection.occ}}, {{localize "RIFTS.Sheet.SkillSelectionOccRelated"}}: {{occSkillSelection.related}}, {{localize "RIFTS.Skills.SecondarySkill"}}: {{occSkillSelection.secondary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.OccSkillProgression"}}</span><strong>{{occSkillProgressionSummary.occ}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.OccRelatedProgression"}}</span><strong>{{occSkillProgressionSummary.related}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.SecondarySkillProgression"}}</span><strong>{{occSkillProgressionSummary.secondary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.StartingResources"}}</span><strong>HP {{occStartingResources.hp}}, SDC {{occStartingResources.sdc}}, ISP {{occStartingResources.isp}}, PPE {{occStartingResources.ppe}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.ResourceProgression"}}</span><strong>HP {{#if occResourceProgression.hpPerLevel}}{{occResourceProgression.hpPerLevel}}{{else}}-{{/if}}, SDC {{#if occResourceProgression.sdcPerLevel}}{{occResourceProgression.sdcPerLevel}}{{else}}-{{/if}}, ISP {{#if occResourceProgression.ispPerLevel}}{{occResourceProgression.ispPerLevel}}{{else}}-{{/if}}, PPE {{#if occResourceProgression.ppePerLevel}}{{occResourceProgression.ppePerLevel}}{{else}}-{{/if}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.StartingPowers"}}</span><strong>{{localize "RIFTS.Powers.Spell"}}: {{occStartingSpellsCount}}, {{localize "RIFTS.Powers.Psionic"}}: {{occStartingPsionicsCount}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.SpellProgression"}}</span><strong>{{occSpellProgressionSummary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.PsionicProgression"}}</span><strong>{{occPsionicProgressionSummary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.StartingCredits"}}</span><strong>{{occStartingCredits.credits}}</strong></div>
+                </div>
+
+                {{#if hasOccAttributeRequirements}}
+                  <div class="item-list">
+                    <div class="item-row class-skill-row item-header">
+                      <span>{{localize "RIFTS.Item.Name"}}</span>
+                      <span>{{localize "RIFTS.Sheet.AttributeRequirements"}}</span>
+                      <span>{{localize "RIFTS.Rolls.Total"}}</span>
+                      <span>{{localize "RIFTS.Sheet.Status"}}</span>
+                    </div>
+                    {{#each occAttributeRequirementRows as |entry|}}
+                      {{#if entry.hasRequirement}}
+                        <div class="item-row class-skill-row">
+                          <span>{{entry.label}}</span>
+                          <span>{{entry.required}}</span>
+                          <span>{{entry.actual}}</span>
+                          <span>{{#if entry.met}}{{localize "RIFTS.Sheet.RequirementsMet"}}{{else}}{{localize "RIFTS.Sheet.RequirementsNotMet"}}{{/if}}</span>
+                        </div>
+                      {{/if}}
+                    {{/each}}
+                  </div>
+                {{else}}
+                  <p>{{localize "RIFTS.Sheet.None"}}</p>
+                {{/if}}
+              </section>
+
+<section class="sheet-section">
+                <h3>{{localize "RIFTS.Augmentation.StartingPackage"}}</h3>
+                <p><strong>{{localize "RIFTS.Sheet.ActiveOCC"}}:</strong> {{#if occAugmentationPackageName}}{{occAugmentationPackageName}}{{else}}{{localize "RIFTS.Sheet.NoActiveOCC"}}{{/if}}</p>
+                {{#if hasOccAugmentationPackage}}
+                  {{#if hasOccPackageBionics}}
+                    <h4>{{localize "RIFTS.Augmentation.Bionics"}}</h4>
+                    <div class="item-list">
+                      <div class="item-row class-package-row item-header">
+                        <span>{{localize "RIFTS.Item.Name"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Slot"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Effects"}}</span>
+                        <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                      </div>
+                      {{#each occPackageBionics as |entry|}}
+                        <div class="item-row class-package-row">
+                          <span>{{entry.name}}</span>
+                          <span>{{#if entry.slot}}{{entry.slot}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>{{#if entry.effectsSummary}}{{entry.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>
+                            {{#if entry.isAdded}}
+                              {{localize "RIFTS.Augmentation.AlreadyInstalled"}}
+                            {{else}}
+                              <button type="button" data-action="add-occ-package-item" data-package-type="{{entry.packageType}}" data-package-index="{{entry.packageIndex}}">{{localize "RIFTS.Augmentation.AddPackageItem"}}</button>
+                            {{/if}}
+                          </span>
+                        </div>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+
+                  {{#if hasOccPackageCybernetics}}
+                    <h4>{{localize "RIFTS.Augmentation.Cybernetics"}}</h4>
+                    <div class="item-list">
+                      <div class="item-row class-package-row item-header">
+                        <span>{{localize "RIFTS.Item.Name"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Slot"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Effects"}}</span>
+                        <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                      </div>
+                      {{#each occPackageCybernetics as |entry|}}
+                        <div class="item-row class-package-row">
+                          <span>{{entry.name}}</span>
+                          <span>{{#if entry.slot}}{{entry.slot}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>{{#if entry.effectsSummary}}{{entry.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>
+                            {{#if entry.isAdded}}
+                              {{localize "RIFTS.Augmentation.AlreadyInstalled"}}
+                            {{else}}
+                              <button type="button" data-action="add-occ-package-item" data-package-type="{{entry.packageType}}" data-package-index="{{entry.packageIndex}}">{{localize "RIFTS.Augmentation.AddPackageItem"}}</button>
+                            {{/if}}
+                          </span>
+                        </div>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+                {{else}}
+                  <p>{{localize "RIFTS.Augmentation.NoPackageItems"}}</p>
+                {{/if}}
+              </section>
+
+              <div class="class-overview-scroll">
+
+              <div class="item-list">
+                <div class="item-row class-overview-row item-header">
+                  <span>{{localize "RIFTS.Item.Name"}}</span>
+                  <span>{{localize "RIFTS.Sheet.ClassType"}}</span>
+                  <span>{{localize "RIFTS.Item.Category"}}</span>
+                  <span>{{localize "RIFTS.Progression.ClassXP"}}</span>
+                  <span>{{localize "RIFTS.Sheet.PassiveEffects"}}</span>
+                  <span>{{localize "RIFTS.Sheet.GrantedAbilities"}}</span>
+                  <span>{{localize "RIFTS.Sheet.Primary"}}</span>
+                  <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+                </div>
+                {{#each classItems as |entry|}}
+                  <div class="item-row class-overview-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.typeLabel}}</span>
+                    <span>{{entry.data.category}}</span>
+                    <span>{{entry.data.classXP}}</span>
+                    <span>{{#if entry.data.effectsSummary}}{{entry.data.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                    <span>{{entry.data.grantedAbilitiesCount}}</span>
+                    <span>{{#if entry.data.isActive}}{{localize "RIFTS.Sheet.Primary"}}{{else}}-{{/if}}</span>
+                    <span class="item-actions">
+                      {{#if entry.data.isActive}}
+                        <span>{{localize "RIFTS.Sheet.Primary"}}</span>
+                      {{else}}
+                        <button type="button" data-action="set-primary-class" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.SetPrimary"}}</button>
+                      {{/if}}
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              </div>
+              </div>
+            {{else}}
+              <p>{{localize "RIFTS.Sheet.NoActiveClass"}}</p>
+            {{/if}}
+          </section>
+        
+    </aside>
+
+    <main class="rifts-center">
+      <nav class="sheet-tabs" aria-label="{{localize 'RIFTS.Sheet.Tabs'}}">
+        <button type="button" data-action="switch-tab" data-tab="combat" class="tab-btn {{#if isCombatTab}}active{{/if}}">{{localize "RIFTS.Sheet.Combat"}}</button>
+        <button type="button" data-action="switch-tab" data-tab="skills" class="tab-btn {{#if isSkillsTab}}active{{/if}}">{{localize "RIFTS.Sheet.Skills"}}</button>
+
+        <button type="button" data-action="switch-tab" data-tab="inventory" class="tab-btn {{#if isInventoryTab}}active{{/if}}">{{localize "RIFTS.Sheet.Inventory"}}</button>
+        <button type="button" data-action="switch-tab" data-tab="powers" class="tab-btn {{#if isPowersTab}}active{{/if}}">{{localize "RIFTS.Sheet.Powers"}}</button>
+        <button type="button" data-action="switch-tab" data-tab="notes" class="tab-btn {{#if isNotesTab}}active{{/if}}">{{localize "RIFTS.Sheet.Notes"}}</button>
+      </nav>
+
+      <section class="tab-panel {{#if isCombatTab}}active{{/if}}">
+        {{#if isCombatTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Targeting"}}</h2>
+            <div class="targeting-row">
+              <span>{{localize "RIFTS.Sheet.CurrentTarget"}}: <strong>{{currentTargetName}}</strong></span>
+              <span>{{localize "RIFTS.Sheet.SavedTarget"}}: <strong>{{savedTargetName}}</strong></span>
+              <button type="button" data-action="use-current-target">{{localize "RIFTS.Sheet.UseCurrentTarget"}}</button>
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Melee.Queue"}}</h2>
+            {{#if hasMeleeQueue}}
+              <div class="melee-queue-row">
+                <span><strong>{{localize "RIFTS.Melee.CurrentMeleeAction"}}:</strong> {{currentMeleeActorName}}</span>
+                <span><strong>{{localize "RIFTS.Melee.QueuePosition"}}:</strong> {{meleeQueuePosition}}</span>
+                <span><strong>{{localize "RIFTS.Melee.QueueLength"}}:</strong> {{meleeQueueLength}}</span>
+                <span><strong>{{localize "RIFTS.Melee.Pass"}}:</strong> {{currentMeleePass}}</span>
+              </div>
+              {{#if isCurrentMeleeActor}}
+                <p class="melee-state-active">{{localize "RIFTS.Melee.ActiveNow"}}</p>
+              {{/if}}
+              {{#if isWaitingForMeleeTurn}}
+                <p class="melee-state-waiting">{{localize "RIFTS.Melee.WaitingForTurn"}}</p>
+              {{/if}}
+            {{else}}
+              <p>{{localize "RIFTS.Melee.NoQueue"}}</p>
+            {{/if}}
+
+            <div class="held-action-row">
+              <span><strong>{{localize "RIFTS.Advanced.HoldAction"}}:</strong> {{heldActionCount}}</span>
+              <span><strong>{{localize "RIFTS.Advanced.ReleaseHeldAction"}}:</strong> {{#if heldActionReady}}{{localize "RIFTS.Melee.ActiveNow"}}{{else}}{{localize "RIFTS.Melee.WaitingForTurn"}}{{/if}}</span>
+              <button type="button" data-action="hold-action">{{localize "RIFTS.Advanced.HoldAction"}}</button>
+              <button type="button" data-action="release-held-action">{{localize "RIFTS.Advanced.ReleaseHeldAction"}}</button>
+            </div>
+
+            {{#if canAdvanceMelee}}
+              <button type="button" data-action="advance-melee">{{localize "RIFTS.Melee.AdvanceQueue"}}</button>
+            {{/if}}
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Combat"}}</h2>
+            <div class="combat-row">
+              <label>{{localize "RIFTS.Rolls.Strike"}}</label>
+              <input type="number" name="system.combat.strikeMod" value="{{system.combat.strikeMod}}">
+              <button type="button" data-action="roll-strike">d20</button>
+            </div>
+            <div class="combat-row">
+              <label>{{localize "RIFTS.Rolls.Parry"}}</label>
+              <input type="number" name="system.combat.parryMod" value="{{system.combat.parryMod}}">
+              <button type="button" data-action="roll-parry">d20</button>
+            </div>
+            <div class="combat-row">
+              <label>{{localize "RIFTS.Rolls.Dodge"}}</label>
+              <input type="number" name="system.combat.dodgeMod" value="{{system.combat.dodgeMod}}">
+              <button type="button" data-action="roll-dodge">d20</button>
+            </div>
+            <div class="combat-row">
+              <label>{{localize "RIFTS.Rolls.Initiative"}}</label>
+              <input type="number" name="system.combat.initiativeMod" value="{{system.combat.initiativeMod}}">
+              <button type="button" data-action="roll-initiative">d20</button>
+            </div>
+            <div class="combat-row">
+              <label>{{localize "RIFTS.Sheet.ActorAR"}}</label>
+              <input type="number" name="system.combat.ar" value="{{system.combat.ar}}">
+              <span>{{localize "RIFTS.Sheet.EquippedArmor"}}: <strong>{{equippedArmorName}}</strong></span>
+            </div>
+            <div class="combat-row">
+              <label>{{localize "RIFTS.Sheet.Durability"}}</label>
+              <span><strong>{{effectiveDurabilityLabel}}</strong></span>
+              <span></span>
+            </div>
+            <div class="combat-row">
+              <label>{{localize "RIFTS.Advanced.AutoDodge"}}</label>
+              <span><strong>{{autoDodgeStatusLabel}}</strong></span>
+              <span>{{localize "RIFTS.HandToHand.AutoDodgeLevel"}}: {{#if activeHandToHandBonuses.autoDodgeLevel}}{{activeHandToHandBonuses.autoDodgeLevel}}{{else}}-{{/if}}</span>
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Unarmed.Combat"}}</h2>
+            {{#if hasUnarmedManeuvers}}
+              <div class="item-list">
+                <div class="item-row weapons-row item-header">
+                  <span>{{localize "RIFTS.Unarmed.Strike"}}</span>
+                  <span>{{localize "RIFTS.Item.Damage"}}</span>
+                  <span>{{localize "RIFTS.Unarmed.StrengthBonus"}}</span>
+                  <span>{{localize "RIFTS.HandToHand.DamageBonus"}}</span>
+                  <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                </div>
+                {{#each unarmedManeuvers as |maneuver|}}
+                  <div class="item-row weapons-row">
+                    <span>{{maneuver.label}}</span>
+                    <span>{{maneuver.damageFormula}}</span>
+                    <span>{{maneuver.strengthBonus}}</span>
+                    <span>{{maneuver.handToHandBonus}}</span>
+                    <span class="item-actions">
+                      <button type="button" data-action="unarmed-attack" data-maneuver-key="{{maneuver.key}}" {{#unless ../canUseUnarmedManeuver}}disabled{{/unless}}>{{localize "RIFTS.Combat.Attack"}}</button>
+                    </span>
+                  </div>
+                  {{#if maneuver.specialRules}}
+                    <p class="help-text">{{maneuver.specialRules}}</p>
+                  {{/if}}
+                {{/each}}
+              </div>
+            {{else}}
+              <p>{{localize "RIFTS.Advanced.NotAvailable"}}</p>
+            {{/if}}
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Maneuvers.SpecialManeuvers"}}</h2>
+            <p><strong>{{localize "RIFTS.HandToHand.ActiveStyle"}}:</strong> {{#if activeHthStyleManeuverName}}{{activeHthStyleManeuverName}}{{else}}{{localize "RIFTS.HandToHand.None"}}{{/if}}</p>
+            <div class="item-list">
+              <div class="item-row weapons-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Item.Category"}}</span>
+                <span>{{localize "RIFTS.Maneuvers.ActionCost"}}</span>
+                <span>{{localize "RIFTS.Maneuvers.MinLevel"}}</span>
+                <span>{{localize "RIFTS.Maneuvers.ManeuverSource"}}</span>
+                <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if hasManeuverRows}}
+                {{#each maneuverRows as |entry|}}
+                  <div class="item-row weapons-row {{#if entry.itemId}}inventory-item-row{{/if}}" {{#if entry.itemId}}data-item-id="{{entry.itemId}}"{{/if}}>
+                    <span>{{entry.name}}</span>
+                    <span>{{entry.categoryLabel}}</span>
+                    <span>{{entry.actionCost}}</span>
+                    <span>{{entry.minLevel}}</span>
+                    <span>{{entry.sourceLabel}}</span>
+                    <span class="item-actions">
+                      {{#if entry.itemId}}
+                        <button type="button" data-action="use-special-maneuver" data-item-id="{{entry.itemId}}">{{localize "RIFTS.Combat.Attack"}}</button>
+                      {{else}}
+                        <button type="button" data-action="use-granted-maneuver" data-maneuver-key="{{entry.key}}">{{localize "RIFTS.Maneuvers.UseManeuver"}}</button>
+                      {{/if}}
+                      {{#if entry.canAddFromStyle}}
+                        <button type="button" data-action="add-hth-maneuver" data-package-index="{{entry.packageIndex}}">{{localize "RIFTS.Maneuvers.AddManeuver"}}</button>
+                      {{else}}
+                        {{#if entry.isStyleRow}}
+                          <span>{{localize "RIFTS.Maneuvers.AlreadyAdded"}}</span>
+                        {{/if}}
+                      {{/if}}
+                    </span>
+                    <span class="item-actions">
+                      {{#if entry.canManage}}
+                        <button type="button" data-action="edit-item" data-item-id="{{entry.itemId}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                        <button type="button" data-action="delete-item" data-item-id="{{entry.itemId}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                      {{else}}
+                        <span>-</span>
+                      {{/if}}
+                    </span>
+                  </div>
+                  {{#if entry.specialRules}}
+                    <p class="help-text">{{entry.specialRules}}</p>
+                  {{else}}
+                    {{#if entry.notes}}
+                      <p class="help-text">{{entry.notes}}</p>
+                    {{/if}}
+                  {{/if}}
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Maneuvers.NoManeuvers"}}</p>
+              {{/if}}
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Weapons"}}</h2>
+            <div class="item-list">
+              <div class="item-row weapons-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Item.Damage"}}</span>
+                <span>{{localize "RIFTS.Item.MegaDamage"}}</span>
+                <span>{{localize "RIFTS.Item.Equipped"}}</span>
+                <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if weapons.length}}
+                {{#each weapons as |entry|}}
+                  <div class="item-row weapons-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.damage}} ({{localize "RIFTS.Advanced.FireMode"}}: {{entry.data.fireModeLabel}} | {{localize "RIFTS.Vehicle.Mount"}}: {{#if entry.data.mountName}}{{entry.data.mountName}}{{else}}-{{/if}})</span>
+                    <span>{{#if entry.data.isMegaDamage}}MD{{else}}SDC{{/if}}</span>
+                    <span><input type="checkbox" data-action="toggle-weapon-equipped" data-item-id="{{entry.item.id}}" {{#if entry.data.equipped}}checked{{/if}}></span>
+                    <span class="item-actions">
+                      <button type="button" data-action="weapon-attack" data-attack-action="standard" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Combat.Attack"}}</button>
+                      {{#if entry.data.supportsAimedShot}}
+                        <button type="button" data-action="weapon-attack" data-attack-action="aimedShot" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Advanced.AimedShot"}}</button>
+                      {{/if}}
+                      {{#if entry.data.isBurstCapable}}
+                        <button type="button" data-action="weapon-attack" data-attack-action="burstFire" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Advanced.BurstFire"}}</button>
+                      {{/if}}
+                      <button type="button" data-action="weapon-attack" data-attack-action="grapple" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Advanced.GrapplePlaceholder"}}</button>
+                    </span>
+                    <span class="item-actions">
+                      <button type="button" data-action="toggle-weapon-equipped-button" data-item-id="{{entry.item.id}}">{{#if entry.data.equipped}}{{localize "RIFTS.Sheet.Unequip"}}{{else}}{{localize "RIFTS.Sheet.Equip"}}{{/if}}</button>
+                      {{#if entry.data.isMounted}}
+                      <button type="button" data-action="link-weapon-active-pa" data-item-id="{{entry.item.id}}" {{#unless ../hasActivePowerArmor}}disabled{{/unless}} title="Link this weapon to the active power armor.">{{localize "RIFTS.Vehicle.Mount"}}</button>
+                      <button type="button" data-action="unlink-weapon-pa" data-item-id="{{entry.item.id}}" {{#unless entry.data.linkedArmorId}}disabled{{/unless}} title="Remove any power armor link from this weapon.">Unmount</button>
+                      {{/if}}
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Sheet.NoWeapons"}}</p>
+              {{/if}}
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Armor"}}</h2>
+            <div class="item-list">
+              <div class="item-row armor-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Item.AR"}}</span>
+                <span>{{localize "RIFTS.Item.SdcCurrent"}} / {{localize "RIFTS.Item.SdcMax"}}</span>
+                <span>{{localize "RIFTS.Item.MdcCurrent"}} / {{localize "RIFTS.Item.MdcMax"}}</span>
+                <span>{{localize "RIFTS.Item.Equipped"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if armors.length}}
+                {{#each armors as |entry|}}
+                  <div class="item-row armor-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.ar}}</span>
+                    <span>{{entry.data.sdc}} / {{entry.data.sdcMax}}</span>
+                    <span>{{entry.data.mdc}} / {{entry.data.mdcMax}}</span>
+                    <span><input type="checkbox" data-action="toggle-armor-equipped" data-item-id="{{entry.item.id}}" {{#if entry.data.equipped}}checked{{/if}}></span>
+                    <span class="item-actions">
+                      <button type="button" data-action="toggle-armor-equipped-button" data-item-id="{{entry.item.id}}">{{#if entry.data.equipped}}{{localize "RIFTS.Sheet.Unequip"}}{{else}}{{localize "RIFTS.Sheet.Equip"}}{{/if}}</button>
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Sheet.NoArmor"}}</p>
+              {{/if}}
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.PowerArmor.PowerArmor"}}</h2>
+            <div class="item-list">
+              <div class="item-row armor-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Item.AR"}}</span>
+                <span>{{localize "RIFTS.Item.SdcCurrent"}} / {{localize "RIFTS.Item.SdcMax"}}</span>
+                <span>{{localize "RIFTS.Item.MdcCurrent"}} / {{localize "RIFTS.Item.MdcMax"}}</span>isClassTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.ActiveClass"}}</h2>
+            {{#if hasClassItems}}
+              <div class="class-summary">
+                <div><span>{{localize "RIFTS.Sheet.ActiveOCC"}}</span><strong>{{activeOccName}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.ActiveRCC"}}</span><strong>{{activeRccName}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.OCCSummary"}}</span><strong>{{occPassiveEffectsSummary}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.RCCSummary"}}</span><strong>{{rccPassiveEffectsSummary}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.PassiveEffects"}}</span><strong>{{classPassiveEffectsSummary}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.GrantedAbilities"}}</span><strong>{{classGrantedAbilitiesLabel}}</strong></div>
+                <div><span>{{localize "RIFTS.Progression.Level"}}</span><strong>{{derivedLevel}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.AttacksPerMelee"}}</span><strong>{{attacksPerMelee}}</strong></div>
+                <div><span>{{localize "RIFTS.Progression.ClassXP"}}</span><strong>{{activeClassExperience}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.CombatBonuses"}}</span><strong>{{activeOccBonusesSummary}}</strong></div>
+              </div>
+
+              <section class="sheet-section">
+                <h3>{{localize "RIFTS.Sheet.OCCSummary"}}</h3>
+                <div class="class-summary">
+                  <div><span>{{localize "RIFTS.Sheet.AttributeRequirements"}}</span><strong>{{occRequirementsStatusLabel}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.RequirementsNotMet"}}</span><strong>{{occRequirementsSummary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.SkillSelection"}}</span><strong>{{localize "RIFTS.Skills.OccSkill"}}: {{occSkillSelection.occ}}, {{localize "RIFTS.Sheet.SkillSelectionOccRelated"}}: {{occSkillSelection.related}}, {{localize "RIFTS.Skills.SecondarySkill"}}: {{occSkillSelection.secondary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.OccSkillProgression"}}</span><strong>{{occSkillProgressionSummary.occ}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.OccRelatedProgression"}}</span><strong>{{occSkillProgressionSummary.related}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.SecondarySkillProgression"}}</span><strong>{{occSkillProgressionSummary.secondary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.StartingResources"}}</span><strong>HP {{occStartingResources.hp}}, SDC {{occStartingResources.sdc}}, ISP {{occStartingResources.isp}}, PPE {{occStartingResources.ppe}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.ResourceProgression"}}</span><strong>HP {{#if occResourceProgression.hpPerLevel}}{{occResourceProgression.hpPerLevel}}{{else}}-{{/if}}, SDC {{#if occResourceProgression.sdcPerLevel}}{{occResourceProgression.sdcPerLevel}}{{else}}-{{/if}}, ISP {{#if occResourceProgression.ispPerLevel}}{{occResourceProgression.ispPerLevel}}{{else}}-{{/if}}, PPE {{#if occResourceProgression.ppePerLevel}}{{occResourceProgression.ppePerLevel}}{{else}}-{{/if}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.StartingPowers"}}</span><strong>{{localize "RIFTS.Powers.Spell"}}: {{occStartingSpellsCount}}, {{localize "RIFTS.Powers.Psionic"}}: {{occStartingPsionicsCount}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.SpellProgression"}}</span><strong>{{occSpellProgressionSummary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.PsionicProgression"}}</span><strong>{{occPsionicProgressionSummary}}</strong></div>
+                  <div><span>{{localize "RIFTS.Sheet.StartingCredits"}}</span><strong>{{occStartingCredits.credits}}</strong></div>
+                </div>
+
+                {{#if hasOccAttributeRequirements}}
+                  <div class="item-list">
+                    <div class="item-row class-skill-row item-header">
+                      <span>{{localize "RIFTS.Item.Name"}}</span>
+                      <span>{{localize "RIFTS.Sheet.AttributeRequirements"}}</span>
+                      <span>{{localize "RIFTS.Rolls.Total"}}</span>
+                      <span>{{localize "RIFTS.Sheet.Status"}}</span>
+                    </div>
+                    {{#each occAttributeRequirementRows as |entry|}}
+                      {{#if entry.hasRequirement}}
+                        <div class="item-row class-skill-row">
+                          <span>{{entry.label}}</span>
+                          <span>{{entry.required}}</span>
+                          <span>{{entry.actual}}</span>
+                          <span>{{#if entry.met}}{{localize "RIFTS.Sheet.RequirementsMet"}}{{else}}{{localize "RIFTS.Sheet.RequirementsNotMet"}}{{/if}}</span>
+                        </div>
+                      {{/if}}
+                    {{/each}}
+                  </div>
+                {{else}}
+                  <p>{{localize "RIFTS.Sheet.None"}}</p>
+                {{/if}}
+              </section>
+
+<section class="sheet-section">
+                <h3>{{localize "RIFTS.Augmentation.StartingPackage"}}</h3>
+                <p><strong>{{localize "RIFTS.Sheet.ActiveOCC"}}:</strong> {{#if occAugmentationPackageName}}{{occAugmentationPackageName}}{{else}}{{localize "RIFTS.Sheet.NoActiveOCC"}}{{/if}}</p>
+                {{#if hasOccAugmentationPackage}}
+                  {{#if hasOccPackageBionics}}
+                    <h4>{{localize "RIFTS.Augmentation.Bionics"}}</h4>
+                    <div class="item-list">
+                      <div class="item-row class-package-row item-header">
+                        <span>{{localize "RIFTS.Item.Name"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Slot"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Effects"}}</span>
+                        <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                      </div>
+                      {{#each occPackageBionics as |entry|}}
+                        <div class="item-row class-package-row">
+                          <span>{{entry.name}}</span>
+                          <span>{{#if entry.slot}}{{entry.slot}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>{{#if entry.effectsSummary}}{{entry.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>
+                            {{#if entry.isAdded}}
+                              {{localize "RIFTS.Augmentation.AlreadyInstalled"}}
+                            {{else}}
+                              <button type="button" data-action="add-occ-package-item" data-package-type="{{entry.packageType}}" data-package-index="{{entry.packageIndex}}">{{localize "RIFTS.Augmentation.AddPackageItem"}}</button>
+                            {{/if}}
+                          </span>
+                        </div>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+
+                  {{#if hasOccPackageCybernetics}}
+                    <h4>{{localize "RIFTS.Augmentation.Cybernetics"}}</h4>
+                    <div class="item-list">
+                      <div class="item-row class-package-row item-header">
+                        <span>{{localize "RIFTS.Item.Name"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Slot"}}</span>
+                        <span>{{localize "RIFTS.Augmentation.Effects"}}</span>
+                        <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                      </div>
+                      {{#each occPackageCybernetics as |entry|}}
+                        <div class="item-row class-package-row">
+                          <span>{{entry.name}}</span>
+                          <span>{{#if entry.slot}}{{entry.slot}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>{{#if entry.effectsSummary}}{{entry.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                          <span>
+                            {{#if entry.isAdded}}
+                              {{localize "RIFTS.Augmentation.AlreadyInstalled"}}
+                            {{else}}
+                              <button type="button" data-action="add-occ-package-item" data-package-type="{{entry.packageType}}" data-package-index="{{entry.packageIndex}}">{{localize "RIFTS.Augmentation.AddPackageItem"}}</button>
+                            {{/if}}
+                          </span>
+                        </div>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+                {{else}}
+                  <p>{{localize "RIFTS.Augmentation.NoPackageItems"}}</p>
+                {{/if}}
+              </section>
+
+              <div class="class-overview-scroll">
+
+              <div class="item-list">
+                <div class="item-row class-overview-row item-header">
+                  <span>{{localize "RIFTS.Item.Name"}}</span>
+                  <span>{{localize "RIFTS.Sheet.ClassType"}}</span>
+                  <span>{{localize "RIFTS.Item.Category"}}</span>
+                  <span>{{localize "RIFTS.Progression.ClassXP"}}</span>
+                  <span>{{localize "RIFTS.Sheet.PassiveEffects"}}</span>
+                  <span>{{localize "RIFTS.Sheet.GrantedAbilities"}}</span>
+                  <span>{{localize "RIFTS.Sheet.Primary"}}</span>
+                  <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+                </div>
+                {{#each classItems as |entry|}}
+                  <div class="item-row class-overview-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.typeLabel}}</span>
+                    <span>{{entry.data.category}}</span>
+                    <span>{{entry.data.classXP}}</span>
+                    <span>{{#if entry.data.effectsSummary}}{{entry.data.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                    <span>{{entry.data.grantedAbilitiesCount}}</span>
+                    <span>{{#if entry.data.isActive}}{{localize "RIFTS.Sheet.Primary"}}{{else}}-{{/if}}</span>
+                    <span class="item-actions">
+                      {{#if entry.data.isActive}}
+                        <span>{{localize "RIFTS.Sheet.Primary"}}</span>
+                      {{else}}
+                        <button type="button" data-action="set-primary-class" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.SetPrimary"}}</button>
+                      {{/if}}
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              </div>
+              </div>
+            {{else}}
+              <p>{{localize "RIFTS.Sheet.NoActiveClass"}}</p>
+            {{/if}}
+          </section>
+        {{/if}}
+      </section>
+
+      <section class="tab-panel {{#if isInventoryTab}}active{{/if}}">
+        {{#if isInventoryTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Gear"}}</h2>
+            <div class="item-list">
+              <div class="item-row gear-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Item.Quantity"}}</span>
+                <span>{{localize "RIFTS.Item.Weight"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if gears.length}}
+                {{#each gears as |entry|}}
+                  <div class="item-row gear-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.quantity}}</span>
+                    <span>{{entry.data.weight}}</span>
+                    <span class="item-actions">
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Sheet.NoGear"}}</p>
+              {{/if}}
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Augmentation.Cybernetics"}}</h2>
+            <div class="item-list">
+              <div class="item-row augmentation-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Installed"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Slot"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Effects"}}</span>
+                <span>{{localize "RIFTS.Augmentation.GrantedAbilities"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Source"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if hasCybernetics}}
+                {{#each cybernetics as |entry|}}
+                  <div class="item-row augmentation-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span><input type="checkbox" data-action="toggle-augmentation-installed" data-item-id="{{entry.item.id}}" {{#if entry.data.installed}}checked{{/if}}></span>
+                    <span>{{#if entry.data.slot}}{{entry.data.slot}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                    <span>{{#if entry.data.effectsSummary}}{{entry.data.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                    <span>{{entry.data.grantedCount}}</span>
+                    <span>{{entry.data.sourceLabel}}</span>
+                    <span class="item-actions">
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Augmentation.NoCybernetics"}}</p>
+              {{/if}}
+            </div>
+          </section>
+
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Augmentation.Bionics"}}</h2>
+            <div class="item-list">
+              <div class="item-row augmentation-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Installed"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Slot"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Effects"}}</span>
+                <span>{{localize "RIFTS.Augmentation.GrantedAbilities"}}</span>
+                <span>{{localize "RIFTS.Augmentation.Source"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if hasBionics}}
+                {{#each bionics as |entry|}}
+                  <div class="item-row augmentation-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span><input type="checkbox" data-action="toggle-augmentation-installed" data-item-id="{{entry.item.id}}" {{#if entry.data.installed}}checked{{/if}}></span>
+                    <span>{{#if entry.data.slot}}{{entry.data.slot}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                    <span>{{#if entry.data.effectsSummary}}{{entry.data.effectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                    <span>{{entry.data.grantedCount}}</span>
+                    <span>{{entry.data.sourceLabel}}</span>
+                    <span class="item-actions">
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Augmentation.NoBionics"}}</p>
+              {{/if}}
+            </div>
+          </section>
+        {{/if}}
+      </section>
+
+      <section class="tab-panel {{#if isPowersTab}}active{{/if}}">
+        {{#if isPowersTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Powers"}}</h2>
+            <div class="item-list">
+              <div class="item-row powers-row item-header">
+                <span>{{localize "RIFTS.Item.Name"}}</span>
+                <span>{{localize "RIFTS.Powers.PowerType"}}</span>
+                <span>{{localize "RIFTS.Powers.Cost"}}</span>
+                <span>{{localize "RIFTS.Powers.Range"}}</span>
+                <span>{{localize "RIFTS.Powers.Duration"}}</span>
+                <span>{{localize "RIFTS.Powers.Sustained"}}</span>
+                <span>{{localize "RIFTS.Sheet.Action"}}</span>
+                <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+              </div>
+              {{#if powers.length}}
+                {{#each powers as |entry|}}
+                  <div class="item-row powers-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                    <span>{{entry.item.name}}</span>
+                    <span>{{entry.data.powerTypeLabel}}</span>
+                    <span>{{entry.data.cost}} {{entry.data.costTypeLabel}}</span>
+                    <span>{{#if entry.data.range}}{{entry.data.range}}{{else}}-{{/if}}</span>
+                    <span>{{#if entry.data.duration}}{{entry.data.duration}}{{else}}-{{/if}}</span>
+                    <span>{{#if entry.data.active}}{{localize "RIFTS.Sheet.Active"}}{{else}}{{localize "RIFTS.Sheet.Inactive"}}{{/if}}</span>
+                    <span class="item-actions">
+                      <button type="button" data-action="activate-power" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Powers.Activate"}}</button>
+                      {{#if entry.data.active}}
+                        <button type="button" data-action="deactivate-power" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Powers.Deactivate"}}</button>
+                      {{/if}}
+                    </span>
+                    <span class="item-actions">
+                      <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                      <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                    </span>
+                  </div>
+                {{/each}}
+              {{else}}
+                <p>{{localize "RIFTS.Sheet.NoPowers"}}</p>
+              {{/if}}
+            </div>
+          </section>
+        {{/if}}
+      </section>
+
+      <section class="tab-panel {{#if isNotesTab}}active{{/if}}">
+        {{#if isNotesTab}}
+          <section class="sheet-section">
+            <h2>{{localize "RIFTS.Sheet.Notes"}}</h2>
+            <textarea name="flags.rifts.notes" rows="16">{{sheetNotes}}</textarea>
+          </section>
+        {{/if}}
+      </section>
+    </main>
+
+    <aside class="rifts-right">
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.QuickSummary"}}</h2>
+        <div class="quick-summary">
+          <div><span>{{localize "RIFTS.Sheet.AttacksPerMelee"}}</span><strong>{{apmTotal}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.AttacksRemaining"}}</span><strong>{{apmRemaining}}</strong></div>
+          <div><span>{{localize "RIFTS.Advanced.HoldAction"}}</span><strong>{{heldActionCount}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.ActiveClass"}}</span><strong>{{activeClassName}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.ActiveOCC"}}</span><strong>{{activeOccName}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.ActiveRCC"}}</span><strong>{{activeRccName}}</strong></div>
+          <div><span>{{localize "RIFTS.HandToHand.Style"}}</span><strong>{{activeHandToHandName}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.ActiveArmor"}}</span><strong>{{equippedArmorName}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.ActiveWeapon"}}</span><strong>{{equippedWeaponName}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.Speed"}}</span><strong>{{speedValue}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.Durability"}}</span><strong>{{effectiveDurabilityLabel}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.SizeCategory"}}</span><strong>{{sizeCategoryLabel}}</strong></div>
+        </div>
+      </section>
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Augmentation.Augmentation"}}</h2>
+        <div class="class-summary">
+          <div><span>{{localize "RIFTS.Augmentation.Cybernetics"}}</span><strong>{{cyberneticsInstalled}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.Bionics"}}</span><strong>{{bionicsInstalled}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.Cybernetics"}} {{localize "RIFTS.Augmentation.Effects"}}</span><strong>{{cyberneticEffectsSummary}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.Bionics"}} {{localize "RIFTS.Augmentation.Effects"}}</span><strong>{{bionicEffectsSummary}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.FromOCC"}}</span><strong>{{sourceSummaryFromOcc}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.FromBionics"}}</span><strong>{{sourceSummaryFromBionics}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.FromCybernetics"}}</span><strong>{{sourceSummaryFromCybernetics}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.GrantedAbilities"}}</span><strong>{{actorGrantedAbilitiesLabel}}</strong></div>
+          <div><span>{{localize "RIFTS.Sheet.GrantedSkills"}}</span><strong>{{actorGrantedSkillsLabel}}</strong></div>
+          <div><span>{{localize "RIFTS.Augmentation.Flags"}}</span><strong>{{actorGrantedFlagsLabel}}</strong></div>
+        </div>
+      </section>
+
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.HandToHand.Style"}}</h2>
+        <div class="class-summary">
+          <div><span>{{localize "RIFTS.HandToHand.ActiveStyle"}}</span><strong>{{activeHandToHandName}}</strong></div>
+          <div><span>{{localize "RIFTS.HandToHand.AutoDodgeLevel"}}</span><strong>{{#if activeHandToHandBonuses.autoDodgeLevel}}{{activeHandToHandBonuses.autoDodgeLevel}}{{else}}-{{/if}}</strong></div>
+          <div><span>{{localize "RIFTS.Advanced.AutoDodge"}}</span><strong>{{autoDodgeStatusLabel}}</strong></div>
+          <div><span>{{localize "RIFTS.HandToHand.Bonuses"}}</span><strong>{{activeHandToHandBonusesSummary}}</strong></div>
+        </div>
+
+        {{#if hasHandToHandItems}}
+          <div class="item-list">
+            <div class="item-row class-row item-header">
+              <span>{{localize "RIFTS.Item.Name"}}</span>
+              <span>{{localize "RIFTS.Sheet.Primary"}}</span>
+              <span>{{localize "RIFTS.Sheet.Manage"}}</span>
+            </div>
+            {{#each handToHandItems as |entry|}}
+              <div class="item-row class-row inventory-item-row" data-item-id="{{entry.item.id}}">
+                <span>{{entry.item.name}}</span>
+                <span>{{#if entry.data.isActive}}{{localize "RIFTS.Sheet.Primary"}}{{else}}-{{/if}}</span>
+                <span class="item-actions">
+                  {{#if entry.data.isActive}}
+                    <span>{{localize "RIFTS.Sheet.Primary"}}</span>
+                  {{else}}
+                    <button type="button" data-action="set-active-hth" data-item-id="{{entry.item.id}}">{{localize "RIFTS.HandToHand.SetActiveStyle"}}</button>
+                  {{/if}}
+                  <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
+                  <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>
+                </span>
+              </div>
+            {{/each}}
+          </div>
+        {{else}}
+          <p>{{localize "RIFTS.HandToHand.None"}}</p>
+        {{/if}}
+      </section>
+
+      <section class="sheet-section">
+        <h2>{{localize "RIFTS.Sheet.Details"}}</h2>
+        <div class="grid details-grid">
+          <div class="field">
+            <label>{{localize "RIFTS.Sheet.SizeCategory"}}</label>
+            <select name="system.details.sizeCategory">
+              {{selectOptions sizeCategoryOptions selected=system.details.sizeCategory localize=false}}
+            </select>
+          </div>
+          <div class="field">
+            <label>{{localize "RIFTS.Sheet.ActorAR"}}</label>
+            <input type="number" name="system.combat.ar" value="{{system.combat.ar}}">
+          </div>
+          {{#if canDebugLevelOverride}}
+            <div class="field">
+              <label>{{localize "RIFTS.Progression.OverrideLevel"}}</label>
+              <input type="checkbox" name="system.debug.useLevelOverride" {{#if useLevelOverride}}checked{{/if}}>
+            </div>
+            <div class="field">
+              <label>{{localize "RIFTS.Progression.Level"}}</label>
+              <input type="number" min="1" name="system.debug.overrideLevel" value="{{overrideLevel}}">
+            </div>
+          {{/if}}
+        </div>
+      </section>
+
+      {{#if canRecoveryControls}}
+        <section class="sheet-section">
+          <h2>{{localize "RIFTS.Recovery.Controls"}}</h2>
+          <div class="item-actions">
+            <button type="button" data-action="gm-short-rest">{{localize "RIFTS.Recovery.ShortRest"}}</button>
+            <button type="button" data-action="gm-full-rest">{{localize "RIFTS.Recovery.FullRest"}}</button>
+            <button type="button" data-action="gm-repair-armor">{{localize "RIFTS.Recovery.RepairArmor"}}</button>
+            <button type="button" data-action="gm-reset-apm-sheet">{{localize "RIFTS.Combat.ResetAPM"}}</button>
+            <button type="button" data-action="gm-add-apm-sheet">{{localize "RIFTS.Combat.AddAPM"}}</button>
+          </div>
+          <p class="help-text">{{localize "RIFTS.Recovery.GMOnlyHint"}}</p>
+        </section>
+      {{/if}}
+    </aside>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

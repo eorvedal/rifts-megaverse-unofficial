@@ -1,0 +1,205 @@
+<section class="rifts-bulk-importer">
+  <div class="importer-controls">
+    <div class="field-row">
+      <label for="rifts-import-profile">{{localize "RIFTS.Importer.ContentType"}}</label>
+      <select id="rifts-import-profile" name="profileId">
+        {{#each profiles}}
+          <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="field-row">
+      <label for="rifts-import-format">{{localize "RIFTS.Importer.InputFormat"}}</label>
+      <select id="rifts-import-format" name="inputFormat">
+        {{#each inputFormats}}
+          <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="field-row">
+      <label for="rifts-import-duplicates">{{localize "RIFTS.Importer.DuplicateHandling"}}</label>
+      <select id="rifts-import-duplicates" name="duplicateMode">
+        {{#each duplicateModes}}
+          <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="field-row">
+      <label for="rifts-import-destination">{{localize "RIFTS.Importer.Destination"}}</label>
+      <select id="rifts-import-destination" name="destination">
+        {{#each destinations}}
+          <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    {{#if showCompendiumChoice}}
+      <div class="field-row">
+        <label for="rifts-import-pack">{{localize "RIFTS.Importer.CompendiumPack"}}</label>
+        <select id="rifts-import-pack" name="packId">
+          {{#if compendiumChoices.length}}
+            {{#each compendiumChoices}}
+              <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>
+                {{this.label}}{{#if this.locked}} ({{localize "RIFTS.Importer.Locked"}}){{/if}}
+              </option>
+            {{/each}}
+          {{else}}
+            <option value="">{{localize "RIFTS.Importer.NoCompendiumPacks"}}</option>
+          {{/if}}
+        </select>
+      </div>
+    {{/if}}
+
+    {{#if showWorldFolderChoice}}
+      <div class="field-row">
+        <label for="rifts-import-folder">{{localize "RIFTS.Importer.Folder"}}</label>
+        <select id="rifts-import-folder" name="folderId">
+          {{#each worldFolderChoices}}
+            <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="importer-data-block">
+    <label for="rifts-import-raw">{{localize "RIFTS.Importer.PasteData"}}</label>
+    <textarea id="rifts-import-raw" name="raw" rows="14">{{state.raw}}</textarea>
+  </div>
+
+  <div class="importer-actions">
+    <button type="button" data-action="use-sample">{{localize "RIFTS.Importer.UseTemplate"}}</button>
+    <button type="button" data-action="preview">{{localize "RIFTS.Importer.Preview"}}</button>
+    <button type="button" data-action="import">{{localize "RIFTS.Importer.Import"}}</button>
+  </div>
+
+  <section class="importer-sample">
+    <h3>{{localize "RIFTS.Importer.TemplatePreview"}}</h3>
+    <pre>{{state.sampleTemplate}}</pre>
+  </section>
+
+  {{#if preview}}
+    <section class="importer-preview">
+      <h3>{{localize "RIFTS.Importer.Preview"}}</h3>
+      <div class="importer-summary-grid">
+        <div><strong>{{localize "RIFTS.Importer.ContentType"}}:</strong> {{activeProfileLabel}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Parsed"}}:</strong> {{preview.counts.parsed}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Valid"}}:</strong> {{preview.counts.valid}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Invalid"}}:</strong> {{preview.counts.invalid}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Duplicates"}}:</strong> {{preview.counts.duplicates}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Created"}}:</strong> {{preview.counts.create}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Updated"}}:</strong> {{preview.counts.update}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Skipped"}}:</strong> {{preview.counts.skip}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Errors"}}:</strong> {{preview.counts.errors}}</div>
+      </div>
+
+      {{#if preview.errors.length}}
+        <div class="importer-errors">
+          <strong>{{localize "RIFTS.Importer.Errors"}}</strong>
+          <ul>
+            {{#each preview.errors}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+
+      {{#if previewRows.length}}
+        <div class="importer-row-table">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{localize "RIFTS.Item.Name"}}</th>
+                <th>{{localize "RIFTS.Importer.Action"}}</th>
+                <th>{{localize "RIFTS.Importer.Status"}}</th>
+                <th>{{localize "RIFTS.Importer.Message"}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each previewRows}}
+                <tr>
+                  <td>{{this.rowNumber}}</td>
+                  <td>{{this.name}}</td>
+                  <td>{{this.action}}</td>
+                  <td>{{this.status}}</td>
+                  <td>
+                    {{#if this.errors.length}}
+                      {{this.errors.[0]}}
+                    {{else if this.warnings.length}}
+                      {{this.warnings.[0]}}
+                    {{else if this.summary}}
+                      {{this.summary}}
+                    {{else if this.duplicateName}}
+                      {{this.duplicateName}}
+                    {{else}}
+                      -
+                    {{/if}}
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{/if}}
+    </section>
+  {{/if}}
+
+  {{#if report}}
+    <section class="importer-report">
+      <h3>{{localize "RIFTS.Importer.ImportReport"}}</h3>
+      <div class="importer-summary-grid">
+        <div><strong>{{localize "RIFTS.Importer.Created"}}:</strong> {{report.counts.created}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Updated"}}:</strong> {{report.counts.updated}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Skipped"}}:</strong> {{report.counts.skipped}}</div>
+        <div><strong>{{localize "RIFTS.Importer.Errors"}}:</strong> {{report.counts.errors}}</div>
+      </div>
+
+      {{#if report.errors.length}}
+        <div class="importer-errors">
+          <strong>{{localize "RIFTS.Importer.Errors"}}</strong>
+          <ul>
+            {{#each report.errors}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+
+      {{#if reportRows.length}}
+        <div class="importer-row-table">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{{localize "RIFTS.Item.Name"}}</th>
+                <th>{{localize "RIFTS.Importer.Action"}}</th>
+                <th>{{localize "RIFTS.Importer.Status"}}</th>
+                <th>{{localize "RIFTS.Importer.Message"}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each reportRows}}
+                <tr>
+                  <td>{{this.rowNumber}}</td>
+                  <td>{{this.name}}</td>
+                  <td>{{this.action}}</td>
+                  <td>{{this.status}}</td>
+                  <td>{{this.message}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{/if}}
+    </section>
+  {{/if}}
+</section>
+
+
+
+
+

@@ -1,0 +1,139 @@
+<div class="rifts-attack-card">
+  <h3>{{localize "RIFTS.Combat.AttackCardTitle"}}</h3>
+  <p><strong>{{localize "RIFTS.Combat.Attacker"}}:</strong> {{attackerName}}</p>
+  <p><strong>{{localize "RIFTS.Combat.Weapon"}}:</strong> {{weaponName}}</p>
+  <p><strong>{{localize "RIFTS.Combat.Target"}}:</strong> {{targetName}}</p>
+  <p><strong>{{localize "RIFTS.Combat.AttackerDurability"}}:</strong> {{attackerScaleLabel}}</p>
+  <p><strong>{{localize "RIFTS.Combat.TargetDurability"}}:</strong> {{targetScaleLabel}}</p>
+  <p><strong>{{localize "RIFTS.Combat.AttackType"}}:</strong> {{weaponScaleLabel}}</p>
+  {{#if queueLength}}
+    <p><strong>{{localize "RIFTS.Melee.CurrentMeleeAction"}}:</strong> {{localize "RIFTS.Melee.QueuePosition"}} {{queuePosition}} / {{localize "RIFTS.Melee.QueueLength"}} {{queueLength}} ({{localize "RIFTS.Melee.Pass"}} {{meleePass}})</p>
+  {{/if}}
+  <p><strong>{{localize "RIFTS.Advanced.AdvancedAction"}}:</strong> {{advancedActionLabel}} ({{advancedActionCostLabel}})</p>
+  <p><strong>{{localize "RIFTS.Advanced.FireMode"}}:</strong> {{fireModeLabel}}</p>
+  {{#if isUnarmedManeuver}}
+    <p><strong>{{localize "RIFTS.Unarmed.Strike"}}:</strong> {{unarmedManeuverLabel}}</p>
+    {{#if unarmedManeuverSource}}
+      <p><strong>{{localize "RIFTS.Maneuvers.ManeuverSource"}}:</strong> {{unarmedManeuverSource}}</p>
+    {{/if}}
+    <p><strong>{{localize "RIFTS.Maneuvers.ActionCost"}}:</strong> {{unarmedActionCost}}</p>
+    <p><strong>{{localize "RIFTS.Maneuvers.StrikeModifier"}}:</strong> {{unarmedStrikeModifier}}</p>
+    <p><strong>{{localize "RIFTS.Maneuvers.DamageMultiplier"}}:</strong> x{{unarmedDamageMultiplier}}</p>
+    <p><strong>{{localize "RIFTS.Maneuvers.RequiresHit"}}:</strong> {{#if unarmedRequiresHit}}Yes{{else}}No{{/if}}</p>
+    <p><strong>{{localize "RIFTS.Unarmed.StrengthBonus"}}:</strong> {{unarmedStrengthBonus}}</p>
+    <p><strong>{{localize "RIFTS.HandToHand.DamageBonus"}}:</strong> {{unarmedHandToHandBonus}}</p>
+    <p><strong>{{localize "RIFTS.Item.Damage"}}:</strong> {{unarmedDamageFormula}}</p>
+    {{#if unarmedSpecialRules}}
+      <p><strong>{{localize "RIFTS.Maneuvers.SpecialRules"}}:</strong> {{unarmedSpecialRules}}</p>
+    {{/if}}
+  {{/if}}
+  {{#if hasImpactResult}}
+    <p><strong>{{localize "RIFTS.Impact.PhysicalEffect"}}:</strong></p>
+    <p><strong>{{localize "RIFTS.Impact.SizeInteraction"}}:</strong> {{impactSizeSummary}}</p>
+    <p><strong>{{localize "RIFTS.Impact.Knockdown"}}:</strong> {{impactKnockdownSummary}}</p>
+    <p><strong>{{localize "RIFTS.Impact.Knockback"}}:</strong> {{impactKnockbackSummary}}</p>
+    {{#if impactResistanceSummary}}
+      <p><strong>{{localize "RIFTS.Impact.Resistance"}}:</strong> {{impactResistanceSummary}}</p>
+    {{/if}}
+    {{#if impactTypeSummary}}
+      <p><strong>{{localize "RIFTS.Impact.Impact"}}:</strong> {{impactTypeSummary}}</p>
+    {{/if}}
+  {{/if}}
+  {{#if burstSize}}
+    <p><strong>{{localize "RIFTS.Advanced.BurstSize"}}:</strong> {{burstSize}}</p>
+  {{/if}}
+  {{#if usedHeldAction}}
+    <p><strong>{{localize "RIFTS.Advanced.ReleaseHeldAction"}}:</strong> {{localize "RIFTS.Melee.ActiveNow"}}</p>
+  {{/if}}
+  {{#if ammoSpent}}
+    <p><strong>{{localize "RIFTS.Item.AmmoCurrent"}}:</strong> -{{ammoSpent}} ({{ammoAfter}})</p>
+  {{/if}}
+  <p><strong>{{localize "RIFTS.Sheet.AttacksRemaining"}}:</strong> {{attackerApmRemaining}}</p>
+  <p><strong>{{localize "RIFTS.Rolls.Formula"}}:</strong> {{formula}}</p>
+  <p><strong>{{localize "RIFTS.Rolls.Total"}}:</strong> {{total}}</p>
+  <p><strong>{{localize "RIFTS.Combat.NaturalRoll"}}:</strong> {{natural}}</p>
+  <p><strong>{{localize "RIFTS.Combat.StrikeTotal"}}:</strong> {{strikeTotal}}</p>
+  <p><strong>{{localize "RIFTS.Combat.WeaponBonus"}}:</strong> {{weaponBonus}}</p>
+  <p><strong>{{localize "RIFTS.Advanced.Modifier"}}:</strong> {{attackModifier}}</p>
+  <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{outcomeLabel}}</p>
+  <p><strong>{{localize "RIFTS.Combat.HitLocationLabel"}}:</strong> {{hitLocationLabel}}</p>
+
+  {{#if canReact}}
+    <p><strong>{{localize "RIFTS.Combat.DefenderAPM"}}:</strong> {{defenderApmRemaining}} / {{defenderApmTotal}}</p>
+    <div class="reaction-row">
+      {{#if canParry}}
+        <button
+          type="button"
+          data-action="react-parry"
+          data-defender-id="{{defenderId}}"
+          data-defender-token-id="{{defenderTokenId}}"
+        >{{localize "RIFTS.Rolls.Parry"}} ({{localize "RIFTS.Advanced.Reaction"}})</button>
+      {{/if}}
+      {{#if canDodge}}
+        <button
+          type="button"
+          data-action="react-dodge"
+          data-defender-id="{{defenderId}}"
+          data-defender-token-id="{{defenderTokenId}}"
+          {{#unless canDodgeNow}}disabled{{/unless}}
+        >{{localize "RIFTS.Rolls.Dodge"}} ({{localize "RIFTS.Advanced.CostsAttack"}})</button>
+      {{/if}}
+      {{#if canAutoDodge}}
+        <button
+          type="button"
+          data-action="react-auto-dodge"
+          data-defender-id="{{defenderId}}"
+          data-defender-token-id="{{defenderTokenId}}"
+        >{{localize "RIFTS.Advanced.AutoDodge"}} ({{localize "RIFTS.Advanced.Reaction"}})</button>
+      {{/if}}
+      {{#if canRollWithPunch}}
+        <button
+          type="button"
+          data-action="react-roll-with-punch"
+          data-defender-id="{{defenderId}}"
+          data-defender-token-id="{{defenderTokenId}}"
+        >{{localize "RIFTS.Maneuvers.RollWithPunch"}} ({{localize "RIFTS.Advanced.Reaction"}})</button>
+      {{/if}}
+      {{#if canAllOutDodge}}
+        <button
+          type="button"
+          data-action="react-all-out-dodge"
+          data-defender-id="{{defenderId}}"
+          data-defender-token-id="{{defenderTokenId}}"
+          {{#unless canAllOutDodgeNow}}disabled{{/unless}}
+        >{{localize "RIFTS.Advanced.AllOutDodge"}} ({{localize "RIFTS.Advanced.CostsAttack"}})</button>
+      {{/if}}
+      <button
+        type="button"
+        data-action="gm-reset-apm"
+        data-defender-id="{{defenderId}}"
+        data-defender-token-id="{{defenderTokenId}}"
+      >{{localize "RIFTS.Combat.ResetAPM"}}</button>
+      <button
+        type="button"
+        data-action="gm-add-apm"
+        data-defender-id="{{defenderId}}"
+        data-defender-token-id="{{defenderTokenId}}"
+      >{{localize "RIFTS.Combat.AddAPM"}}</button>
+    </div>
+  {{/if}}
+
+  {{#if canRollDamage}}
+    <button
+      type="button"
+      data-action="roll-damage"
+      data-attacker-id="{{attackerId}}"
+      data-attacker-token-id="{{attackerTokenId}}"
+      data-weapon-id="{{weaponId}}"
+      data-target-id="{{targetId}}"
+      data-target-token-id="{{targetTokenId}}"
+      data-hit-location="{{hitLocation}}"
+      data-is-mega-damage="{{isMegaDamage}}"
+      data-attack-action-key="{{advancedActionKey}}"
+      data-unarmed-maneuver-key="{{unarmedManeuverKey}}"
+      data-unarmed-damage-formula="{{unarmedDamageFormula}}"
+    >{{localize "RIFTS.Combat.RollDamage"}}</button>
+  {{else}}
+    <p>{{localize "RIFTS.Combat.NoDamageWithoutTarget"}}</p>
+  {{/if}}
+</div>
