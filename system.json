@@ -1,8 +1,11 @@
 {
   "id": "rifts-megaverse",
   "title": "Rifts Megaverse (Unofficial)",
-  "description": "Foundry VTT system scaffold for Palladium Rifts-compatible play.",
+  "description": "Foundry VTT system framework for Palladium Rifts-compatible play.",
   "version": "0.1.0",
+    "url": "https://github.com/eorvedal/rifts-megaverse-unofficial",
+  "manifest": "https://raw.githubusercontent.com/eorvedal/rifts-megaverse-unofficial/main/system.json",
+  "download": "https://github.com/eorvedal/rifts-megaverse-unofficial/archive/refs/heads/main.zip",
   "compatibility": {
     "minimum": "13",
     "verified": "13"
