@@ -1,5 +1,6 @@
 import { isXPTableAscending, normalizeXPThresholdTable } from "../services/progression.mjs";
 import { normalizeManeuverPackageEntries, normalizeSpecialManeuverEntry } from "../services/maneuvers.mjs";
+import { normalizeChoicePoolSource, parsePoolSourceInput, poolSourceHasEntries, poolSourceToDisplayValue } from "../services/choice-lists.mjs";
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
@@ -139,94 +140,170 @@ function normalizeRollableFieldInput(value, fallback = 0) {
   return textValue;
 }
 function normalizeChoicePoolInput(value) {
-  if (Array.isArray(value)) return foundry.utils.deepClone(value);
-
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    if (!trimmed) return [];
-
-    try {
-      const parsed = parseJsonLenient(trimmed);
-      if (Array.isArray(parsed)) return foundry.utils.deepClone(parsed);
-      if (parsed && typeof parsed === "object") return [foundry.utils.deepClone(parsed)];
-      return [];
-    } catch (_error) {
-      return [];
-    }
-  }
-
-  if (value && typeof value === "object") {
-    return [foundry.utils.deepClone(value)];
-  }
-
-  return [];
+  return normalizeChoicePoolSource(value);
 }
 
 function parseChoicePoolInput(raw, { poolKey = "" } = {}) {
-  const text = String(raw ?? "").trim();
-  if (!text) return [];
-
-  try {
-    const parsed = parseJsonLenient(text);
-    if (Array.isArray(parsed)) return parsed;
-    if (parsed && typeof parsed === "object") {
-      if (poolKey && Array.isArray(parsed[poolKey])) return parsed[poolKey];
-      if (Array.isArray(parsed.entries)) return parsed.entries;
-      return [parsed];
-    }
-  } catch (_error) {
-    // Fall through to plain text parsing.
-  }
-
-  return text
-    .split(/[\r\n,;]+/)
-    .map((entry) => String(entry ?? "").trim())
-    .map((entry) => entry.replace(/^["']+|["']+$/g, ""))
-    .filter((entry) => entry.length > 0);
+  return parsePoolSourceInput(raw, { poolKey });
 }
 
-function normalizeClassChoiceProgressionInput(value) {
-  const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
-  const out = {};
-  for (const key of CLASS_CHOICE_PROGRESSION_KEYS) {
-    out[key] = normalizeProgressionMapInput(source[key] ?? {});
+
+function normalizeChoiceListFiltersInput(value) {
+  if (value === null || value === undefined) return {};
+
+  let parsed = value;
+  if (typeof parsed === "string") {
+    const raw = parsed.trim();
+    if (!raw) return {};
+    parsed = parseJsonLenient(raw);
   }
+
+  if (Array.isArray(parsed)) {
+    return parsed.length === 0 ? {} : null;
+  }
+
+  if (!parsed || typeof parsed !== "object") return null;
+
+  if (parsed.filters && typeof parsed.filters === "object" && !Array.isArray(parsed.filters)) {
+    return foundry.utils.deepClone(parsed.filters);
+  }
+
+  return foundry.utils.deepClone(parsed);
+}
+function normalizeChoiceTypeKey(value) {
+  const normalized = String(value ?? "").trim().toLowerCase();
+  if (["spell", "spells"].includes(normalized)) return "spells";
+  if (["psionic", "psionics"].includes(normalized)) return "psionics";
+  if (["maneuver", "maneuvers", "specialmaneuver", "specialmaneuvers"].includes(normalized)) return "maneuvers";
+  if (["weaponproficiency", "weaponproficiencies", "wp", "proficiency", "proficiencies"].includes(normalized)) return "weaponProficiencies";
+  if (["package", "packagechoice", "packagechoices"].includes(normalized)) return "packageChoices";
+  if (["optional", "optionalchoice", "optionalchoices"].includes(normalized)) return "optionalChoices";
+  if (["occskill", "occskills"].includes(normalized)) return "occSkills";
+  if (["relatedskill", "relatedskills", "occrelated", "occrelatedskills"].includes(normalized)) return "relatedSkills";
+  if (["secondaryskill", "secondaryskills"].includes(normalized)) return "secondarySkills";
+  return "";
+}
+
+function normalizeListIds(value) {
+  if (Array.isArray(value)) {
+    return [...new Set(value.map((entry) => String(entry ?? "").trim()).filter((entry) => entry.length > 0))];
+  }
+
+  const raw = String(value ?? "").trim();
+  if (!raw) return [];
+
+  return [...new Set(raw.split(/[\r\n,;]+/).map((entry) => String(entry ?? "").trim()).filter((entry) => entry.length > 0))];
+}
+
+function normalizeClassChoiceDefinition(value) {
+  const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
+  const choiceType = normalizeChoiceTypeKey(source.choiceType ?? source.type ?? source.category);
+  const count = Math.max(0, Math.floor(Number(source.count ?? source.numberOfChoices ?? source.choices ?? source.amount ?? 0) || 0));
+  const lists = normalizeListIds(source.lists ?? source.listIds ?? source.listId ?? source.list ?? source.choiceLists);
+
+  if (!choiceType || count <= 0) return null;
+
+  return {
+    choiceType,
+    count,
+    lists
+  };
+}
+
+function extractListIdsFromPoolSource(source) {
+  const normalized = normalizeChoicePoolSource(source);
+  if (normalized?.mode === "list") {
+    const listId = String(normalized.listId ?? "").trim();
+    return listId ? [listId] : [];
+  }
+  return [];
+}
+
+function normalizeClassChoiceProgressionInput(value, { legacyPools = {} } = {}) {
+  const out = {};
+
+  if (Array.isArray(value)) {
+    for (const entry of value) {
+      const sourceEntry = entry && typeof entry === "object" && !Array.isArray(entry) ? entry : {};
+      const level = Math.floor(Number(sourceEntry.level ?? sourceEntry.atLevel ?? sourceEntry.lvl ?? sourceEntry.tier ?? 0) || 0);
+      if (level <= 0) continue;
+
+      const normalized = normalizeClassChoiceDefinition(sourceEntry);
+      if (!normalized) continue;
+
+      out[String(level)] ??= [];
+      out[String(level)].push(normalized);
+    }
+
+    if (Object.keys(out).length > 0) return out;
+  }
+
+  const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
+
+  const levelKeys = Object.keys(source).filter((key) => Math.floor(Number(key) || 0) > 0);
+  if (levelKeys.length > 0) {
+    for (const rawLevel of levelKeys) {
+      const level = Math.floor(Number(rawLevel) || 0);
+      if (level <= 0) continue;
+
+      const rawEntries = Array.isArray(source[rawLevel]) ? source[rawLevel] : [source[rawLevel]];
+      const normalizedEntries = rawEntries
+        .map((entry) => normalizeClassChoiceDefinition(entry))
+        .filter((entry) => Boolean(entry));
+
+      if (normalizedEntries.length > 0) out[String(level)] = normalizedEntries;
+    }
+
+    if (Object.keys(out).length > 0) return out;
+  }
+
+  for (const key of CLASS_CHOICE_LEGACY_KEYS) {
+    const map = normalizeProgressionMapInput(source[key]);
+    const listIds = extractListIdsFromPoolSource(legacyPools[key]);
+
+    for (const [rawLevel, rawCount] of Object.entries(map)) {
+      const level = Math.floor(Number(rawLevel) || 0);
+      const count = Math.max(0, Math.floor(Number(rawCount) || 0));
+      if (level <= 0 || count <= 0) continue;
+
+      out[String(level)] ??= [];
+      out[String(level)].push({
+        choiceType: key,
+        count,
+        lists: foundry.utils.deepClone(listIds)
+      });
+    }
+  }
+
   return out;
 }
-
 function normalizeClassChoicePoolsInput(value) {
   const source = value && typeof value === "object" && !Array.isArray(value) ? value : {};
   const out = {};
+
   for (const key of CLASS_CHOICE_POOL_KEYS) {
-    out[key] = normalizeChoicePoolInput(source[key]);
+    out[key] = normalizeChoicePoolInput(source[key] ?? []);
   }
+
   return out;
 }
+
 function mapHasEntries(value) {
   return Object.keys(normalizeProgressionMapInput(value)).length > 0;
 }
 
-function mergeClassChoiceProgression(systemValue, flagValue) {
-  const system = normalizeClassChoiceProgressionInput(systemValue ?? {});
-  const flags = normalizeClassChoiceProgressionInput(flagValue ?? {});
-  const out = {};
-
-  for (const key of CLASS_CHOICE_PROGRESSION_KEYS) {
-    out[key] = mapHasEntries(flags[key]) ? flags[key] : system[key];
-  }
-
-  return out;
+function mergeClassChoiceProgression(systemValue, flagValue, legacyPools = {}) {
+  const system = normalizeClassChoiceProgressionInput(systemValue ?? {}, { legacyPools });
+  const flags = normalizeClassChoiceProgressionInput(flagValue ?? {}, { legacyPools });
+  return Object.keys(flags).length > 0 ? flags : system;
 }
-
 function mergeClassChoicePools(systemValue, flagValue) {
   const system = normalizeClassChoicePoolsInput(systemValue ?? {});
   const flags = normalizeClassChoicePoolsInput(flagValue ?? {});
   const out = {};
 
   for (const key of CLASS_CHOICE_POOL_KEYS) {
-    out[key] = Array.isArray(flags[key]) && flags[key].length > 0
-      ? flags[key]
-      : system[key];
+    out[key] = poolSourceHasEntries(flags[key]) ? flags[key] : system[key];
   }
 
   return out;
@@ -236,8 +313,8 @@ const AUGMENT_ATTRIBUTE_KEYS = ["iq", "me", "ma", "ps", "pp", "pe", "pb", "spd"]
 const AUGMENT_COMBAT_KEYS = ["strike", "parry", "dodge", "initiative", "apm"];
 const AUGMENT_RESOURCE_KEYS = ["hp", "sdc", "mdc", "ppe", "isp"];
 const OCC_ATTRIBUTE_KEYS = ["iq", "me", "ma", "ps", "pp", "pe", "pb", "spd"];
-const CLASS_CHOICE_PROGRESSION_KEYS = ["spells", "psionics", "maneuvers", "weaponProficiencies", "packageChoices", "optionalChoices"];
-const CLASS_CHOICE_POOL_KEYS = ["spells", "psionics", "maneuvers", "weaponProficiencies", "packageChoices", "optionalChoices"];
+const CLASS_CHOICE_LEGACY_KEYS = ["spells", "psionics", "maneuvers", "weaponProficiencies", "packageChoices", "optionalChoices"];
+const CLASS_CHOICE_POOL_KEYS = [...CLASS_CHOICE_LEGACY_KEYS];
 
 function defaultAugmentationEffects() {
   const attributes = {};
@@ -418,6 +495,127 @@ function normalizeHthManeuverPackageInput(value) {
 
   return normalizeManeuverPackageEntries(parsed);
 }
+
+const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "bodyThrow", "pullRollBonus"]);
+
+function normalizeHthSpecialRulesProgressionInput(value) {
+  let parsed = value;
+  if (typeof parsed === "string") {
+    const trimmed = parsed.trim();
+    if (!trimmed) return {};
+    parsed = parseJsonLenient(trimmed);
+  }
+
+  parsed = unwrapParsedJsonString(parsed);
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    throw new Error("HtH special rules progression must be an object map.");
+  }
+
+  const out = {};
+  for (const [rawLevel, rawRules] of Object.entries(parsed)) {
+    const level = Math.max(1, Math.floor(Number(rawLevel) || 0));
+    if (!Number.isFinite(level) || level <= 0) continue;
+
+    const sourceRules = Array.isArray(rawRules) ? rawRules : [rawRules];
+    const normalizedRules = [];
+    for (const rawRule of sourceRules) {
+      const ruleId = String(rawRule ?? "").trim();
+      if (!ruleId || !HTH_SPECIAL_RULE_IDS.has(ruleId)) continue;
+      if (!normalizedRules.includes(ruleId)) normalizedRules.push(ruleId);
+    }
+
+    if (normalizedRules.length > 0) {
+      out[String(level)] = normalizedRules;
+    }
+  }
+
+  return out;
+}
+function normalizeChoiceListEntryReferences(value) {
+  const seen = new Set();
+  return (Array.isArray(value) ? value : [])
+    .map((entry) => {
+      if (typeof entry === "string") {
+        const uuid = String(entry ?? "").trim();
+        return uuid ? { uuid } : null;
+      }
+
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) return null;
+
+      const uuid = String(entry.uuid ?? entry.itemUuid ?? entry.id ?? "").trim();
+      if (!uuid) return null;
+
+      return {
+        uuid,
+        name: String(entry.name ?? "").trim(),
+        itemType: String(entry.itemType ?? entry.type ?? "").trim()
+      };
+    })
+    .filter((entry) => {
+      if (!entry) return false;
+      const key = entry.uuid.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
+function normalizeChoiceListSourceMode(value) {
+  const mode = String(value ?? "").trim().toLowerCase();
+  return mode === "filter" ? "filter" : "static";
+}
+
+function normalizeChoiceListEntryType(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function matchesChoiceListEntryType(itemType, expectedType) {
+  const normalizedExpected = normalizeChoiceListEntryType(expectedType);
+  if (!normalizedExpected) return true;
+  const normalizedItemType = normalizeChoiceListEntryType(itemType);
+  return normalizedItemType === normalizedExpected;
+}
+
+function makeChoiceListEntryFromItem(item, fallbackUuid = "") {
+  const uuid = String(item?.uuid ?? fallbackUuid ?? "").trim();
+  if (!uuid) return null;
+
+  return {
+    uuid,
+    name: String(item?.name ?? "").trim(),
+    itemType: String(item?.type ?? "").trim()
+  };
+}
+
+async function resolveChoiceListEntryDisplay(entry, index) {
+  const uuid = String(entry?.uuid ?? "").trim();
+  const fallbackName = String(entry?.name ?? "").trim();
+  const fallbackType = String(entry?.itemType ?? "").trim();
+
+  const display = {
+    index,
+    uuid,
+    name: fallbackName || uuid || game.i18n.localize("RIFTS.ChoiceList.UnknownEntry"),
+    itemType: fallbackType,
+    canOpen: false,
+    unresolved: true
+  };
+
+  if (!uuid || typeof fromUuid !== "function") return display;
+
+  try {
+    const document = await fromUuid(uuid);
+    if (document?.documentName !== "Item") return display;
+
+    display.name = String(document.name ?? display.name).trim() || display.name;
+    display.itemType = String(document.type ?? display.itemType).trim();
+    display.canOpen = document.sheet !== null;
+    display.unresolved = false;
+    return display;
+  } catch (_error) {
+    return display;
+  }
+}
 export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
   _listenerAbortController = null;
 
@@ -461,6 +659,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     context.isAugmentation = context.isCybernetic || context.isBionic;
     context.isHandToHand = itemType === "handToHand";
     context.isSpecialManeuver = itemType === "specialManeuver";
+    context.isChoiceList = itemType === "choiceList";
     context.isClassItem = context.isOcc || context.isRcc;
     context.classLabel = context.isOcc
       ? game.i18n.localize("RIFTS.Sheet.OCC")
@@ -506,15 +705,15 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     );
     const choiceProgressionFlags = this.document.getFlag?.(SYSTEM_ID, "choiceProgression") ?? {};
     const choicePoolsFlags = this.document.getFlag?.(SYSTEM_ID, "choicePools") ?? {};
-    const initialChoiceProgression = mergeClassChoiceProgression(this.document.system?.choiceProgression ?? {}, choiceProgressionFlags);
     const initialChoicePools = mergeClassChoicePools(this.document.system?.choicePools ?? {}, choicePoolsFlags);
+    const initialChoiceProgression = mergeClassChoiceProgression(this.document.system?.choiceProgression ?? {}, choiceProgressionFlags, initialChoicePools);
     context.classChoiceProgressionText = stringifyJson(initialChoiceProgression, {});
-    context.classChoicePoolSpellsText = stringifyJson(initialChoicePools.spells, []);
-    context.classChoicePoolPsionicsText = stringifyJson(initialChoicePools.psionics, []);
-    context.classChoicePoolManeuversText = stringifyJson(initialChoicePools.maneuvers, []);
-    context.classChoicePoolWeaponProficienciesText = stringifyJson(initialChoicePools.weaponProficiencies, []);
-    context.classChoicePoolPackageChoicesText = stringifyJson(initialChoicePools.packageChoices, []);
-    context.classChoicePoolOptionalChoicesText = stringifyJson(initialChoicePools.optionalChoices, []);
+    context.classChoicePoolSpellsText = stringifyJson(poolSourceToDisplayValue(initialChoicePools.spells), []);
+    context.classChoicePoolPsionicsText = stringifyJson(poolSourceToDisplayValue(initialChoicePools.psionics), []);
+    context.classChoicePoolManeuversText = stringifyJson(poolSourceToDisplayValue(initialChoicePools.maneuvers), []);
+    context.classChoicePoolWeaponProficienciesText = stringifyJson(poolSourceToDisplayValue(initialChoicePools.weaponProficiencies), []);
+    context.classChoicePoolPackageChoicesText = stringifyJson(poolSourceToDisplayValue(initialChoicePools.packageChoices), []);
+    context.classChoicePoolOptionalChoicesText = stringifyJson(poolSourceToDisplayValue(initialChoicePools.optionalChoices), []);
     context.classAttributeRequirements = {};
     for (const key of OCC_ATTRIBUTE_KEYS) {
       const requirementValue = Number(this.document.system?.attributeRequirements?.[key]);
@@ -599,10 +798,13 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
       context.system.powerProgression.spellProgression = normalizeProgressionMapInput(
         context.system.powerProgression.spellProgression ?? (legacySpellsPerLevel > 0 ? { "1": legacySpellsPerLevel } : {})
       );
-            const classChoiceProgressionFlags = this.document.getFlag?.(SYSTEM_ID, "choiceProgression") ?? {};
+      context.system.powerProgression.psionicProgression = normalizeProgressionMapInput(
+        context.system.powerProgression.psionicProgression ?? (legacyPsionicsPerLevel > 0 ? { "1": legacyPsionicsPerLevel } : {})
+      );
+      const classChoiceProgressionFlags = this.document.getFlag?.(SYSTEM_ID, "choiceProgression") ?? {};
       const classChoicePoolsFlags = this.document.getFlag?.(SYSTEM_ID, "choicePools") ?? {};
-      context.system.choiceProgression = mergeClassChoiceProgression(context.system.choiceProgression ?? {}, classChoiceProgressionFlags);
       context.system.choicePools = mergeClassChoicePools(context.system.choicePools ?? {}, classChoicePoolsFlags);
+      context.system.choiceProgression = mergeClassChoiceProgression(context.system.choiceProgression ?? {}, classChoiceProgressionFlags, context.system.choicePools);
       context.system.startingCredits ??= { credits: 0 };
       context.system.startingCredits.credits = normalizeRollableFieldInput(context.system.startingCredits.credits, 0);
       context.classAttributeRequirements = {};
@@ -617,13 +819,13 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
       context.classOccSkillProgressionText = formatProgressionMapInput(context.system.skillSelection.occProgression);
       context.classRelatedSkillProgressionText = formatProgressionMapInput(context.system.skillSelection.relatedProgression);
       context.classSecondarySkillProgressionText = formatProgressionMapInput(context.system.skillSelection.secondaryProgression);
-            context.classChoiceProgressionText = stringifyJson(context.system.choiceProgression, {});
-      context.classChoicePoolSpellsText = stringifyJson(context.system.choicePools.spells, []);
-      context.classChoicePoolPsionicsText = stringifyJson(context.system.choicePools.psionics, []);
-      context.classChoicePoolManeuversText = stringifyJson(context.system.choicePools.maneuvers, []);
-      context.classChoicePoolWeaponProficienciesText = stringifyJson(context.system.choicePools.weaponProficiencies, []);
-      context.classChoicePoolPackageChoicesText = stringifyJson(context.system.choicePools.packageChoices, []);
-      context.classChoicePoolOptionalChoicesText = stringifyJson(context.system.choicePools.optionalChoices, []);
+      context.classChoiceProgressionText = stringifyJson(context.system.choiceProgression, {});
+      context.classChoicePoolSpellsText = stringifyJson(poolSourceToDisplayValue(context.system.choicePools.spells), []);
+      context.classChoicePoolPsionicsText = stringifyJson(poolSourceToDisplayValue(context.system.choicePools.psionics), []);
+      context.classChoicePoolManeuversText = stringifyJson(poolSourceToDisplayValue(context.system.choicePools.maneuvers), []);
+      context.classChoicePoolWeaponProficienciesText = stringifyJson(poolSourceToDisplayValue(context.system.choicePools.weaponProficiencies), []);
+      context.classChoicePoolPackageChoicesText = stringifyJson(poolSourceToDisplayValue(context.system.choicePools.packageChoices), []);
+      context.classChoicePoolOptionalChoicesText = stringifyJson(poolSourceToDisplayValue(context.system.choicePools.optionalChoices), []);
       context.classEffectsText = stringifyJson(context.system.effects, defaultAugmentationEffects());
       context.classGrantedAbilitiesText = stringifyJson(context.system.grantedAbilities, []);
       context.classGrantedSkillsText = stringifyJson(context.system.grantedSkills, []);
@@ -698,6 +900,11 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
       context.system.maneuverPackage.grantedManeuvers ??= [];
       context.system.progression ??= {};
       context.system.selectionProgression ??= { maneuvers: {} };
+      try {
+        context.system.specialRulesProgression = normalizeHthSpecialRulesProgressionInput(context.system.specialRulesProgression ?? {});
+      } catch (_error) {
+        context.system.specialRulesProgression = {};
+      }
       const hthSelectionFlags = this.document.getFlag?.(SYSTEM_ID, "selectionProgression") ?? {};
       const systemManeuverSelectionProgression = normalizeProgressionMapInput(context.system.selectionProgression.maneuvers ?? {});
       const flagManeuverSelectionProgression = normalizeProgressionMapInput(hthSelectionFlags?.maneuvers ?? {});
@@ -713,6 +920,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         assassin: game.i18n.localize("RIFTS.HandToHand.Assassin")
       };
       context.hthManeuverSelectionProgressionText = formatProgressionMapInput(context.system.selectionProgression.maneuvers);
+      context.hthSpecialRulesProgressionText = stringifyJson(context.system.specialRulesProgression, {});
       context.system.notes = context.system.notes ?? "";
     }
 
@@ -751,6 +959,31 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
       };
     }
 
+    if (context.isChoiceList) {
+      context.system.listId = String(context.system.listId ?? "");
+      context.system.label = String(context.system.label ?? this.document.name ?? "");
+      context.system.entryType = normalizeChoiceListEntryType(context.system.entryType);
+      context.system.sourceMode = normalizeChoiceListSourceMode(context.system.sourceMode);
+      context.system.entries = normalizeChoiceListEntryReferences(context.system.entries ?? []);
+      context.system.staticEntries = Array.isArray(context.system.staticEntries)
+        ? foundry.utils.deepClone(context.system.staticEntries)
+        : [];
+      context.system.filters = (context.system.filters && typeof context.system.filters === "object" && !Array.isArray(context.system.filters))
+        ? foundry.utils.deepClone(context.system.filters)
+        : {};
+      context.system.notes = String(context.system.notes ?? "");
+
+      context.choiceListEntries = [];
+      for (let index = 0; index < context.system.entries.length; index += 1) {
+        const entry = context.system.entries[index];
+        context.choiceListEntries.push(await resolveChoiceListEntryDisplay(entry, index));
+      }
+      context.choiceListHasEntries = context.choiceListEntries.length > 0;
+      context.choiceListStaticEntriesText = stringifyJson(context.system.staticEntries, []);
+      context.choiceListFiltersText = stringifyJson(context.system.filters, {});
+      context.isChoiceListSourceModeStatic = context.system.sourceMode === "static";
+      context.isChoiceListSourceModeFilter = context.system.sourceMode === "filter";
+    }
     context.isPower = itemType === "power";
     if (context.isPower) {
       context.system.powerType = context.system.powerType ?? (context.system.type || "ability");
@@ -894,7 +1127,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
           }
 
           await this.document.update({ "system.progression.xpTable": normalized });
-          event.currentTarget.value = normalized.join(", ");
+          if (event.currentTarget) event.currentTarget.value = normalized.join(", ");
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidXPTableJSON"));
         }
@@ -932,7 +1165,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         const raw = String(event.currentTarget.value ?? "").trim();
         const normalized = normalizeProgressionMapInput(raw);
         await this.document.update({ [`system.skillSelection.${progressionKey}`]: normalized });
-        event.currentTarget.value = stringifyJson(normalized, {});
+        if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, {});
       }, { signal });
     });
 
@@ -944,34 +1177,40 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         const raw = String(event.currentTarget.value ?? "").trim();
         const normalized = normalizeProgressionMapInput(raw);
         await this.document.update({ [`system.powerProgression.${progressionKey}`]: normalized });
-        event.currentTarget.value = stringifyJson(normalized, {});
+        if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, {});
       }, { signal });
     });
-        root.querySelectorAll("[data-action='class-choice-progression']").forEach((field) => {
+    root.querySelectorAll("[data-action='class-choice-progression']").forEach((field) => {
       field.addEventListener("change", async (event) => {
-        const progressionKey = String(event.currentTarget.dataset.progressionKey ?? "all").trim();
-        const raw = String(event.currentTarget.value ?? "").trim();
+        const fieldEl = event.currentTarget;
+        const progressionKey = String(fieldEl?.dataset?.progressionKey ?? "all").trim();
+        const raw = String(fieldEl?.value ?? "").trim();
 
+        const currentPools = mergeClassChoicePools(
+          this.document.system?.choicePools ?? {},
+          this.document.getFlag?.(SYSTEM_ID, "choicePools") ?? {}
+        );
         const current = mergeClassChoiceProgression(
           this.document.system?.choiceProgression ?? {},
-          this.document.getFlag?.(SYSTEM_ID, "choiceProgression") ?? {}
+          this.document.getFlag?.(SYSTEM_ID, "choiceProgression") ?? {},
+          currentPools
         );
         let next = foundry.utils.deepClone(current);
 
+        if (progressionKey !== "all") return;
+
         try {
           if (!raw) {
-            if (progressionKey === "all") next = normalizeClassChoiceProgressionInput({});
-            else if (CLASS_CHOICE_PROGRESSION_KEYS.includes(progressionKey)) next[progressionKey] = {};
-          } else if (progressionKey === "all") {
+            next = normalizeClassChoiceProgressionInput({}, { legacyPools: currentPools });
+          } else {
             const parsed = parseJsonLenient(raw);
-            if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+            if (!parsed || typeof parsed !== "object") {
               throw new Error("Choice progression must be a JSON object.");
             }
-            next = normalizeClassChoiceProgressionInput(parsed);
-          } else if (CLASS_CHOICE_PROGRESSION_KEYS.includes(progressionKey)) {
-            next[progressionKey] = normalizeProgressionMapInput(raw);
-          } else {
-            return;
+            next = normalizeClassChoiceProgressionInput(parsed, { legacyPools: currentPools });
+            if (Object.keys(next).length <= 0) {
+              throw new Error("Choice progression did not resolve any valid level entries.");
+            }
           }
         } catch (_parseError) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidProgressionJSON"));
@@ -1000,7 +1239,53 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
           return;
         }
 
-        event.currentTarget.value = stringifyJson(next, {});
+        if (fieldEl) fieldEl.value = stringifyJson(next, {});
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='class-choice-pool']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const fieldEl = event.currentTarget;
+        const poolKey = String(fieldEl?.dataset?.poolKey ?? "").trim();
+        if (!CLASS_CHOICE_POOL_KEYS.includes(poolKey)) return;
+
+        const raw = String(fieldEl?.value ?? "").trim();
+
+        const current = mergeClassChoicePools(
+          this.document.system?.choicePools ?? {},
+          this.document.getFlag?.(SYSTEM_ID, "choicePools") ?? {}
+        );
+        const next = foundry.utils.deepClone(current);
+
+        try {
+          next[poolKey] = parseChoicePoolInput(raw, { poolKey });
+        } catch (_parseError) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidChoicePoolJSON"));
+          return;
+        }
+
+        let flagSaved = false;
+        let systemSaved = false;
+
+        try {
+          await this.document.setFlag(SYSTEM_ID, "choicePools", next);
+          flagSaved = true;
+        } catch (_flagError) {
+          // Fall back to system path if flag write fails.
+        }
+
+        try {
+          await this.document.update({ "system.choicePools": next });
+          systemSaved = true;
+        } catch (_systemError) {
+          // Flag storage is authoritative fallback for schema-mismatch worlds.
+        }
+
+        if (!flagSaved && !systemSaved) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.ChoicePoolSaveFailed"));
+          return;
+        }
+
+        if (fieldEl) fieldEl.value = stringifyJson(poolSourceToDisplayValue(next[poolKey]), []);
       }, { signal });
     });
     root.querySelectorAll("[data-action='class-attribute-requirement']").forEach((field) => {
@@ -1015,7 +1300,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
           : null;
 
         await this.document.update({ [`system.attributeRequirements.${attributeKey}`]: requirement });
-        event.currentTarget.value = requirement === null ? "" : String(requirement);
+        if (event.currentTarget) event.currentTarget.value = requirement === null ? "" : String(requirement);
       }, { signal });
     });
 
@@ -1037,7 +1322,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
           }
 
           await this.document.update({ [`system.startingPowers.${powerKey}`]: foundry.utils.deepClone(parsed) });
-          event.currentTarget.value = stringifyJson(parsed, []);
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(parsed, []);
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidStartingPowersJSON"));
         }
@@ -1062,7 +1347,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
           }
 
           await this.document.update({ [`system.startingPackages.${packageKey}`]: foundry.utils.deepClone(parsed) });
-          event.currentTarget.value = stringifyJson(parsed, []);
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(parsed, []);
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidSkillPackageJSON"));
         }
@@ -1076,7 +1361,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         try {
           const normalized = normalizeAugmentationEffectsInput(raw);
           await this.document.update({ "system.effects": normalized });
-          event.currentTarget.value = stringifyJson(normalized, defaultAugmentationEffects());
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, defaultAugmentationEffects());
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidAugmentationEffectsJSON"));
         }
@@ -1090,7 +1375,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         try {
           const normalized = normalizeGrantedAbilitiesInput(raw);
           await this.document.update({ "system.grantedAbilities": normalized });
-          event.currentTarget.value = stringifyJson(normalized, []);
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, []);
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidGrantedAbilitiesJSON"));
         }
@@ -1104,7 +1389,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         try {
           const normalized = normalizeGrantedSkillsInput(raw);
           await this.document.update({ "system.grantedSkills": normalized });
-          event.currentTarget.value = stringifyJson(normalized, []);
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, []);
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidGrantedSkillsJSON"));
         }
@@ -1118,7 +1403,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         const raw = String(event.currentTarget.value ?? "").trim();
         const normalized = normalizeProgressionArrayInput(raw);
         await this.document.update({ [`system.progression.${progressionKey}`]: normalized });
-        event.currentTarget.value = normalized.join(", ");
+        if (event.currentTarget) event.currentTarget.value = normalized.join(", ");
       }, { signal });
     });
 
@@ -1141,7 +1426,19 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         } catch (_primaryError) {
           // Flag storage is authoritative fallback for schema-mismatch worlds.
         }
-        event.currentTarget.value = stringifyJson(normalized, {});
+        if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, {});
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='hth-special-rules-progression']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+        try {
+          const normalized = normalizeHthSpecialRulesProgressionInput(raw);
+          await this.document.update({ "system.specialRulesProgression": normalized });
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, {});
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidHthSpecialRulesProgressionJSON"));
+        }
       }, { signal });
     });
     root.querySelectorAll("[data-action='hth-maneuver-package']").forEach((field) => {
@@ -1155,7 +1452,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         try {
           const normalized = normalizeHthManeuverPackageInput(raw);
           await this.document.update({ "system.maneuverPackage.grantedManeuvers": normalized });
-          event.currentTarget.value = stringifyJson(normalized, []);
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, []);
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidManeuverPackageJSON"));
         }
@@ -1170,7 +1467,173 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
           .filter((entry, index, list) => entry.length > 0 && list.findIndex((value) => value.toLowerCase() === entry.toLowerCase()) === index);
 
         await this.document.update({ "system.tags": tags });
-        event.currentTarget.value = tags.join(", ");
+        if (event.currentTarget) event.currentTarget.value = tags.join(", ");
+      }, { signal });
+    });
+    if (this.document.type === "choiceList") {
+      const dropZone = root.querySelector("[data-action='choice-list-drop-zone']");
+      if (dropZone) {
+        dropZone.addEventListener("dragover", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          dropZone.classList.add("is-dragover");
+        }, { signal });
+
+        dropZone.addEventListener("dragleave", () => {
+          dropZone.classList.remove("is-dragover");
+        }, { signal });
+
+        dropZone.addEventListener("drop", async (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          dropZone.classList.remove("is-dragover");
+
+          const textEditorImpl = foundry?.applications?.ux?.TextEditor?.implementation;
+          const dragData = typeof textEditorImpl?.getDragEventData === "function"
+            ? textEditorImpl.getDragEventData(event)
+            : null;
+          if (!dragData || dragData.type !== "Item") {
+            ui.notifications.warn(game.i18n.localize("RIFTS.ChoiceList.InvalidDrop"));
+            return;
+          }
+
+          let itemDocument = null;
+          let itemUuid = String(dragData.uuid ?? "").trim();
+
+          if (itemUuid && typeof fromUuid === "function") {
+            try {
+              itemDocument = await fromUuid(itemUuid);
+            } catch (_error) {
+              itemDocument = null;
+            }
+          }
+
+          if (!itemDocument && dragData.pack && dragData.id && typeof fromUuid === "function") {
+            itemUuid = `Compendium.${dragData.pack}.${dragData.id}`;
+            try {
+              itemDocument = await fromUuid(itemUuid);
+            } catch (_error) {
+              itemDocument = null;
+            }
+          }
+
+          if (!itemDocument && dragData.id) {
+            itemDocument = game.items?.get?.(dragData.id) ?? null;
+            if (itemDocument) itemUuid = String(itemDocument.uuid ?? itemUuid).trim();
+          }
+
+          if (!itemDocument || itemDocument.documentName !== "Item") {
+            ui.notifications.warn(game.i18n.localize("RIFTS.ChoiceList.InvalidDrop"));
+            return;
+          }
+
+          const expectedEntryType = normalizeChoiceListEntryType(this.document.system?.entryType);
+          if (!matchesChoiceListEntryType(itemDocument.type, expectedEntryType)) {
+            ui.notifications.warn(game.i18n.localize("RIFTS.ChoiceList.InvalidEntryType"));
+            return;
+          }
+
+          const nextEntry = makeChoiceListEntryFromItem(itemDocument, itemUuid);
+          if (!nextEntry?.uuid) {
+            ui.notifications.warn(game.i18n.localize("RIFTS.ChoiceList.InvalidDrop"));
+            return;
+          }
+
+          const currentEntries = normalizeChoiceListEntryReferences(this.document.system?.entries ?? []);
+          const duplicate = currentEntries.some((entry) => String(entry?.uuid ?? "").trim().toLowerCase() === nextEntry.uuid.toLowerCase());
+          if (duplicate) {
+            ui.notifications.warn(game.i18n.localize("RIFTS.ChoiceList.DuplicateEntry"));
+            return;
+          }
+
+          await this.document.update({
+            "system.entries": [...currentEntries, nextEntry],
+            "system.sourceMode": "static"
+          });
+        }, { signal });
+      }
+
+      root.querySelectorAll("[data-action='choice-list-remove-entry']").forEach((button) => {
+        button.addEventListener("click", async (event) => {
+          event.preventDefault();
+
+          const entryIndex = Number(event.currentTarget.dataset.entryIndex);
+          if (!Number.isInteger(entryIndex) || entryIndex < 0) return;
+
+          const currentEntries = normalizeChoiceListEntryReferences(this.document.system?.entries ?? []);
+          if (entryIndex >= currentEntries.length) return;
+
+          const nextEntries = currentEntries.filter((_entry, index) => index !== entryIndex);
+          await this.document.update({ "system.entries": nextEntries });
+        }, { signal });
+      });
+
+      root.querySelectorAll("[data-action='choice-list-open-entry']").forEach((button) => {
+        button.addEventListener("click", async (event) => {
+          event.preventDefault();
+
+          const entryIndex = Number(event.currentTarget.dataset.entryIndex);
+          if (!Number.isInteger(entryIndex) || entryIndex < 0) return;
+
+          const currentEntries = normalizeChoiceListEntryReferences(this.document.system?.entries ?? []);
+          const targetEntry = currentEntries[entryIndex];
+          const uuid = String(targetEntry?.uuid ?? "").trim();
+          if (!uuid || typeof fromUuid !== "function") return;
+
+          try {
+            const doc = await fromUuid(uuid);
+            if (doc?.sheet) {
+              doc.sheet.render(true);
+              return;
+            }
+          } catch (_error) {
+            // Fall through to warning.
+          }
+
+          ui.notifications.warn(game.i18n.localize("RIFTS.ChoiceList.EntryOpenUnavailable"));
+        }, { signal });
+      });
+    }
+    root.querySelectorAll("[data-action='choice-list-static-entries']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+        if (!raw) {
+          await this.document.update({ "system.staticEntries": [] });
+          if (event.currentTarget) event.currentTarget.value = stringifyJson([], []);
+          return;
+        }
+
+        try {
+          const parsed = parseJsonLenient(raw);
+          if (!Array.isArray(parsed)) throw new Error("Choice list static entries must be an array.");
+          const cloned = foundry.utils.deepClone(parsed);
+          await this.document.update({ "system.staticEntries": cloned });
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(cloned, []);
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidChoiceListEntriesJSON"));
+        }
+      }, { signal });
+    });
+
+    root.querySelectorAll("[data-action='choice-list-filters']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+        if (!raw) {
+          await this.document.update({ "system.filters": {} });
+          if (event.currentTarget) event.currentTarget.value = stringifyJson({}, {});
+          return;
+        }
+
+        try {
+          const normalized = normalizeChoiceListFiltersInput(raw);
+          if (!normalized || typeof normalized !== "object" || Array.isArray(normalized)) {
+            throw new Error("Choice list filters must be an object.");
+          }
+          await this.document.update({ "system.filters": normalized });
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, {});
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidChoiceListFiltersJSON"));
+        }
       }, { signal });
     });
     root.querySelectorAll("[data-action='augmentation-effects']").forEach((field) => {
@@ -1180,11 +1643,11 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         try {
           const normalized = normalizeAugmentationEffectsInput(raw);
           await this.document.update({ "system.effects": normalized });
-          event.currentTarget.value = stringifyJson(normalized, defaultAugmentationEffects());
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, defaultAugmentationEffects());
         } catch (_error) {
           const fallback = normalizeAugmentationEffectsInput(this.document.system?.effects ?? defaultAugmentationEffects());
           await this.document.update({ "system.effects": fallback });
-          event.currentTarget.value = stringifyJson(fallback, defaultAugmentationEffects());
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(fallback, defaultAugmentationEffects());
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidAugmentationEffectsJSON"));
         }
       }, { signal });
@@ -1197,7 +1660,7 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         try {
           const normalized = normalizeGrantedAbilitiesInput(raw);
           await this.document.update({ "system.grantedAbilities": normalized });
-          event.currentTarget.value = stringifyJson(normalized, []);
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, []);
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidGrantedAbilitiesJSON"));
         }
@@ -1205,6 +1668,17 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     });
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

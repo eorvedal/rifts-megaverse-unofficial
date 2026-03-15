@@ -418,6 +418,7 @@
       "feature",
       "cybernetic",
       "bionic",
+      "choiceList",
       "specialManeuver",
       "handToHand"
     ],
@@ -495,14 +496,7 @@
         "spellProgression": {},
         "psionicProgression": {}
       },
-      "choiceProgression": {
-        "spells": {},
-        "psionics": {},
-        "maneuvers": {},
-        "weaponProficiencies": {},
-        "packageChoices": {},
-        "optionalChoices": {}
-      },
+      "choiceProgression": {},
       "choicePools": {
         "spells": [],
         "psionics": [],
@@ -595,14 +589,7 @@
         "spellProgression": {},
         "psionicProgression": {}
       },
-      "choiceProgression": {
-        "spells": {},
-        "psionics": {},
-        "maneuvers": {},
-        "weaponProficiencies": {},
-        "packageChoices": {},
-        "optionalChoices": {}
-      },
+      "choiceProgression": {},
       "choicePools": {
         "spells": [],
         "psionics": [],
@@ -737,6 +724,16 @@
       },
       "grantedAbilities": []
     },
+    "choiceList": {
+      "listId": "",
+      "label": "",
+      "entryType": "",
+      "sourceMode": "static",
+      "entries": [],
+      "staticEntries": [],
+      "filters": {},
+      "notes": ""
+    },
     "handToHand": {
       "active": false,
       "style": "basic",
@@ -749,13 +746,15 @@
         "autoDodgeLevel": [],
         "damageBonus": []
       },
+      "specialRulesProgression": {},
       "maneuverPackage": {
         "grantedManeuvers": []
       },
       "selectionProgression": {
         "maneuvers": {}
       }
-    },    "specialManeuver": {
+    },
+    "specialManeuver": {
       "key": "",
       "category": "",
       "description": "",
@@ -781,4 +780,9 @@
     }
   }
 }
+
+
+
+
+
 

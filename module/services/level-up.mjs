@@ -1,4 +1,5 @@
 import { normalizeSpecialManeuverEntry, normalizeSpecialManeuverKey } from "./maneuvers.mjs";
+import { normalizeChoicePoolSource, poolSourceHasEntries, resolveChoicePool } from "./choice-lists.mjs";
 
 const SYSTEM_ID = "rifts-megaverse";
 const SESSION_FLAG = "levelUpSession";
@@ -173,30 +174,193 @@ function getSkillPool(actor, skillType) {
   })).filter((entry) => entry.name.length > 0);
 }
 
-function getChoicePoolEntries(activeClass, key) {
+function getSkillChoicePool(actor, activeClass, skillType, { listIds = [] } = {}) {
+  const fromLists = resolveChoiceListEntries(activeClass, listIds, { entryType: "skill" });
+  if (fromLists.length > 0) return fromLists;
+  return getSkillPool(actor, skillType);
+}
+function getChoicePoolSource(activeClass, key) {
   const flagPools = asObject(activeClass?.getFlag?.(SYSTEM_ID, "choicePools"));
-  const flagged = asArray(flagPools[key]);
-  if (flagged.length > 0) return flagged;
+  const flagged = flagPools[key];
+  if (poolSourceHasEntries(flagged)) return clone(flagged);
 
   const classPools = asObject(activeClass?.system?.choicePools);
-  return asArray(classPools[key]);
+  return clone(classPools[key] ?? []);
 }
 
-function getClassChoiceProgression(activeClass) {
-  const classProgression = asObject(activeClass?.system?.choiceProgression);
-  const flagProgression = asObject(activeClass?.getFlag?.(SYSTEM_ID, "choiceProgression"));
-  const keys = ["spells", "psionics", "maneuvers", "weaponProficiencies", "packageChoices", "optionalChoices"];
-  const out = {};
+const LEGACY_CLASS_CHOICE_KEYS = ["spells", "psionics", "maneuvers", "weaponProficiencies", "packageChoices", "optionalChoices"];
 
-  for (const key of keys) {
-    const systemMap = normalizeMap(classProgression[key]);
-    const flagMap = normalizeMap(flagProgression[key]);
-    out[key] = Object.keys(flagMap).length > 0 ? flagMap : systemMap;
+function normalizeChoiceTypeKey(value) {
+  const normalized = normalizeName(value);
+  if (["spell", "spells"].includes(normalized)) return "spells";
+  if (["psionic", "psionics"].includes(normalized)) return "psionics";
+  if (["maneuver", "maneuvers", "specialmaneuver", "specialmaneuvers"].includes(normalized)) return "maneuvers";
+  if (["weaponproficiency", "weaponproficiencies", "wp", "proficiency", "proficiencies"].includes(normalized)) return "weaponProficiencies";
+  if (["package", "packagechoice", "packagechoices"].includes(normalized)) return "packageChoices";
+  if (["optional", "optionalchoice", "optionalchoices"].includes(normalized)) return "optionalChoices";
+  if (["occskill", "occskills"].includes(normalized)) return "occSkills";
+  if (["relatedskill", "relatedskills", "occrelated", "occrelatedskills"].includes(normalized)) return "relatedSkills";
+  if (["secondaryskill", "secondaryskills"].includes(normalized)) return "secondarySkills";
+  return "";
+}
+
+function normalizeListIds(value) {
+  if (Array.isArray(value)) {
+    return [...new Set(value.map((entry) => normalizeText(entry)).filter((entry) => entry.length > 0))];
+  }
+
+  const raw = normalizeText(value);
+  if (!raw) return [];
+
+  return [...new Set(raw.split(/[\r\n,;]+/).map((entry) => normalizeText(entry)).filter((entry) => entry.length > 0))];
+}
+
+function normalizeClassChoiceDefinition(value) {
+  const source = asObject(value);
+  const choiceType = normalizeChoiceTypeKey(source.choiceType ?? source.type ?? source.category);
+  const count = Math.max(0, Math.floor(num(source.count ?? source.numberOfChoices ?? source.choices ?? source.amount, 0)));
+  const lists = normalizeListIds(source.lists ?? source.listIds ?? source.listId ?? source.list ?? source.choiceLists);
+
+  if (!choiceType || count <= 0) return null;
+
+  return {
+    choiceType,
+    count,
+    lists
+  };
+}
+
+function extractListIdsFromPoolSource(source) {
+  const normalized = normalizeChoicePoolSource(source);
+  if (normalized?.mode === "list") {
+    const listId = normalizeText(normalized.listId);
+    return listId ? [listId] : [];
+  }
+  return [];
+}
+
+function dedupePoolEntries(entries) {
+  const seen = new Set();
+  const out = [];
+
+  for (const entry of asArray(entries)) {
+    const key = normalizeName(
+      entry?.payload?.itemUuid
+      || entry?.payload?.itemId
+      || `${normalizeText(entry?.name)}|${normalizeText(entry?.category)}`
+    );
+
+    if (key && seen.has(key)) continue;
+    if (key) seen.add(key);
+    out.push(entry);
   }
 
   return out;
 }
 
+function resolveChoiceListEntries(activeClass, listIds, { entryType = "" } = {}) {
+  const sourceLabel = activeClass?.name || localize("RIFTS.Sheet.ActiveClass");
+  const merged = [];
+
+  for (const listId of normalizeListIds(listIds)) {
+    const resolved = resolveChoicePool({ mode: "list", listId }, {
+      entryType,
+      sourceLabel
+    });
+
+    if (!resolved?.ok && resolved?.error) {
+      console.warn(`${SYSTEM_ID} | ${resolved.error} (${listId})`);
+      continue;
+    }
+
+    merged.push(...asArray(resolved?.entries));
+  }
+
+  return dedupePoolEntries(merged);
+}
+
+function resolveClassChoicePoolEntries(activeClass, key, { entryType = "", listIds = [], allowLegacyFallback = true } = {}) {
+  const fromLists = resolveChoiceListEntries(activeClass, listIds, { entryType });
+  if (fromLists.length > 0) return fromLists;
+  if (normalizeListIds(listIds).length > 0 && !allowLegacyFallback) return [];
+  if (!allowLegacyFallback) return [];
+
+  const source = getChoicePoolSource(activeClass, key);
+  const resolved = resolveChoicePool(source, {
+    entryType,
+    sourceLabel: activeClass?.name || localize("RIFTS.Sheet.ActiveClass")
+  });
+
+  if (!resolved?.ok && resolved?.error) {
+    console.warn(`${SYSTEM_ID} | ${resolved.error} (${key})`);
+  }
+
+  return asArray(resolved?.entries);
+}
+
+function normalizeDirectClassChoiceProgression(rawProgression, { legacyPools = {} } = {}) {
+  const source = asObject(rawProgression);
+  const out = {};
+
+  const levelKeys = Object.keys(source).filter((key) => Math.floor(num(key, 0)) > 0);
+  if (levelKeys.length > 0) {
+    for (const rawLevel of levelKeys) {
+      const level = Math.floor(num(rawLevel, 0));
+      if (level <= 0) continue;
+
+      const rawEntries = Array.isArray(source[rawLevel]) ? source[rawLevel] : [source[rawLevel]];
+      const normalizedEntries = rawEntries
+        .map((entry) => normalizeClassChoiceDefinition(entry))
+        .filter((entry) => Boolean(entry));
+
+      if (normalizedEntries.length > 0) {
+        out[String(level)] = normalizedEntries;
+      }
+    }
+
+    if (Object.keys(out).length > 0) return out;
+  }
+
+  for (const key of LEGACY_CLASS_CHOICE_KEYS) {
+    const map = normalizeMap(source[key]);
+    if (Object.keys(map).length <= 0) continue;
+
+    const lists = extractListIdsFromPoolSource(legacyPools[key]);
+
+    for (const [levelKey, countValue] of Object.entries(map)) {
+      const level = Math.floor(num(levelKey, 0));
+      const count = Math.max(0, Math.floor(num(countValue, 0)));
+      if (level <= 0 || count <= 0) continue;
+
+      out[String(level)] ??= [];
+      out[String(level)].push({
+        choiceType: key,
+        count,
+        lists: clone(lists)
+      });
+    }
+  }
+
+  return out;
+}
+
+function getClassChoiceProgression(activeClass) {
+  const classProgression = asObject(activeClass?.system?.choiceProgression);
+  const flagProgression = asObject(activeClass?.getFlag?.(SYSTEM_ID, "choiceProgression"));
+  const classPools = asObject(activeClass?.system?.choicePools);
+  const flagPools = asObject(activeClass?.getFlag?.(SYSTEM_ID, "choicePools"));
+
+  const mergedLegacyPools = {};
+  for (const key of LEGACY_CLASS_CHOICE_KEYS) {
+    const flagged = flagPools[key];
+    mergedLegacyPools[key] = poolSourceHasEntries(flagged) ? clone(flagged) : clone(classPools[key] ?? []);
+  }
+
+  const flaggedDirect = normalizeDirectClassChoiceProgression(flagProgression, { legacyPools: mergedLegacyPools });
+  if (Object.keys(flaggedDirect).length > 0) return flaggedDirect;
+
+  return normalizeDirectClassChoiceProgression(classProgression, { legacyPools: mergedLegacyPools });
+}
 function getHthSelectionProgression(activeHth) {
   const systemSelection = normalizeMap(asObject(activeHth?.system?.selectionProgression).maneuvers);
   const flagSelection = normalizeMap(asObject(asObject(activeHth?.getFlag?.(SYSTEM_ID, "selectionProgression")).maneuvers));
@@ -208,26 +372,26 @@ function normalizeClassPoolEntry(entry) {
   return asObject(entry);
 }
 
-function getPowerPool(activeClass, category) {
+function getPowerPool(activeClass, category, { listIds = [], allowLegacyFallback = true } = {}) {
   const type = normalizeName(category) === "spell" ? "spell" : "psionic";
   const classPoolKey = type === "spell" ? "spells" : "psionics";
-  const classEntries = getChoicePoolEntries(activeClass, classPoolKey);
+  const classEntries = resolveClassChoicePoolEntries(activeClass, classPoolKey, { entryType: "power", listIds, allowLegacyFallback });
 
   if (classEntries.length > 0) {
     return classEntries
       .map((entry, idx) => {
-        const item = normalizeClassPoolEntry(entry);
-        const itemId = normalizeText(item.itemId || item.id);
+        const item = normalizeClassPoolEntry(entry?.payload ?? entry);
+        const itemId = normalizeText(item.itemId || item.id || entry?.payload?.itemId);
         const worldItem = itemId ? game?.items?.get?.(itemId) : null;
-        const name = normalizeText(item.name || worldItem?.name);
+        const name = normalizeText(entry?.name || item.name || worldItem?.name);
         if (!name) return null;
 
         return {
-          entryId: `power:${classPoolKey}:${idx}`,
+          entryId: normalizeText(entry?.entryId) || `power:${classPoolKey}:${idx}`,
           name,
-          category: normalizeText(item.category || worldItem?.system?.subType),
-          detail: normalizeText(item.detail || item.description),
-          source: activeClass?.name || localize("RIFTS.Sheet.ActiveClass"),
+          category: normalizeText(entry?.category || item.category || worldItem?.system?.subType),
+          detail: normalizeText(entry?.detail || item.detail || item.description),
+          source: normalizeText(entry?.source || activeClass?.name || localize("RIFTS.Sheet.ActiveClass")),
           payload: {
             itemId: worldItem?.id || itemId,
             powerType: type,
@@ -246,6 +410,8 @@ function getPowerPool(activeClass, category) {
       .filter((entry) => entry && entry.name.length > 0);
   }
 
+  if (normalizeListIds(listIds).length > 0 && !allowLegacyFallback) return [];
+
   return (game?.items?.filter?.((item) => item.type === "power") ?? [])
     .filter((item) => normalizeName(item.system?.powerType) === type)
     .map((item) => ({
@@ -261,8 +427,8 @@ function getPowerPool(activeClass, category) {
     }));
 }
 
-function getManeuverPool(actor, activeClass, hth, level) {
-  const stylePool = hth
+function getManeuverPool(actor, activeClass, hth, level, { listIds = [], includeStylePool = true, allowLegacyFallback = true } = {}) {
+  const stylePool = includeStylePool && hth
     ? asArray(hth.system?.maneuverPackage?.grantedManeuvers)
       .map((entry, index) => ({ normalized: normalizeSpecialManeuverEntry(entry), index }))
       .filter((entry) => entry.normalized.name && level >= Math.max(1, Math.floor(num(entry.normalized.minLevel, 1))))
@@ -279,10 +445,10 @@ function getManeuverPool(actor, activeClass, hth, level) {
       }))
     : [];
 
-  const classPool = getChoicePoolEntries(activeClass, "maneuvers")
+  const classPool = resolveClassChoicePoolEntries(activeClass, "maneuvers", { entryType: "specialManeuver", listIds, allowLegacyFallback })
     .map((entry, idx) => {
-      const item = normalizeClassPoolEntry(entry);
-      const itemId = normalizeText(item.itemId || item.id);
+      const item = normalizeClassPoolEntry(entry?.payload ?? entry);
+      const itemId = normalizeText(item.itemId || item.id || entry?.payload?.itemId);
       const worldItem = itemId ? game?.items?.get?.(itemId) : null;
       const normalized = worldItem?.type === "specialManeuver"
         ? normalizeSpecialManeuverEntry({
@@ -295,11 +461,11 @@ function getManeuverPool(actor, activeClass, hth, level) {
       if (level < Math.max(1, Math.floor(num(normalized.minLevel, 1)))) return null;
 
       return {
-        entryId: `maneuver:${idx}`,
+        entryId: normalizeText(entry?.entryId) || `maneuver:${idx}`,
         name: normalized.name,
         category: normalizeText(normalized.category),
         detail: `${localize("RIFTS.Maneuvers.ActionCost")}: ${normalized.actionCost}`,
-        source: activeClass?.name || localize("RIFTS.Sheet.ActiveClass"),
+        source: normalizeText(entry?.source || activeClass?.name || localize("RIFTS.Sheet.ActiveClass")),
         payload: {
           itemId: worldItem?.id || itemId,
           maneuver: clone(normalized)
@@ -319,47 +485,53 @@ function getManeuverPool(actor, activeClass, hth, level) {
   });
 }
 
-function getProficiencyPool(activeClass) {
-  return getChoicePoolEntries(activeClass, "weaponProficiencies")
+function getProficiencyPool(activeClass, { listIds = [], allowLegacyFallback = true } = {}) {
+  return resolveClassChoicePoolEntries(activeClass, "weaponProficiencies", { entryType: "feature", listIds, allowLegacyFallback })
     .map((entry, idx) => {
-      const item = normalizeClassPoolEntry(entry);
-      const name = normalizeText(item.name);
+      const item = normalizeClassPoolEntry(entry?.payload ?? entry);
+      const itemId = normalizeText(item.itemId || item.id || entry?.payload?.itemId);
+      const worldItem = itemId ? game?.items?.get?.(itemId) : null;
+      const name = normalizeText(entry?.name || item.name || worldItem?.name);
       if (!name) return null;
-
       return {
-        entryId: `wp:${idx}`,
+        entryId: normalizeText(entry?.entryId) || `wp:${idx}`,
         name,
-        category: normalizeText(item.category),
-        detail: normalizeText(item.description),
-        source: activeClass?.name || localize("RIFTS.Sheet.ActiveClass"),
+        category: normalizeText(entry?.category || item.category || worldItem?.system?.category),
+        detail: normalizeText(entry?.detail || item.description || worldItem?.system?.description),
+        source: normalizeText(entry?.source || activeClass?.name || localize("RIFTS.Sheet.ActiveClass")),
         payload: {
+          itemId: worldItem?.id || itemId,
           itemType: "feature",
           name,
-          description: normalizeText(item.description)
+          description: normalizeText(entry?.detail || item.description || worldItem?.system?.description)
         }
       };
     })
     .filter((entry) => entry && entry.name.length > 0);
 }
 
-function getPackagePool(activeClass, key = "packageChoices") {
-  return getChoicePoolEntries(activeClass, key)
+function getPackagePool(activeClass, key = "packageChoices", { listIds = [], allowLegacyFallback = true } = {}) {
+  return resolveClassChoicePoolEntries(activeClass, key, { entryType: "", listIds, allowLegacyFallback })
     .map((entry, idx) => {
-      const item = normalizeClassPoolEntry(entry);
-      const name = normalizeText(item.name);
+      const item = normalizeClassPoolEntry(entry?.payload ?? entry);
+      const itemId = normalizeText(item.itemId || item.id || entry?.payload?.itemId);
+      const worldItem = itemId ? game?.items?.get?.(itemId) : null;
+      const name = normalizeText(entry?.name || item.name || worldItem?.name);
       if (!name) return null;
-
       return {
-        entryId: `pkg:${key}:${idx}`,
+        entryId: normalizeText(entry?.entryId) || `pkg:${key}:${idx}`,
         name,
-        category: normalizeText(item.category),
-        detail: normalizeText(item.detail || item.description),
-        source: activeClass?.name || localize("RIFTS.Sheet.ActiveClass"),
+        category: normalizeText(entry?.category || item.category || worldItem?.system?.category),
+        detail: normalizeText(entry?.detail || item.detail || item.description || worldItem?.system?.description),
+        source: normalizeText(entry?.source || activeClass?.name || localize("RIFTS.Sheet.ActiveClass")),
         payload: {
-          itemType: normalizeText(item.itemType || "feature") || "feature",
+          itemId: worldItem?.id || itemId,
+          itemType: normalizeText(item.itemType || worldItem?.type || "feature") || "feature",
           name,
-          description: normalizeText(item.description),
-          system: item.system && typeof item.system === "object" ? clone(item.system) : {}
+          description: normalizeText(entry?.detail || item.description || worldItem?.system?.description),
+          system: item.system && typeof item.system === "object"
+            ? clone(item.system)
+            : (worldItem?.system && typeof worldItem.system === "object" ? clone(worldItem.system) : {})
         }
       };
     })
@@ -490,23 +662,69 @@ function buildSession(actor, rawState) {
     const secondary = (l === 1 ? Math.floor(num(classSkillSelection.secondary, 0)) : 0) + mapAt(classSkillSelection.secondaryProgression, l);
     if (secondary > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "skill", category: "secondary", count: secondary, label: localize("RIFTS.SelectionDialog.AvailableSecondarySkills"), optional: false, pool: getSkillPool(actor, "secondary") }));
 
-    const spells = mapAt(classPowerProgression.spellProgression, l) + mapAt(classChoiceProgression.spells, l);
-    if (spells > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "spell", category: "spell", count: spells, label: localize("RIFTS.LevelUp.Spells"), optional: false, pool: getPowerPool(activeClass, "spell") }));
+    const classChoicesAtLevel = asArray(classChoiceProgression[String(l)]);
+    const hasDirectSpells = classChoicesAtLevel.some((entry) => normalizeChoiceTypeKey(entry?.choiceType) === "spells");
+    const hasDirectPsionics = classChoicesAtLevel.some((entry) => normalizeChoiceTypeKey(entry?.choiceType) === "psionics");
 
-    const psionics = mapAt(classPowerProgression.psionicProgression, l) + mapAt(classChoiceProgression.psionics, l);
-    if (psionics > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "psionic", category: "psionic", count: psionics, label: localize("RIFTS.LevelUp.Psionics"), optional: false, pool: getPowerPool(activeClass, "psionic") }));
+    const spells = mapAt(classPowerProgression.spellProgression, l);
+    if (!hasDirectSpells && spells > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "spell", category: "spell", count: spells, label: localize("RIFTS.LevelUp.Spells"), optional: false, pool: getPowerPool(activeClass, "spell", { listIds: [], allowLegacyFallback: true }) }));
 
-    const maneuvers = mapAt(hthSelectionProgression, l) + mapAt(classChoiceProgression.maneuvers, l);
-    if (maneuvers > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: "handToHand", sourceId: activeHth?.id || "", sourceName: activeHth?.name || "", level: l, choiceType: "maneuver", category: "specialManeuver", count: maneuvers, label: localize("RIFTS.LevelUp.Maneuvers"), optional: false, pool: getManeuverPool(actor, activeClass, activeHth, l) }));
+    const psionics = mapAt(classPowerProgression.psionicProgression, l);
+    if (!hasDirectPsionics && psionics > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "psionic", category: "psionic", count: psionics, label: localize("RIFTS.LevelUp.Psionics"), optional: false, pool: getPowerPool(activeClass, "psionic", { listIds: [], allowLegacyFallback: true }) }));
 
-    const proficiencies = mapAt(classChoiceProgression.weaponProficiencies, l);
-    if (proficiencies > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "weaponProficiency", category: "weaponProficiency", count: proficiencies, label: localize("RIFTS.LevelUp.WeaponProficiencies"), optional: false, pool: getProficiencyPool(activeClass) }));
+    const hthManeuvers = mapAt(hthSelectionProgression, l);
+    if (hthManeuvers > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: "handToHand", sourceId: activeHth?.id || "", sourceName: activeHth?.name || "", level: l, choiceType: "maneuver", category: "specialManeuver", count: hthManeuvers, label: localize("RIFTS.LevelUp.Maneuvers"), optional: false, pool: getManeuverPool(actor, activeClass, activeHth, l, { listIds: [], includeStylePool: true, allowLegacyFallback: false }) }));
 
-    const packages = mapAt(classChoiceProgression.packageChoices, l);
-    if (packages > 0) requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "package", category: "package", count: packages, label: localize("RIFTS.LevelUp.PackageChoices"), optional: false, pool: getPackagePool(activeClass) }));
+    for (const choiceDef of classChoicesAtLevel) {
+      const choiceType = normalizeChoiceTypeKey(choiceDef?.choiceType);
+      const count = Math.max(0, Math.floor(num(choiceDef?.count, 0)));
+      const listIds = normalizeListIds(choiceDef?.lists);
+      if (!choiceType || count <= 0) continue;
 
-    const optional = mapAt(classChoiceProgression.optionalChoices, l);
-    if (optional > 0) optionalChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "package", category: "optional", count: optional, label: localize("RIFTS.LevelUp.OptionalChoices"), optional: true, pool: getPackagePool(activeClass, "optionalChoices") }));
+      if (choiceType === "spells") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "spell", category: "spell", count, label: localize("RIFTS.LevelUp.Spells"), optional: false, pool: getPowerPool(activeClass, "spell", { listIds, allowLegacyFallback: true }) }));
+        continue;
+      }
+
+      if (choiceType === "psionics") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "psionic", category: "psionic", count, label: localize("RIFTS.LevelUp.Psionics"), optional: false, pool: getPowerPool(activeClass, "psionic", { listIds, allowLegacyFallback: true }) }));
+        continue;
+      }
+
+      if (choiceType === "maneuvers") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "maneuver", category: "specialManeuver", count, label: localize("RIFTS.LevelUp.Maneuvers"), optional: false, pool: getManeuverPool(actor, activeClass, activeHth, l, { listIds, includeStylePool: false, allowLegacyFallback: true }) }));
+        continue;
+      }
+
+      if (choiceType === "weaponProficiencies") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "weaponProficiency", category: "weaponProficiency", count, label: localize("RIFTS.LevelUp.WeaponProficiencies"), optional: false, pool: getProficiencyPool(activeClass, { listIds, allowLegacyFallback: true }) }));
+        continue;
+      }
+
+      if (choiceType === "packageChoices") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "package", category: "package", count, label: localize("RIFTS.LevelUp.PackageChoices"), optional: false, pool: getPackagePool(activeClass, "packageChoices", { listIds, allowLegacyFallback: true }) }));
+        continue;
+      }
+
+      if (choiceType === "optionalChoices") {
+        optionalChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "package", category: "optional", count, label: localize("RIFTS.LevelUp.OptionalChoices"), optional: true, pool: getPackagePool(activeClass, "optionalChoices", { listIds, allowLegacyFallback: true }) }));
+        continue;
+      }
+
+      if (choiceType === "occSkills") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "skill", category: "occ", count, label: localize("RIFTS.SelectionDialog.AvailableOccSkills"), optional: false, pool: getSkillChoicePool(actor, activeClass, "occ", { listIds }) }));
+        continue;
+      }
+
+      if (choiceType === "relatedSkills") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "skill", category: "related", count, label: localize("RIFTS.SelectionDialog.AvailableRelatedSkills"), optional: false, pool: getSkillChoicePool(actor, activeClass, "related", { listIds }) }));
+        continue;
+      }
+
+      if (choiceType === "secondarySkills") {
+        requiredChoices.push(buildChoice(actor, state, { sourceType: activeClass?.type || "occ", sourceId: activeClass?.id || "", sourceName: activeClass?.name || "", level: l, choiceType: "skill", category: "secondary", count, label: localize("RIFTS.SelectionDialog.AvailableSecondarySkills"), optional: false, pool: getSkillChoicePool(actor, activeClass, "secondary", { listIds }) }));
+      }
+    }
   }
 
   const automaticGains = [];
@@ -544,7 +762,7 @@ function buildSession(actor, rawState) {
       }
     }
 
-    const unlocked = getManeuverPool(actor, activeClass, activeHth, l).filter((entry) => {
+    const unlocked = getManeuverPool(actor, activeClass, activeHth, l, { listIds: [], includeStylePool: true, allowLegacyFallback: false }).filter((entry) => {
       const idx = Number(String(entry.entryId).split(":")[1]);
       const raw = asArray(activeHth?.system?.maneuverPackage?.grantedManeuvers)[idx];
       return Math.max(1, Math.floor(num(raw?.minLevel, 1))) === l;
@@ -753,42 +971,69 @@ async function applyManeuverChoice(actor, choice, poolEntry) {
 
 async function applyWeaponProficiencyChoice(actor, poolEntry) {
   const payload = asObject(poolEntry?.payload);
-  const name = normalizeText(poolEntry?.name || payload.name);
+  const itemId = normalizeText(payload.itemId);
+  const source = itemId ? game?.items?.get?.(itemId) : null;
+  const name = normalizeText(poolEntry?.name || payload.name || source?.name);
   if (!name) return { status: "invalid-entry" };
 
   const duplicate = actor.items.find((item) => item.type === "feature" && normalizeName(item.name) === normalizeName(name));
   if (duplicate) return { status: "duplicate", duplicate };
 
-  const created = await actor.createEmbeddedDocuments("Item", [{
+  const itemData = source ? source.toObject() : {
     name,
     type: "feature",
     system: {
       description: normalizeText(payload.description || poolEntry?.detail || "Weapon proficiency")
     }
-  }]);
+  };
 
+  delete itemData._id;
+  itemData.name = name;
+  itemData.type = "feature";
+  itemData.system ??= {};
+  if (!itemData.system.description) {
+    itemData.system.description = normalizeText(payload.description || poolEntry?.detail || "Weapon proficiency");
+  }
+
+  const created = await actor.createEmbeddedDocuments("Item", [itemData]);
   return { status: "created", created: created?.[0] ?? null };
 }
 
 async function applyPackageChoice(actor, poolEntry) {
   const payload = asObject(poolEntry?.payload);
-  const itemType = normalizeText(payload.itemType || "feature") || "feature";
-  const type = CONFIG?.RIFTS?.itemTypes?.includes?.(itemType) ? itemType : "feature";
-  const name = normalizeText(poolEntry?.name || payload.name);
+  const itemId = normalizeText(payload.itemId);
+  const source = itemId ? game?.items?.get?.(itemId) : null;
+  const fallbackType = normalizeText(payload.itemType || "feature") || "feature";
+  const resolvedSourceType = source?.type || fallbackType;
+  const type = CONFIG?.RIFTS?.itemTypes?.includes?.(resolvedSourceType) ? resolvedSourceType : "feature";
+  const name = normalizeText(poolEntry?.name || payload.name || source?.name);
   if (!name) return { status: "invalid-entry" };
 
   const duplicate = actor.items.find((item) => item.type === type && normalizeName(item.name) === normalizeName(name));
   if (duplicate) return { status: "duplicate", duplicate };
 
-  const created = await actor.createEmbeddedDocuments("Item", [{
+  const itemData = source ? source.toObject() : {
     name,
     type,
     system: payload.system && typeof payload.system === "object" ? clone(payload.system) : {}
-  }]);
+  };
 
+  delete itemData._id;
+  itemData.name = name;
+  itemData.type = type;
+
+  if (!source) {
+    itemData.system = payload.system && typeof payload.system === "object" ? clone(payload.system) : {};
+  } else if (payload.system && typeof payload.system === "object") {
+    itemData.system = {
+      ...(itemData.system && typeof itemData.system === "object" ? clone(itemData.system) : {}),
+      ...clone(payload.system)
+    };
+  }
+
+  const created = await actor.createEmbeddedDocuments("Item", [itemData]);
   return { status: "created", created: created?.[0] ?? null };
 }
-
 async function applyChoice(actor, choice, poolEntry) {
   if (choice.choiceType === "skill") return applySkillChoice(actor, choice, poolEntry);
   if (choice.choiceType === "spell" || choice.choiceType === "psionic") return applyPowerChoice(actor, choice, poolEntry);
@@ -954,6 +1199,14 @@ export async function finalizeLevelUpSession(actor, { force = false } = {}) {
   await setSessionState(actor, nextState);
   return { status: "complete", session: await getLevelUpSession(actor, { persist: false }) };
 }
+
+
+
+
+
+
+
+
 
 
 

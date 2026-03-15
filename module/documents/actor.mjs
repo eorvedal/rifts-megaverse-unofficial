@@ -275,6 +275,125 @@ function getHandToHandBonuses(handToHandItem, level) {
   };
 }
 
+const HTH_SPECIAL_RULE_KEYS = ["kickAttack", "critRange19", "bodyThrow", "pullRollBonus"];
+
+function getDefaultHandToHandSpecialRules() {
+  return {
+    kickAttack: false,
+    critRange19: false,
+    bodyThrow: false,
+    pullRollBonus: false,
+    critRange: 20,
+    pullRollBonusValue: 0,
+    unlocked: []
+  };
+}
+
+function normalizeHandToHandSpecialRuleId(value) {
+  const normalized = normalizeName(value);
+  if (!normalized) return "";
+
+  if (["kickattack", "kick", "kick-attack"].includes(normalized)) return "kickAttack";
+  if (["critrange19", "crit19", "critical19", "criticalstrike19"].includes(normalized)) return "critRange19";
+  if (["bodythrow", "bodyflip", "bodythrowflip", "judo-style-body-throw", "judo-style-body-flip"].includes(normalized)) return "bodyThrow";
+  if (["pullrollbonus", "pullroll", "pull-roll", "pull-roll-bonus", "pullpunchbonus", "rollwithpunchbonus"].includes(normalized)) return "pullRollBonus";
+
+  return "";
+}
+
+function normalizeHandToHandSpecialRulesList(rawRules) {
+  const source = Array.isArray(rawRules) ? rawRules : [rawRules];
+  const normalized = [];
+
+  for (const entry of source) {
+    const candidate = entry && typeof entry === "object" && !Array.isArray(entry)
+      ? (entry.rule ?? entry.id ?? entry.key ?? entry.name)
+      : entry;
+    const ruleId = normalizeHandToHandSpecialRuleId(candidate);
+    if (!ruleId) continue;
+    if (normalized.includes(ruleId)) continue;
+    normalized.push(ruleId);
+  }
+
+  return normalized;
+}
+
+function normalizeHandToHandSpecialRulesProgression(rawProgression) {
+  const parsed = parseProgressionData(rawProgression);
+  const out = {};
+
+  if (!parsed) return out;
+
+  if (Array.isArray(parsed)) {
+    for (const entry of parsed) {
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) continue;
+      const level = parsePositiveLevel(entry.level ?? entry.atLevel ?? entry.lvl ?? entry.threshold);
+      if (!level) continue;
+
+      const ruleList = normalizeHandToHandSpecialRulesList(
+        entry.rules ?? entry.ruleIds ?? entry.rule ?? entry.id ?? entry.key
+      );
+      if (ruleList.length <= 0) continue;
+      out[String(level)] = ruleList;
+    }
+
+    return out;
+  }
+
+  if (parsed && typeof parsed === "object") {
+    for (const [levelKey, rawRules] of Object.entries(parsed)) {
+      const level = parsePositiveLevel(levelKey);
+      if (!level) continue;
+      const ruleList = normalizeHandToHandSpecialRulesList(rawRules);
+      if (ruleList.length <= 0) continue;
+      out[String(level)] = ruleList;
+    }
+  }
+
+  return out;
+}
+
+function getUnlockedHandToHandSpecialRuleIds(rawProgression, level) {
+  const normalized = normalizeHandToHandSpecialRulesProgression(rawProgression);
+  const actorLevel = Math.max(1, Math.floor(num(level, 1)));
+  const unlocked = [];
+
+  const sortedLevels = Object.keys(normalized)
+    .map((key) => parsePositiveLevel(key))
+    .filter((entry) => Number.isFinite(entry) && entry > 0)
+    .sort((a, b) => a - b);
+
+  for (const unlockLevel of sortedLevels) {
+    if (unlockLevel > actorLevel) continue;
+    for (const ruleId of normalized[String(unlockLevel)] ?? []) {
+      if (!HTH_SPECIAL_RULE_KEYS.includes(ruleId)) continue;
+      if (unlocked.includes(ruleId)) continue;
+      unlocked.push(ruleId);
+    }
+  }
+
+  return unlocked;
+}
+
+function getHandToHandSpecialRules(handToHandItem, level) {
+  const rules = getDefaultHandToHandSpecialRules();
+  if (!handToHandItem) return rules;
+
+  const progression = handToHandItem.system?.specialRulesProgression ?? {};
+  const unlocked = getUnlockedHandToHandSpecialRuleIds(progression, level);
+
+  for (const ruleId of unlocked) {
+    if (Object.prototype.hasOwnProperty.call(rules, ruleId)) {
+      rules[ruleId] = true;
+    }
+  }
+
+  rules.critRange = rules.critRange19 ? 19 : 20;
+  rules.pullRollBonusValue = rules.pullRollBonus ? 2 : 0;
+  rules.unlocked = unlocked;
+
+  return rules;
+}
 function getAttacksPerMeleeProgressionBonus(rawProgression, actorLevel) {
   const progression = parseProgressionData(rawProgression);
   if (!progression) return 0;
@@ -1401,6 +1520,7 @@ export class RiftsActor extends Actor {
       autoDodgeLevel: 0,
       autoDodgeAvailable: false
     };
+    let handToHandSpecialRules = getDefaultHandToHandSpecialRules();
     let classBaseAttacks = 0;
     let classProgressionBonus = 0;
     let attacksPerMelee = Math.max(1, Math.floor(num(system?.combat?.apmTotal, 1)));
@@ -1600,6 +1720,7 @@ export class RiftsActor extends Actor {
       classSkillPackage = getClassSkillPackage(activeClass);
       activeHandToHand = getActiveHandToHand(this);
       handToHandBonuses = getHandToHandBonuses(activeHandToHand, level);
+      handToHandSpecialRules = getHandToHandSpecialRules(activeHandToHand, level);
 
       classBaseAttacks = activeClass ? num(activeClass.system?.baseAttacksPerMelee, 2) : 0;
       classProgressionBonus = activeClass
@@ -1689,6 +1810,7 @@ export class RiftsActor extends Actor {
         autoDodgeLevel: handToHandBonuses.autoDodgeLevel,
         autoDodgeAvailable: handToHandBonuses.autoDodgeAvailable
       };
+      system.progression.handToHandSpecialRules = foundry.utils.deepClone(handToHandSpecialRules);
 
       // Mirror for compatibility while class item remains source-of-truth.
       system.details.level = level;
@@ -1821,6 +1943,7 @@ export class RiftsActor extends Actor {
         autoDodgeLevel: 0,
         autoDodgeAvailable: false
       };
+      system.progression.handToHandSpecialRules = foundry.utils.deepClone(getDefaultHandToHandSpecialRules());
       system.combat.autoDodgeAvailable = false;
 
       const mountedWeapons = getMountedWeaponSummaries(this);
@@ -1846,6 +1969,9 @@ export class RiftsActor extends Actor {
     system.combat.derived.handToHandDodgeBonus = handToHandBonuses.dodgeBonus;
     system.combat.derived.handToHandDamageBonus = handToHandBonuses.damageBonus;
     system.combat.derived.handToHandAutoDodgeLevel = handToHandBonuses.autoDodgeLevel;
+    system.combat.derived.handToHandSpecialRules = foundry.utils.deepClone(handToHandSpecialRules);
+    system.combat.derived.handToHandCritRange = Math.max(19, Math.floor(num(handToHandSpecialRules.critRange, 20)));
+    system.combat.derived.handToHandPullRollBonus = Math.max(0, Math.floor(num(handToHandSpecialRules.pullRollBonusValue, 0)));
     system.combat.derived.attacksPerMelee = attacksPerMelee;
 
     const effectiveDurability = getEffectiveActorScale(this, { activeArmor });
@@ -1911,6 +2037,14 @@ export class RiftsActor extends Actor {
   getActiveHandToHandItem() {
     return this.getActiveHandToHand();
   }
+
+  getActiveHandToHandSpecialRules(level = null) {
+    const resolvedLevel = level === null || level === undefined
+      ? Math.max(1, Math.floor(num(this.system?.derived?.level, num(this.system?.details?.level, 1))))
+      : Math.max(1, Math.floor(num(level, 1)));
+    return getHandToHandSpecialRules(this.getActiveHandToHandItem(), resolvedLevel);
+  }
+
 
   getDerivedLevel() {
     return getDerivedLevel(this);

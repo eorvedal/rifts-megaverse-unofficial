@@ -362,17 +362,23 @@
 
     <section class="sheet-section">
       <h2>{{localize "RIFTS.Sheet.Powers"}}</h2>
-      <label>{{localize "RIFTS.Sheet.StartingPowers"}} ({{localize "RIFTS.Powers.Spell"}})</label>
-      <textarea rows="8" data-action="class-starting-powers" data-power-key="spells">{{classStartingSpellsText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.LevelUp.ChooseFromLists"}}</p>
+      <p class="help-text">{{localize "RIFTS.LevelUp.ChoiceProgression"}} supports level 1 entries for starting spell/psionic picks.</p>
 
-      <label>{{localize "RIFTS.Sheet.StartingPowers"}} ({{localize "RIFTS.Powers.Psionic"}})</label>
-      <textarea rows="8" data-action="class-starting-powers" data-power-key="psionics">{{classStartingPsionicsText}}</textarea>
+      <details>
+        <summary>{{localize "RIFTS.LevelUp.LegacyPoolFields"}}</summary>
+        <label>{{localize "RIFTS.Sheet.StartingPowers"}} ({{localize "RIFTS.Powers.Spell"}})</label>
+        <textarea rows="6" data-action="class-starting-powers" data-power-key="spells">{{classStartingSpellsText}}</textarea>
 
-      <label>{{localize "RIFTS.Sheet.SpellProgression"}} (JSON Map)</label>
-      <textarea rows="8" data-action="class-power-progression" data-progression-key="spellProgression">{{classSpellProgressionText}}</textarea>
+        <label>{{localize "RIFTS.Sheet.StartingPowers"}} ({{localize "RIFTS.Powers.Psionic"}})</label>
+        <textarea rows="6" data-action="class-starting-powers" data-power-key="psionics">{{classStartingPsionicsText}}</textarea>
 
-      <label>{{localize "RIFTS.Sheet.PsionicProgression"}} (JSON Map)</label>
-      <textarea rows="8" data-action="class-power-progression" data-progression-key="psionicProgression">{{classPsionicProgressionText}}</textarea>
+        <label>{{localize "RIFTS.Sheet.SpellProgression"}} (JSON Map)</label>
+        <textarea rows="6" data-action="class-power-progression" data-progression-key="spellProgression">{{classSpellProgressionText}}</textarea>
+
+        <label>{{localize "RIFTS.Sheet.PsionicProgression"}} (JSON Map)</label>
+        <textarea rows="6" data-action="class-power-progression" data-progression-key="psionicProgression">{{classPsionicProgressionText}}</textarea>
+      </details>
     </section>
 
     <section class="sheet-section">
@@ -392,33 +398,42 @@
       <p class="help-text">{{localize "RIFTS.Progression.XPTableHelp"}}</p>
 
       
-      <label>{{localize "RIFTS.LevelUp.ChoiceProgression"}} (JSON Map Object)</label>
+      <label>{{localize "RIFTS.LevelUp.ChoiceProgression"}} (JSON)</label>
       <textarea rows="10" data-action="class-choice-progression" data-progression-key="all">{{classChoiceProgressionText}}</textarea>
       <p class="help-text">{{localize "RIFTS.LevelUp.ChoiceProgressionHelp"}}</p>
+      <p class="help-text"><strong>{{localize "RIFTS.LevelUp.ChoiceType"}}</strong>: {{localize "RIFTS.LevelUp.Spells"}}, {{localize "RIFTS.LevelUp.Psionics"}}, {{localize "RIFTS.LevelUp.Maneuvers"}}, {{localize "RIFTS.LevelUp.WeaponProficiencies"}}, {{localize "RIFTS.LevelUp.PackageChoices"}}, occSkills, relatedSkills, secondarySkills</p>
+      <p class="help-text"><strong>{{localize "RIFTS.LevelUp.NumberOfChoices"}}</strong>: count</p>
+      <p class="help-text"><strong>{{localize "RIFTS.LevelUp.ReferencedLists"}}</strong>: lists[]</p>
       <p class="help-text"><strong>{{localize "RIFTS.LevelUp.ChoiceProgressionSchemaLabel"}}</strong></p>
       <p class="help-text"><code>{{localize "RIFTS.LevelUp.ChoiceProgressionSchemaExample"}}</code></p>
+      <p class="help-text">{{localize "RIFTS.LevelUp.ChooseFromLists"}}</p>
 
-      <label>{{localize "RIFTS.LevelUp.SpellChoicePool"}} (JSON Array)</label>
-      <textarea rows="8" data-action="class-choice-pool" data-pool-key="spells">{{classChoicePoolSpellsText}}</textarea>
+      <details>
+        <summary>{{localize "RIFTS.LevelUp.LegacyPoolFields"}}</summary>
+        <p class="help-text">{{localize "RIFTS.LevelUp.LegacyPoolFields"}}: {{localize "RIFTS.ChoiceList.InlinePool"}} / {{localize "RIFTS.ChoiceList.CustomList"}} JSON</p>
 
-      <label>{{localize "RIFTS.LevelUp.PsionicChoicePool"}} (JSON Array)</label>
-      <textarea rows="8" data-action="class-choice-pool" data-pool-key="psionics">{{classChoicePoolPsionicsText}}</textarea>
+        <label>{{localize "RIFTS.LevelUp.SpellChoicePool"}}</label>
+        <textarea rows="6" data-action="class-choice-pool" data-pool-key="spells">{{classChoicePoolSpellsText}}</textarea>
 
-      <label>{{localize "RIFTS.LevelUp.ManeuverChoicePool"}} (JSON Array)</label>
-      <textarea rows="8" data-action="class-choice-pool" data-pool-key="maneuvers">{{classChoicePoolManeuversText}}</textarea>
+        <label>{{localize "RIFTS.LevelUp.PsionicChoicePool"}}</label>
+        <textarea rows="6" data-action="class-choice-pool" data-pool-key="psionics">{{classChoicePoolPsionicsText}}</textarea>
 
-      <label>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePool"}} (JSON Array)</label>
-      <textarea rows="8" data-action="class-choice-pool" data-pool-key="weaponProficiencies">{{classChoicePoolWeaponProficienciesText}}</textarea>
-      <p class="help-text">{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolHelp"}}</p>
-      <p class="help-text"><strong>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolSchemaLabel"}}</strong></p>
-      <p class="help-text"><code>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolSchemaJson"}}</code></p>
-      <p class="help-text"><code>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolSchemaCsv"}}</code></p>
+        <label>{{localize "RIFTS.LevelUp.ManeuverChoicePool"}}</label>
+        <textarea rows="6" data-action="class-choice-pool" data-pool-key="maneuvers">{{classChoicePoolManeuversText}}</textarea>
 
-      <label>{{localize "RIFTS.LevelUp.PackageChoicePool"}} (JSON Array)</label>
-      <textarea rows="8" data-action="class-choice-pool" data-pool-key="packageChoices">{{classChoicePoolPackageChoicesText}}</textarea>
+        <label>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePool"}}</label>
+        <textarea rows="6" data-action="class-choice-pool" data-pool-key="weaponProficiencies">{{classChoicePoolWeaponProficienciesText}}</textarea>
+        <p class="help-text">{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolHelp"}}</p>
+        <p class="help-text"><strong>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolSchemaLabel"}}</strong></p>
+        <p class="help-text"><code>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolSchemaJson"}}</code></p>
+        <p class="help-text"><code>{{localize "RIFTS.LevelUp.WeaponProficiencyChoicePoolSchemaCsv"}}</code></p>
 
-      <label>{{localize "RIFTS.LevelUp.OptionalChoicePool"}} (JSON Array)</label>
-      <textarea rows="8" data-action="class-choice-pool" data-pool-key="optionalChoices">{{classChoicePoolOptionalChoicesText}}</textarea>
+        <label>{{localize "RIFTS.LevelUp.PackageChoicePool"}}</label>
+        <textarea rows="6" data-action="class-choice-pool" data-pool-key="packageChoices">{{classChoicePoolPackageChoicesText}}</textarea>
+
+        <label>{{localize "RIFTS.LevelUp.OptionalChoicePool"}}</label>
+        <textarea rows="6" data-action="class-choice-pool" data-pool-key="optionalChoices">{{classChoicePoolOptionalChoicesText}}</textarea>
+      </details>
 
       <label>{{localize "RIFTS.Augmentation.StartingPackage"}} - {{localize "RIFTS.Augmentation.Bionics"}} (JSON Array)</label>
       <textarea rows="8" data-action="class-starting-package" data-package-key="bionics">{{classStartingBionicsText}}</textarea>
@@ -489,8 +504,12 @@
     </section>
 
     <section class="sheet-section">
-            <label>{{localize "RIFTS.LevelUp.ManeuverSelectionProgression"}} (JSON Map)</label>
+      <label>{{localize "RIFTS.LevelUp.ManeuverSelectionProgression"}} (JSON Map)</label>
       <textarea rows="8" data-action="hth-selection-progression" data-progression-key="maneuvers">{{hthManeuverSelectionProgressionText}}</textarea>
+
+      <label>{{localize "RIFTS.HandToHand.SpecialRulesProgression"}} (JSON Map)</label>
+      <textarea rows="6" data-action="hth-special-rules-progression">{{hthSpecialRulesProgressionText}}</textarea>
+      <p class="help-text">{{localize "RIFTS.HandToHand.SpecialRulesProgressionHelp"}}</p>
 
       <label>{{localize "RIFTS.Maneuvers.ManeuverPackage"}}</label>
       <textarea rows="8" data-action="hth-maneuver-package">{{hthManeuverPackageText}}</textarea>
@@ -597,6 +616,69 @@
       <textarea name="system.notes" rows="5">{{system.notes}}</textarea>
     </section>
   {{/if}}
+    {{#if isChoiceList}}
+    <section class="sheet-section two-col">
+      <div>
+        <label>{{localize "RIFTS.ChoiceList.ListID"}}</label>
+        <input type="text" name="system.listId" value="{{system.listId}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.ChoiceList.Label"}}</label>
+        <input type="text" name="system.label" value="{{system.label}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.ChoiceList.EntryType"}}</label>
+        <input type="text" name="system.entryType" value="{{system.entryType}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.ChoiceList.SourceMode"}}</label>
+        <select name="system.sourceMode">
+          <option value="static" {{#if isChoiceListSourceModeStatic}}selected{{/if}}>{{localize "RIFTS.ChoiceList.StaticEntries"}}</option>
+          <option value="filter" {{#if isChoiceListSourceModeFilter}}selected{{/if}}>{{localize "RIFTS.ChoiceList.Filters"}}</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="sheet-section">
+      <h3>{{localize "RIFTS.ChoiceList.ListEntries"}}</h3>
+      <div class="rifts-choice-list-dropzone" data-action="choice-list-drop-zone">
+        <p class="help-text">{{localize "RIFTS.ChoiceList.DropHint"}}</p>
+      </div>
+
+      {{#if choiceListHasEntries}}
+        <div class="item-list">
+          {{#each choiceListEntries as |entry|}}
+            <div class="item-row rifts-choice-list-entry-row">
+              <span><strong>{{entry.name}}</strong></span>
+              <span>{{entry.itemType}}</span>
+              <span class="item-actions">
+                <button type="button" data-action="choice-list-open-entry" data-entry-index="{{entry.index}}" {{#unless entry.canOpen}}disabled{{/unless}}>{{localize "RIFTS.ChoiceList.OpenEntry"}}</button>
+                <button type="button" data-action="choice-list-remove-entry" data-entry-index="{{entry.index}}">{{localize "RIFTS.ChoiceList.RemoveEntry"}}</button>
+              </span>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <p class="help-text">{{localize "RIFTS.ChoiceList.NoEntries"}}</p>
+      {{/if}}
+    </section>
+
+    <details class="sheet-section">
+      <summary>{{localize "RIFTS.ChoiceList.AdvancedJSON"}}</summary>
+      <p class="help-text">{{localize "RIFTS.ChoiceList.AdvancedJSONHelp"}}</p>
+
+      <label>{{localize "RIFTS.ChoiceList.StaticEntries"}} (JSON Array)</label>
+      <textarea rows="8" data-action="choice-list-static-entries">{{choiceListStaticEntriesText}}</textarea>
+
+      <label>{{localize "RIFTS.ChoiceList.Filters"}} (JSON Object)</label>
+      <textarea rows="6" data-action="choice-list-filters">{{choiceListFiltersText}}</textarea>
+    </details>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Sheet.Notes"}}</label>
+      <textarea name="system.notes" rows="6">{{system.notes}}</textarea>
+    </section>
+  {{/if}}
   {{#if isPower}}
     <section class="sheet-section two-col">
       <div>
@@ -694,6 +776,8 @@
     </section>
   {{/if}}
 </form>
+
+
 
 
 

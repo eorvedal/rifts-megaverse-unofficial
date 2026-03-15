@@ -196,7 +196,7 @@ Hooks.once("init", () => {
   CONFIG.RIFTS = {
     attributes: ["iq", "me", "ma", "ps", "pp", "pe", "pb", "spd"],
     resources: ["hp", "sdc", "mdc", "ppe", "isp", "fuel"],
-    itemTypes: ["skill", "weapon", "armor", "occ", "rcc", "power", "gear", "feature", "cybernetic", "bionic", "handToHand", "specialManeuver"]
+    itemTypes: ["skill", "weapon", "armor", "occ", "rcc", "power", "gear", "feature", "cybernetic", "bionic", "handToHand", "specialManeuver", "choiceList"]
   };
 
   registerDataRepairSettings();
@@ -265,6 +265,7 @@ Hooks.once("ready", async () => {
     }
   };
 });
+
 
 
 

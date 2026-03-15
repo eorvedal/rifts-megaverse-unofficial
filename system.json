@@ -32,6 +32,7 @@
       "vehicle": {}
     },
     "Item": {
+      "choiceList": {},
       "occ": {},
       "rcc": {},
       "skill": {},
@@ -53,4 +54,5 @@
   "initiative": "1d20 + @system.combat.derived.initiativeTotal",
   "primaryTokenAttribute": "system.resources.hp"
 }
+
 

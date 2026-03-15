@@ -1,5 +1,6 @@
 import { isXPTableAscending, normalizeXPThresholdTable } from "./progression.mjs";
 import { normalizeManeuverPackageEntries, normalizeSpecialManeuverEntry } from "./maneuvers.mjs";
+import { normalizeChoicePoolSource } from "./choice-lists.mjs";
 const BOOLEAN_TRUE = new Set(["true", "t", "yes", "y", "1", "on"]);
 const BOOLEAN_FALSE = new Set(["false", "f", "no", "n", "0", "off"]);
 
@@ -119,6 +120,49 @@ function parseNumericArray(value, fallback = []) {
   return [...fallback];
 }
 
+
+const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "bodyThrow", "pullRollBonus"]);
+
+function normalizeHthSpecialRulesProgressionImport(value, issues, fieldName = "specialRulesProgression") {
+  if (value === null || value === undefined || value === "") return {};
+
+  let parsed = value;
+  if (typeof parsed === "string") {
+    const trimmed = parsed.trim();
+    if (!trimmed) return {};
+    const parsedJson = parseJSON(trimmed);
+    if (parsedJson.ok) parsed = parsedJson.data;
+  }
+
+  if (!isPlainObject(parsed)) {
+    issues.errors.push(`${fieldName} must be an object map.`);
+    return {};
+  }
+
+  const out = {};
+  for (const [rawLevel, rawRules] of Object.entries(parsed)) {
+    const level = Math.max(1, Math.floor(Number(rawLevel) || 0));
+    if (!Number.isFinite(level) || level <= 0) continue;
+
+    const sourceRules = Array.isArray(rawRules) ? rawRules : [rawRules];
+    const normalizedRules = [];
+    for (const rawRule of sourceRules) {
+      const ruleId = text(rawRule);
+      if (!ruleId) continue;
+      if (!HTH_SPECIAL_RULE_IDS.has(ruleId)) {
+        issues.warnings.push(`Ignored unknown ${fieldName} rule id: ${ruleId}.`);
+        continue;
+      }
+      if (!normalizedRules.includes(ruleId)) normalizedRules.push(ruleId);
+    }
+
+    if (normalizedRules.length > 0) {
+      out[String(level)] = normalizedRules;
+    }
+  }
+
+  return out;
+}
 function normalizeSkillPackageEntry(entry) {
   if (typeof entry === "string") {
     const name = text(entry);
@@ -559,7 +603,6 @@ function mapVehicleProfile(rawRow, issues) {
     }
   };
 }
-
 function mapOccRccProfile(rawRow, issues, itemType = "occ") {
   if (!isPlainObject(rawRow)) {
     issues.errors.push("Invalid nested data for class import.");
@@ -631,8 +674,23 @@ function mapOccRccProfile(rawRow, issues, itemType = "occ") {
   };
 
   const normalizeChoicePool = (value, fieldName) => {
-    const source = toLooseArray(value, fieldName);
-    return source
+    const source = parseMaybeJson(value);
+    const normalized = normalizeChoicePoolSource(source ?? []);
+
+    if (normalized.mode === "list") {
+      const listId = text(normalized.listId);
+      if (!listId) {
+        issues.warnings.push(`${fieldName} list mode is missing listId; using empty inline list.`);
+        return { mode: "inline", items: [] };
+      }
+      return {
+        mode: "list",
+        listId
+      };
+    }
+
+    const sourceItems = Array.isArray(normalized.items) ? normalized.items : [];
+    const items = sourceItems
       .map((entry) => {
         if (typeof entry === "string" || typeof entry === "number") {
           const name = text(entry);
@@ -642,6 +700,98 @@ function mapOccRccProfile(rawRow, issues, itemType = "occ") {
         return null;
       })
       .filter((entry) => entry && Object.keys(entry).length > 0);
+
+    return {
+      mode: "inline",
+      items
+    };
+  };
+
+  const normalizeChoiceType = (value) => {
+    const normalized = text(value).toLowerCase();
+    if (["spell", "spells"].includes(normalized)) return "spells";
+    if (["psionic", "psionics"].includes(normalized)) return "psionics";
+    if (["maneuver", "maneuvers", "specialmaneuver", "specialmaneuvers"].includes(normalized)) return "maneuvers";
+    if (["weaponproficiency", "weaponproficiencies", "wp", "proficiency", "proficiencies"].includes(normalized)) return "weaponProficiencies";
+    if (["package", "packagechoice", "packagechoices"].includes(normalized)) return "packageChoices";
+    if (["optional", "optionalchoice", "optionalchoices"].includes(normalized)) return "optionalChoices";
+    if (["occskill", "occskills"].includes(normalized)) return "occSkills";
+    if (["relatedskill", "relatedskills", "occrelated", "occrelatedskills"].includes(normalized)) return "relatedSkills";
+    if (["secondaryskill", "secondaryskills"].includes(normalized)) return "secondarySkills";
+    return "";
+  };
+
+  const normalizeListIds = (value) => {
+    if (Array.isArray(value)) {
+      return [...new Set(value.map((entry) => text(entry)).filter((entry) => entry.length > 0))];
+    }
+
+    const raw = text(value);
+    if (!raw) return [];
+
+    return [...new Set(raw.split(/[\r\n,;]+/).map((entry) => text(entry)).filter((entry) => entry.length > 0))];
+  };
+
+  const extractListIdsFromPoolSource = (value, fieldName) => {
+    const normalized = normalizeChoicePool(value, fieldName);
+    if (normalized.mode === "list") {
+      return text(normalized.listId) ? [text(normalized.listId)] : [];
+    }
+    return [];
+  };
+
+  const normalizeChoiceDefinition = (value) => {
+    const source = isPlainObject(value) ? value : {};
+    const choiceType = normalizeChoiceType(source.choiceType ?? source.type ?? source.category);
+    const count = Math.max(0, Math.floor(Number(source.count ?? source.numberOfChoices ?? source.choices ?? source.amount ?? 0) || 0));
+    const lists = normalizeListIds(source.lists ?? source.listIds ?? source.listId ?? source.list ?? source.choiceLists);
+
+    if (!choiceType || count <= 0) return null;
+    return { choiceType, count, lists };
+  };
+
+  const normalizeChoiceProgression = (value, fallbackPools = {}) => {
+    const source = parseMaybeJson(value);
+    if (!isPlainObject(source)) return {};
+
+    const direct = {};
+    const levelKeys = Object.keys(source).filter((key) => Math.floor(Number(key) || 0) > 0);
+    if (levelKeys.length > 0) {
+      for (const rawLevel of levelKeys) {
+        const level = Math.floor(Number(rawLevel) || 0);
+        if (level <= 0) continue;
+
+        const rawEntries = Array.isArray(source[rawLevel]) ? source[rawLevel] : [source[rawLevel]];
+        const entries = rawEntries
+          .map((entry) => normalizeChoiceDefinition(entry))
+          .filter((entry) => Boolean(entry));
+
+        if (entries.length > 0) direct[String(level)] = entries;
+      }
+
+      if (Object.keys(direct).length > 0) return direct;
+    }
+
+    const legacy = {};
+    for (const key of CHOICE_KEYS) {
+      const map = toIntegerMap(source[key], `choiceProgression.${key}`);
+      const listIds = extractListIdsFromPoolSource(fallbackPools[key], `choicePools.${key}`);
+
+      for (const [rawLevel, rawCount] of Object.entries(map)) {
+        const level = Math.floor(Number(rawLevel) || 0);
+        const count = Math.max(0, Math.floor(Number(rawCount) || 0));
+        if (level <= 0 || count <= 0) continue;
+
+        legacy[String(level)] ??= [];
+        legacy[String(level)].push({
+          choiceType: key,
+          count,
+          lists: deepClone(listIds)
+        });
+      }
+    }
+
+    return legacy;
   };
 
   const normalizeRequirements = (value) => {
@@ -770,19 +920,25 @@ function mapOccRccProfile(rawRow, issues, itemType = "occ") {
     )
   };
 
-  const choiceProgressionSource = isPlainObject(source.choiceProgression) ? source.choiceProgression : {};
-  const choiceProgression = {};
-  for (const key of CHOICE_KEYS) {
-    const progressionRaw = choiceProgressionSource[key] ?? source[`${key}Progression`] ?? {};
-    choiceProgression[key] = toIntegerMap(progressionRaw, `choiceProgression.${key}`);
-  }
-
   const choicePoolsSource = isPlainObject(source.choicePools) ? source.choicePools : {};
   const choicePools = {};
   for (const key of CHOICE_KEYS) {
     const topLevelPool = Array.isArray(source[key]) ? source[key] : undefined;
     const poolRaw = choicePoolsSource[key] ?? source[`${key}Pool`] ?? topLevelPool ?? [];
     choicePools[key] = normalizeChoicePool(poolRaw, `choicePools.${key}`);
+  }
+
+  const rawChoiceProgression = parseMaybeJson(source.choiceProgression);
+  let choiceProgression = normalizeChoiceProgression(rawChoiceProgression, choicePools);
+
+  if (Object.keys(choiceProgression).length <= 0) {
+    const legacyProgression = {};
+    for (const key of CHOICE_KEYS) {
+      const progressionRaw = source[`${key}Progression`];
+      if (progressionRaw === undefined) continue;
+      legacyProgression[key] = progressionRaw;
+    }
+    choiceProgression = normalizeChoiceProgression(legacyProgression, choicePools);
   }
 
     const startingCreditsSource = isPlainObject(source.startingCredits) ? source.startingCredits : {};
@@ -850,7 +1006,7 @@ function mapOccRccProfile(rawRow, issues, itemType = "occ") {
     `occ:${occSkills.length}`,
     `related:${relatedSkills.length}`,
     `secondary:${secondarySkills.length}`,
-    `choices:${Object.values(choiceProgression).reduce((sum, map) => sum + Object.keys(map).length, 0)}`
+    `choices:${Object.values(choiceProgression).reduce((sum, entries) => sum + (Array.isArray(entries) ? entries.length : 0), 0)}`
   ].join(" ");
 
   return toProfileResult(documentData, summary);
@@ -869,7 +1025,8 @@ function mapHandToHandProfile(rawRow, issues) {
     return toProfileResult({ name: "", type: "handToHand", system: {} }, "");
   }
 
-  const progression = isPlainObject(rawRow.progression) ? rawRow.progression : {};
+  const source = isPlainObject(rawRow.system) ? rawRow.system : rawRow;
+  const progression = isPlainObject(source.progression) ? source.progression : {};
 
   const parseProgressionField = (value, fieldName) => {
     const numeric = parseNumericArray(value, []);
@@ -892,8 +1049,13 @@ function mapHandToHandProfile(rawRow, issues) {
   const dodgeBonus = parseProgressionField(progression.dodgeBonus ?? rawRow.dodgeBonus, "progression.dodgeBonus");
   const autoDodgeLevel = parseProgressionField(progression.autoDodgeLevel ?? rawRow.autoDodgeLevel, "progression.autoDodgeLevel");
   const damageBonus = parseProgressionField(progression.damageBonus ?? rawRow.damageBonus, "progression.damageBonus");
+  const specialRulesProgression = normalizeHthSpecialRulesProgressionImport(
+    source.specialRulesProgression ?? rawRow.specialRulesProgression ?? progression.specialRulesProgression,
+    issues,
+    "specialRulesProgression"
+  );
 
-  const rawPackage = rawRow.maneuverPackage?.grantedManeuvers ?? rawRow.grantedManeuvers ?? [];
+  const rawPackage = source.maneuverPackage?.grantedManeuvers ?? source.grantedManeuvers ?? rawRow.maneuverPackage?.grantedManeuvers ?? rawRow.grantedManeuvers ?? [];
   if (!Array.isArray(rawPackage)) {
     issues.errors.push("maneuverPackage.grantedManeuvers must be an array.");
   }
@@ -908,12 +1070,12 @@ function mapHandToHandProfile(rawRow, issues) {
   );
 
   const documentData = {
-    name: text(rawRow.name),
+    name: text(rawRow.name ?? source.name),
     type: "handToHand",
     system: {
-      active: parseBoolean(rawRow.active, false),
-      style: text(rawRow.style, "basic") || "basic",
-      notes: text(rawRow.notes),
+      active: parseBoolean(source.active ?? rawRow.active, false),
+      style: text(source.style ?? rawRow.style, "basic") || "basic",
+      notes: text(source.notes ?? rawRow.notes),
       progression: {
         apmBonus,
         strikeBonus,
@@ -922,13 +1084,14 @@ function mapHandToHandProfile(rawRow, issues) {
         autoDodgeLevel,
         damageBonus
       },
+      specialRulesProgression,
       maneuverPackage: {
         grantedManeuvers
       }
     }
   };
 
-  const summary = `apm:${apmBonus.length} strike:${strikeBonus.length} maneuvers:${grantedManeuvers.length}`;
+  const summary = `apm:${apmBonus.length} strike:${strikeBonus.length} maneuvers:${grantedManeuvers.length} rules:${Object.keys(specialRulesProgression).length}`;
   return toProfileResult(documentData, summary);
 }
 
@@ -938,35 +1101,137 @@ function mapSpecialManeuverProfile(rawRow, issues) {
     return toProfileResult({ name: "", type: "specialManeuver", system: {} }, "");
   }
 
-  const normalized = normalizeSpecialManeuverEntry(rawRow);
-  if (!normalized.key && !text(rawRow.name)) {
+  const source = isPlainObject(rawRow.system) ? rawRow.system : rawRow;
+  const normalized = normalizeSpecialManeuverEntry({
+    ...source,
+    name: source.name ?? rawRow.name
+  });
+  if (!normalized.key && !text(rawRow.name ?? source.name)) {
     issues.errors.push("Special maneuver requires a name or key.");
   }
 
   const documentData = {
-    name: text(rawRow.name || normalized.name),
+    name: text(rawRow.name ?? source.name ?? normalized.name),
     type: "specialManeuver",
     system: {
-      key: text(rawRow.key || normalized.key),
-      category: text(rawRow.category || normalized.category),
-      description: text(rawRow.description || normalized.description),
-      actionCost: Math.max(0, Math.floor(Number(rawRow.actionCost ?? normalized.actionCost ?? 1) || 1)),
-      strikeModifier: Number(rawRow.strikeModifier ?? normalized.strikeModifier ?? 0) || 0,
-      damageFormula: text(rawRow.damageFormula || normalized.damageFormula, "0") || "0",
-      isReactive: parseBoolean(rawRow.isReactive ?? normalized.isReactive, false),
-      requiresTarget: parseBoolean(rawRow.requiresTarget ?? normalized.requiresTarget, true),
-      minLevel: Math.max(1, Math.floor(Number(rawRow.minLevel ?? normalized.minLevel ?? 1) || 1)),
-      sourceType: text(rawRow.sourceType || normalized.sourceType),
-      sourceId: text(rawRow.sourceId || normalized.sourceId),
-      notes: text(rawRow.notes || normalized.notes),
-      canKnockdown: parseBoolean(rawRow.canKnockdown ?? normalized.canKnockdown, false),
-      canKnockback: parseBoolean(rawRow.canKnockback ?? normalized.canKnockback, false),
-      impactType: text(rawRow.impactType || normalized.impactType),
-      knockbackValue: Math.max(0, Number(rawRow.knockbackValue ?? normalized.knockbackValue ?? 0) || 0)
+      key: text(source.key ?? rawRow.key ?? normalized.key),
+      category: text(source.category ?? rawRow.category ?? normalized.category),
+      description: text(source.description ?? rawRow.description ?? normalized.description),
+      actionCost: Math.max(0, Math.floor(Number(source.actionCost ?? rawRow.actionCost ?? normalized.actionCost ?? 1) || 1)),
+      strikeModifier: Number(source.strikeModifier ?? rawRow.strikeModifier ?? normalized.strikeModifier ?? 0) || 0,
+      damageFormula: text(source.damageFormula ?? rawRow.damageFormula ?? normalized.damageFormula, "0") || "0",
+      isReactive: parseBoolean(source.isReactive ?? rawRow.isReactive ?? normalized.isReactive, false),
+      requiresTarget: parseBoolean(source.requiresTarget ?? rawRow.requiresTarget ?? normalized.requiresTarget, true),
+      minLevel: Math.max(1, Math.floor(Number(source.minLevel ?? rawRow.minLevel ?? normalized.minLevel ?? 1) || 1)),
+      sourceType: text(source.sourceType ?? rawRow.sourceType ?? normalized.sourceType),
+      sourceId: text(source.sourceId ?? rawRow.sourceId ?? normalized.sourceId),
+      notes: text(source.notes ?? rawRow.notes ?? normalized.notes),
+      canKnockdown: parseBoolean(source.canKnockdown ?? rawRow.canKnockdown ?? normalized.canKnockdown, false),
+      canKnockback: parseBoolean(source.canKnockback ?? rawRow.canKnockback ?? normalized.canKnockback, false),
+      impactType: text(source.impactType ?? rawRow.impactType ?? normalized.impactType),
+      knockbackValue: Math.max(0, Number(source.knockbackValue ?? rawRow.knockbackValue ?? normalized.knockbackValue ?? 0) || 0)
     }
   };
 
   const summary = `category:${documentData.system.category || "-"} cost:${documentData.system.actionCost} reactive:${documentData.system.isReactive ? "yes" : "no"}`;
+  return toProfileResult(documentData, summary);
+}
+function mapChoiceListProfile(rawRow, issues) {
+  if (!isPlainObject(rawRow)) {
+    issues.errors.push("Invalid nested data for choice list import.");
+    return toProfileResult({ name: "", type: "choiceList", system: {} }, "");
+  }
+
+  const source = isPlainObject(rawRow.system) ? rawRow.system : rawRow;
+
+  const parseMaybeJson = (value) => {
+    if (typeof value !== "string") return value;
+    const trimmed = value.trim();
+    if (!trimmed) return value;
+    const parsed = parseJSON(trimmed);
+    return parsed.ok ? parsed.data : value;
+  };
+
+  const sourceMode = normalizeEnum(
+    source.sourceMode ?? rawRow.sourceMode,
+    new Set(["static", "filter"]),
+    "static",
+    issues,
+    "sourceMode"
+  );
+
+  const entriesRaw = parseMaybeJson(source.entries ?? rawRow.entries ?? []);
+  const entries = Array.isArray(entriesRaw)
+    ? entriesRaw
+      .map((entry) => {
+        if (typeof entry === "string") {
+          const uuid = text(entry);
+          return uuid ? { uuid } : null;
+        }
+        if (!isPlainObject(entry)) return null;
+
+        const uuid = text(entry.uuid ?? entry.itemUuid ?? entry.id);
+        if (!uuid) return null;
+
+        return {
+          uuid,
+          name: text(entry.name),
+          itemType: text(entry.itemType ?? entry.type)
+        };
+      })
+      .filter((entry) => Boolean(entry))
+    : [];
+
+  if (!Array.isArray(entriesRaw) && text(entriesRaw).length > 0) {
+    issues.warnings.push("entries should be an array; using empty array.");
+  }
+
+  const staticRaw = parseMaybeJson(source.staticEntries ?? rawRow.staticEntries ?? source.items ?? rawRow.items ?? []);
+  const staticEntries = Array.isArray(staticRaw)
+    ? staticRaw
+      .map((entry) => {
+        if (typeof entry === "string" || typeof entry === "number") {
+          const name = text(entry);
+          return name ? { name } : null;
+        }
+        if (isPlainObject(entry)) return deepClone(entry);
+        return null;
+      })
+      .filter((entry) => entry && Object.keys(entry).length > 0)
+    : [];
+
+  if (!Array.isArray(staticRaw) && text(staticRaw).length > 0) {
+    issues.warnings.push("staticEntries should be an array; using empty array.");
+  }
+
+  const filtersRaw = parseMaybeJson(source.filters ?? rawRow.filters ?? {});
+  const filters = isPlainObject(filtersRaw) ? deepClone(filtersRaw) : {};
+  if (!isPlainObject(filtersRaw) && text(filtersRaw).length > 0) {
+    issues.warnings.push("filters should be a JSON object; using empty object.");
+  }
+
+  const listId = text(source.listId ?? rawRow.listId);
+  if (!listId) issues.warnings.push("Choice list is missing listId.");
+
+  const label = text(source.label ?? rawRow.label ?? rawRow.name ?? listId);
+  const entryType = text(source.entryType ?? rawRow.entryType);
+
+  const documentData = {
+    name: text(rawRow.name ?? source.name ?? label ?? listId ?? "Choice List"),
+    type: "choiceList",
+    system: {
+      listId,
+      label,
+      entryType,
+      sourceMode,
+      entries,
+      staticEntries,
+      filters,
+      notes: text(source.notes ?? rawRow.notes)
+    }
+  };
+
+  const summary = `${sourceMode} ${entryType || "-"} refs:${entries.length} static:${staticEntries.length} filters:${Object.keys(filters).length}`;
   return toProfileResult(documentData, summary);
 }
 const IMPORT_PROFILES = {
@@ -1081,6 +1346,47 @@ const IMPORT_PROFILES = {
       }
     ], null, 2)
   },
+  choiceList: {
+    id: "choiceList",
+    labelKey: "RIFTS.Importer.Profile.ChoiceList",
+    documentName: "Item",
+    documentType: "choiceList",
+    required: ["name"],
+    map: mapChoiceListProfile,
+    exampleCsv: [
+      "name,listId,label,entryType,sourceMode,staticEntries,filters,notes",
+      "Communications Skills,skills-communications,Communications Skills,skill,static,\"[{\"\"name\"\":\"\"Cryptography\"\"},{\"\"name\"\":\"\"Radio: Basic\"\"}]\",{},Framework example static list",
+      "Spell Level 3,spells-level-3,Spell Level 3,power,filter,[],\"{\"\"powerType\"\":\"\"spell\"\",\"\"spellLevel\"\":3}\",Framework example filtered list"
+    ].join("\n"),
+    exampleJson: JSON.stringify([
+      {
+        name: "Communications Skills",
+        listId: "skills-communications",
+        label: "Communications Skills",
+        entryType: "skill",
+        sourceMode: "static",
+        staticEntries: [
+          { name: "Cryptography" },
+          { name: "Radio: Basic" }
+        ],
+        filters: {},
+        notes: "Framework static list"
+      },
+      {
+        name: "Spell Level 3",
+        listId: "spells-level-3",
+        label: "Spell Level 3",
+        entryType: "power",
+        sourceMode: "filter",
+        staticEntries: [],
+        filters: {
+          powerType: "spell",
+          spellLevel: 3
+        },
+        notes: "Framework filter list"
+      }
+    ], null, 2)
+  },
   vehicle: {
     id: "vehicle",
     labelKey: "RIFTS.Importer.Profile.Vehicle",
@@ -1151,8 +1457,8 @@ const IMPORT_PROFILES = {
         resourceProgression: { hpPerLevel: "1d6", sdcPerLevel: "1d6", ispPerLevel: "", ppePerLevel: "" },
         startingPowers: { spells: [], psionics: [] },
         powerProgression: { spellProgression: {}, psionicProgression: {} },
-        choiceProgression: { spells: {}, psionics: {}, maneuvers: {}, weaponProficiencies: { "2": 1 }, packageChoices: {}, optionalChoices: {} },
-        choicePools: { spells: [], psionics: [], maneuvers: [], weaponProficiencies: [{ name: "WP Sword", category: "Melee" }], packageChoices: [], optionalChoices: [] },
+        choiceProgression: { "2": [{ choiceType: "spells", count: 1, lists: ["spells-level-1"] }], "4": [{ choiceType: "weaponProficiencies", count: 1, lists: [] }] },
+        choicePools: { spells: { mode: "list", listId: "spells-level-1" }, psionics: { mode: "inline", items: [] }, maneuvers: { mode: "inline", items: [] }, weaponProficiencies: { mode: "inline", items: [{ name: "WP Sword", category: "Melee" }] }, packageChoices: { mode: "inline", items: [] }, optionalChoices: { mode: "inline", items: [] } },
         startingCredits: { credits: 5000 },
         startingPackages: { bionics: [], cybernetics: [], abilities: [], gear: [] },
         grantedAbilities: [],
@@ -1200,8 +1506,8 @@ const IMPORT_PROFILES = {
         resourceProgression: { hpPerLevel: "1d6", sdcPerLevel: "1d6", ispPerLevel: "", ppePerLevel: "" },
         startingPowers: { spells: [], psionics: [] },
         powerProgression: { spellProgression: {}, psionicProgression: {} },
-        choiceProgression: { spells: {}, psionics: {}, maneuvers: {}, weaponProficiencies: {}, packageChoices: {}, optionalChoices: {} },
-        choicePools: { spells: [], psionics: [], maneuvers: [], weaponProficiencies: [], packageChoices: [], optionalChoices: [] },
+        choiceProgression: { "3": [{ choiceType: "spells", count: 1, lists: ["spells-level-1"] }] },
+        choicePools: { spells: { mode: "list", listId: "spells-level-1" }, psionics: { mode: "inline", items: [] }, maneuvers: { mode: "inline", items: [] }, weaponProficiencies: { mode: "inline", items: [] }, packageChoices: { mode: "inline", items: [] }, optionalChoices: { mode: "inline", items: [] } },
         startingCredits: { credits: 0 },
         startingPackages: { bionics: [], cybernetics: [], abilities: [], gear: [] },
         grantedAbilities: [],
@@ -1230,6 +1536,11 @@ const IMPORT_PROFILES = {
           dodgeBonus: [0, 0, 1, 1],
           autoDodgeLevel: [0, 0, 9],
           damageBonus: [0, 0, 1, 2]
+        },
+        specialRulesProgression: {
+          "3": ["kickAttack"],
+          "6": ["critRange19"],
+          "8": ["bodyThrow"]
         },
         maneuverPackage: {
           grantedManeuvers: [
@@ -1864,6 +2175,15 @@ export function csvHeaderIncludes(header, key) {
   const rx = new RegExp(`^${escapeRegExp(key)}$`, "i");
   return header.some((entry) => rx.test(text(entry)));
 }
+
+
+
+
+
+
+
+
+
 
 
 
