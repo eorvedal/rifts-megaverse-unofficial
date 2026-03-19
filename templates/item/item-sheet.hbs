@@ -482,6 +482,18 @@
         <input type="text" data-action="hth-progression-array" data-progression-key="apmBonus" value="{{hthApmBonusText}}">
       </div>
       <div>
+        <label>{{localize "RIFTS.Rolls.Initiative"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="initiativeBonus" value="{{hthInitiativeBonusText}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.DisarmBonus"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="disarmBonus" value="{{hthDisarmBonusText}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.HandToHand.EntangleBonus"}}</label>
+        <input type="text" data-action="hth-progression-array" data-progression-key="entangleBonus" value="{{hthEntangleBonusText}}">
+      </div>
+      <div>
         <label>{{localize "RIFTS.HandToHand.StrikeBonus"}}</label>
         <input type="text" data-action="hth-progression-array" data-progression-key="strikeBonus" value="{{hthStrikeBonusText}}">
       </div>
@@ -495,7 +507,7 @@
       </div>
       <div>
         <label>{{localize "RIFTS.HandToHand.AutoDodgeLevel"}}</label>
-        <input type="text" data-action="hth-progression-array" data-progression-key="autoDodgeLevel" value="{{hthAutoDodgeLevelText}}">
+        <input type="number" min="0" step="1" data-action="hth-unlock-level" data-progression-key="autoDodgeLevel" value="{{hthAutoDodgeLevelText}}">
       </div>
       <div>
         <label>{{localize "RIFTS.HandToHand.DamageBonus"}}</label>

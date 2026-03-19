@@ -231,6 +231,15 @@ function getNumericProgressionValueAtLevel(rawProgression, level, fallback = 0) 
 }
 
 function getAutoDodgeUnlockLevel(rawProgression, level) {
+  const directLevel = parsePositiveLevel(rawProgression);
+  if (directLevel) return directLevel;
+
+  if (typeof rawProgression === "string") {
+    const trimmed = rawProgression.trim();
+    const directTextLevel = parsePositiveLevel(trimmed);
+    if (directTextLevel) return directTextLevel;
+  }
+
   const current = Math.max(0, Math.floor(getNumericProgressionValueAtLevel(rawProgression, level, 0)));
   if (current > 0) return current;
 
@@ -247,6 +256,9 @@ function getHandToHandBonuses(handToHandItem, level) {
   if (!handToHandItem) {
     return {
       apmBonus: 0,
+      initiativeBonus: 0,
+      disarmBonus: 0,
+      entangleBonus: 0,
       strikeBonus: 0,
       parryBonus: 0,
       dodgeBonus: 0,
@@ -258,6 +270,9 @@ function getHandToHandBonuses(handToHandItem, level) {
 
   const progression = handToHandItem.system?.progression ?? {};
   const apmBonus = Math.floor(num(getNumericProgressionValueAtLevel(progression.apmBonus, level, 0), 0));
+  const initiativeBonus = Math.floor(num(getNumericProgressionValueAtLevel(progression.initiativeBonus, level, 0), 0));
+  const disarmBonus = Math.floor(num(getNumericProgressionValueAtLevel(progression.disarmBonus, level, 0), 0));
+  const entangleBonus = Math.floor(num(getNumericProgressionValueAtLevel(progression.entangleBonus, level, 0), 0));
   const strikeBonus = Math.floor(num(getNumericProgressionValueAtLevel(progression.strikeBonus, level, 0), 0));
   const parryBonus = Math.floor(num(getNumericProgressionValueAtLevel(progression.parryBonus, level, 0), 0));
   const dodgeBonus = Math.floor(num(getNumericProgressionValueAtLevel(progression.dodgeBonus, level, 0), 0));
@@ -266,6 +281,9 @@ function getHandToHandBonuses(handToHandItem, level) {
 
   return {
     apmBonus,
+    initiativeBonus,
+    disarmBonus,
+    entangleBonus,
     strikeBonus,
     parryBonus,
     dodgeBonus,
@@ -275,15 +293,23 @@ function getHandToHandBonuses(handToHandItem, level) {
   };
 }
 
-const HTH_SPECIAL_RULE_KEYS = ["kickAttack", "critRange19", "bodyThrow", "pullRollBonus"];
+const HTH_SPECIAL_RULE_KEYS = ["kickAttack", "critRange19", "critRange18", "critRange17", "knockoutStun18", "knockoutStun17", "deathBlow20", "deathBlow19", "bodyThrow", "pullRollBonus"];
 
 function getDefaultHandToHandSpecialRules() {
   return {
     kickAttack: false,
     critRange19: false,
+    critRange18: false,
+    critRange17: false,
+    knockoutStun18: false,
+    knockoutStun17: false,
+    deathBlow20: false,
+    deathBlow19: false,
     bodyThrow: false,
     pullRollBonus: false,
     critRange: 20,
+    knockoutStunRange: 0,
+    deathBlowRange: 0,
     pullRollBonusValue: 0,
     unlocked: []
   };
@@ -295,6 +321,12 @@ function normalizeHandToHandSpecialRuleId(value) {
 
   if (["kickattack", "kick", "kick-attack"].includes(normalized)) return "kickAttack";
   if (["critrange19", "crit19", "critical19", "criticalstrike19"].includes(normalized)) return "critRange19";
+  if (["critrange18", "crit18", "critical18", "criticalstrike18"].includes(normalized)) return "critRange18";
+  if (["critrange17", "crit17", "critical17", "criticalstrike17"].includes(normalized)) return "critRange17";
+  if (["knockoutstun18", "kostun18", "stun18", "knockout18"].includes(normalized)) return "knockoutStun18";
+  if (["knockoutstun17", "kostun17", "stun17", "knockout17"].includes(normalized)) return "knockoutStun17";
+  if (["deathblow20", "death20", "death-blow20", "deathblow"].includes(normalized)) return "deathBlow20";
+  if (["deathblow19", "death19", "death-blow19"].includes(normalized)) return "deathBlow19";
   if (["bodythrow", "bodyflip", "bodythrowflip", "judo-style-body-throw", "judo-style-body-flip"].includes(normalized)) return "bodyThrow";
   if (["pullrollbonus", "pullroll", "pull-roll", "pull-roll-bonus", "pullpunchbonus", "rollwithpunchbonus"].includes(normalized)) return "pullRollBonus";
 
@@ -388,7 +420,9 @@ function getHandToHandSpecialRules(handToHandItem, level) {
     }
   }
 
-  rules.critRange = rules.critRange19 ? 19 : 20;
+  rules.critRange = rules.critRange17 ? 17 : (rules.critRange18 ? 18 : (rules.critRange19 ? 19 : 20));
+  rules.knockoutStunRange = rules.knockoutStun17 ? 17 : (rules.knockoutStun18 ? 18 : 0);
+  rules.deathBlowRange = rules.deathBlow19 ? 19 : (rules.deathBlow20 ? 20 : 0);
   rules.pullRollBonusValue = rules.pullRollBonus ? 2 : 0;
   rules.unlocked = unlocked;
 
@@ -1562,6 +1596,8 @@ export class RiftsActor extends Actor {
     system.combat.heldActionCount = Math.max(0, Math.floor(num(system.combat.heldActionCount, 0)));
     system.combat.heldActionReady = bool(system.combat.heldActionReady);
     system.combat.lastAdvancedAction = normalizeText(system.combat.lastAdvancedAction);
+    system.combat.movementUsedThisAction = Math.max(0, num(system.combat.movementUsedThisAction, 0));
+    system.combat.movementActionKey = normalizeText(system.combat.movementActionKey);
     system.combat.derived ??= {};
     system.combat.derived.hasActivePowerArmor = false;
     system.combat.derived.activePowerArmorId = "";
@@ -1577,6 +1613,10 @@ export class RiftsActor extends Actor {
     system.combat.derived.activePowerArmorMdcMax = 0;
     system.combat.derived.mountedWeaponsOnPowerArmor = [];
     system.combat.derived.powerArmorMountedWeaponCount = 0;
+    system.combat.derived.outOfCombatMovement = 0;
+    system.combat.derived.movementPerAction = 0;
+    system.combat.derived.movementUsedThisAction = 0;
+    system.combat.derived.movementRemainingThisAction = 0;
     system.combat.derived.effectiveDurability = normalizeScale(system.combat.derived.effectiveDurability ?? system.combat.derived.effectiveScale, system.combat.scale);
     system.combat.derived.effectiveDurabilityLabelKey = getScaleLabelKey(system.combat.derived.effectiveDurability);
     system.combat.derived.activeArmorDurability = "sdc";
@@ -1745,7 +1785,7 @@ export class RiftsActor extends Actor {
       system.combat.derived.strikeTotal = ppBaseline + system.combat.strikeMod + handToHandBonuses.strikeBonus + num(combinedPassiveEffects.combat?.strike, 0);
       system.combat.derived.parryTotal = ppBaseline + system.combat.parryMod + handToHandBonuses.parryBonus + num(combinedPassiveEffects.combat?.parry, 0);
       system.combat.derived.dodgeTotal = ppBaseline + system.combat.dodgeMod + handToHandBonuses.dodgeBonus + num(combinedPassiveEffects.combat?.dodge, 0);
-      system.combat.derived.initiativeTotal = ppBaseline + system.combat.initiativeMod + num(combinedPassiveEffects.combat?.initiative, 0);
+      system.combat.derived.initiativeTotal = ppBaseline + system.combat.initiativeMod + handToHandBonuses.initiativeBonus + num(combinedPassiveEffects.combat?.initiative, 0);
       system.combat.autoDodgeAvailable = handToHandBonuses.autoDodgeAvailable;
 
       system.progression.activeClassId = activeClass?.id ?? "";
@@ -1803,6 +1843,9 @@ export class RiftsActor extends Actor {
       system.progression.activeHandToHandName = activeHandToHand?.name ?? "";
       system.progression.handToHandBonuses = {
         apmBonus: handToHandBonuses.apmBonus,
+        initiativeBonus: handToHandBonuses.initiativeBonus,
+        disarmBonus: handToHandBonuses.disarmBonus,
+        entangleBonus: handToHandBonuses.entangleBonus,
         strikeBonus: handToHandBonuses.strikeBonus,
         parryBonus: handToHandBonuses.parryBonus,
         dodgeBonus: handToHandBonuses.dodgeBonus,
@@ -1936,6 +1979,9 @@ export class RiftsActor extends Actor {
       system.progression.activeHandToHandName = "";
       system.progression.handToHandBonuses = {
         apmBonus: 0,
+        initiativeBonus: 0,
+        disarmBonus: 0,
+        entangleBonus: 0,
         strikeBonus: 0,
         parryBonus: 0,
         dodgeBonus: 0,
@@ -1964,13 +2010,18 @@ export class RiftsActor extends Actor {
     system.combat.derived.handToHandStyleId = activeHandToHand?.id ?? "";
     system.combat.derived.handToHandStyleName = activeHandToHand?.name ?? "";
     system.combat.derived.handToHandApmBonus = handToHandBonuses.apmBonus;
+    system.combat.derived.handToHandInitiativeBonus = handToHandBonuses.initiativeBonus;
+    system.combat.derived.handToHandDisarmBonus = handToHandBonuses.disarmBonus;
+    system.combat.derived.handToHandEntangleBonus = handToHandBonuses.entangleBonus;
     system.combat.derived.handToHandStrikeBonus = handToHandBonuses.strikeBonus;
     system.combat.derived.handToHandParryBonus = handToHandBonuses.parryBonus;
     system.combat.derived.handToHandDodgeBonus = handToHandBonuses.dodgeBonus;
     system.combat.derived.handToHandDamageBonus = handToHandBonuses.damageBonus;
     system.combat.derived.handToHandAutoDodgeLevel = handToHandBonuses.autoDodgeLevel;
     system.combat.derived.handToHandSpecialRules = foundry.utils.deepClone(handToHandSpecialRules);
-    system.combat.derived.handToHandCritRange = Math.max(19, Math.floor(num(handToHandSpecialRules.critRange, 20)));
+    system.combat.derived.handToHandCritRange = Math.max(17, Math.floor(num(handToHandSpecialRules.critRange, 20)));
+    system.combat.derived.handToHandKnockoutStunRange = Math.max(0, Math.floor(num(handToHandSpecialRules.knockoutStunRange, 0)));
+    system.combat.derived.handToHandDeathBlowRange = Math.max(0, Math.floor(num(handToHandSpecialRules.deathBlowRange, 0)));
     system.combat.derived.handToHandPullRollBonus = Math.max(0, Math.floor(num(handToHandSpecialRules.pullRollBonusValue, 0)));
     system.combat.derived.attacksPerMelee = attacksPerMelee;
 
@@ -2014,6 +2065,17 @@ export class RiftsActor extends Actor {
     system.combat.derived.heldAction = system.combat.heldAction;
     system.combat.derived.heldActionCount = system.combat.heldActionCount;
     system.combat.derived.heldActionReady = system.combat.heldActionReady;
+
+    const spdValue = num(system.attributes?.spd?.value, 0);
+    const outOfCombatMovement = Math.max(0, spdValue * 5);
+    const movementApm = Math.max(1, num(system.combat.apmTotal, num(system.combat.derived.attacksPerMelee, 1)));
+    const movementPerAction = outOfCombatMovement / movementApm;
+    const movementUsedThisAction = Math.max(0, num(system.combat.movementUsedThisAction, 0));
+
+    system.combat.derived.outOfCombatMovement = outOfCombatMovement;
+    system.combat.derived.movementPerAction = movementPerAction;
+    system.combat.derived.movementUsedThisAction = movementUsedThisAction;
+    system.combat.derived.movementRemainingThisAction = Math.max(0, movementPerAction - movementUsedThisAction);
 
     system.derived ??= {};
     if (this.type === "vehicle") {

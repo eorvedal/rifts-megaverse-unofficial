@@ -112,6 +112,36 @@ function localize(key, fallback = "") {
   return localized || fallback || key;
 }
 
+function getHandToHandPullRollBonus(actor) {
+  return Math.max(
+    0,
+    Math.floor(num(
+      actor?.system?.combat?.derived?.handToHandPullRollBonus,
+      num(actor?.system?.progression?.handToHandSpecialRules?.pullRollBonusValue, 0)
+    ))
+  );
+}
+
+function getHandToHandDisarmBonus(actor) {
+  return Math.max(
+    0,
+    Math.floor(num(
+      actor?.system?.combat?.derived?.handToHandDisarmBonus,
+      num(actor?.system?.progression?.handToHandBonuses?.disarmBonus, 0)
+    ))
+  );
+}
+
+function getHandToHandEntangleBonus(actor) {
+  return Math.max(
+    0,
+    Math.floor(num(
+      actor?.system?.combat?.derived?.handToHandEntangleBonus,
+      num(actor?.system?.progression?.handToHandBonuses?.entangleBonus, 0)
+    ))
+  );
+}
+
 function parseManeuverPackage(rawList) {
   let parsed = rawList;
   if (typeof parsed === "string") {
@@ -610,11 +640,64 @@ function buildManeuverChatContent(actor, maneuver, isReactive = false) {
     `<p><strong>${game.i18n.localize("RIFTS.Maneuvers.DamageMultiplier")}:</strong> x${maneuver.damageMultiplier}</p>`,
     `<p><strong>${game.i18n.localize("RIFTS.Maneuvers.ManeuverSource")}:</strong> ${sourceText}</p>`,
     `<p><strong>${game.i18n.localize("RIFTS.Maneuvers.Tags")}:</strong> ${tagsText}</p>`,
+    maneuver.appliedPullRollBonus > 0 ? `<p><strong>${game.i18n.localize("RIFTS.HandToHand.PullRollBonus")}:</strong> +${maneuver.appliedPullRollBonus}</p>` : "",
     `<p><strong>${typeLabel}</strong></p>`,
     maneuver.description ? `<p>${maneuver.description}</p>` : "",
     maneuver.specialRules ? `<p><strong>${game.i18n.localize("RIFTS.Maneuvers.SpecialRules")}:</strong> ${maneuver.specialRules}</p>` : "",
     maneuver.notes ? `<p>${maneuver.notes}</p>` : ""
   ].filter((line) => line).join("");
+}
+
+function applyHandToHandManeuverBonuses(actor, maneuver) {
+  if (!maneuver || typeof maneuver !== "object") return maneuver;
+
+  const key = normalizeSpecialManeuverKey(maneuver.key || maneuver.name);
+  if (!["disarm", "entangle", "pullPunch", "rollWithPunch"].includes(key)) return maneuver;
+
+  const adjusted = {
+    ...maneuver
+  };
+
+  if (key === "disarm") {
+    const bonus = getHandToHandDisarmBonus(actor);
+    if (bonus > 0) {
+      adjusted.appliedDisarmBonus = bonus;
+      adjusted.strikeModifier = num(adjusted.strikeModifier, 0) + bonus;
+      const appliedNote = game.i18n.format("RIFTS.HandToHand.DisarmBonusApplied", { bonus });
+      adjusted.notes = [normalizeText(adjusted.notes), appliedNote]
+        .filter((entry) => entry.length > 0)
+        .join(" | ");
+    }
+    return adjusted;
+  }
+
+  if (key === "entangle") {
+    const bonus = getHandToHandEntangleBonus(actor);
+    if (bonus > 0) {
+      adjusted.appliedEntangleBonus = bonus;
+      adjusted.strikeModifier = num(adjusted.strikeModifier, 0) + bonus;
+      const appliedNote = game.i18n.format("RIFTS.HandToHand.EntangleBonusApplied", { bonus });
+      adjusted.notes = [normalizeText(adjusted.notes), appliedNote]
+        .filter((entry) => entry.length > 0)
+        .join(" | ");
+    }
+    return adjusted;
+  }
+
+  const bonus = getHandToHandPullRollBonus(actor);
+  if (bonus <= 0) return maneuver;
+  adjusted.appliedPullRollBonus = bonus;
+
+  if (key === "pullPunch") {
+    adjusted.strikeModifier = num(adjusted.strikeModifier, 0) + bonus;
+  }
+
+  const appliedNote = game.i18n.format("RIFTS.HandToHand.PullRollBonusApplied", { bonus });
+  adjusted.notes = [normalizeText(adjusted.notes), appliedNote]
+    .filter((entry) => entry.length > 0)
+    .join(" | ");
+
+  return adjusted;
 }
 
 export async function useSpecialManeuver(actor, maneuverOrId, options = {}) {
@@ -623,7 +706,7 @@ export async function useSpecialManeuver(actor, maneuverOrId, options = {}) {
     return { status: "invalid-maneuver" };
   }
 
-  const maneuver = normalizeSpecialManeuverEntry(resolved.maneuver);
+  const maneuver = applyHandToHandManeuverBonuses(actor, normalizeSpecialManeuverEntry(resolved.maneuver));
 
   if (maneuver.requiresTarget === true && !hasTrackedTarget(actor)) {
     ui.notifications.warn(game.i18n.localize("RIFTS.Errors.TargetNotFound"));

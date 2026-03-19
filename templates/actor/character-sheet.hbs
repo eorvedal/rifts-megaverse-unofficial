@@ -11,6 +11,10 @@
         <strong>{{derivedLevel}}</strong>
         <label>{{localize "RIFTS.Progression.XP"}}</label>
         <input type="number" min="0" name="system.details.experience" value="{{currentXP}}">
+        <label>{{localize "RIFTS.Sheet.Alignment"}}</label>
+        <select name="system.details.alignment">
+          {{selectOptions alignmentOptions selected=system.details.alignment localize=false blank=alignmentBlankLabel}}
+        </select>
         <span>
           {{#if hasNextLevelXP}}
             {{localize "RIFTS.Progression.NextLevel"}}: {{nextLevelXP}}

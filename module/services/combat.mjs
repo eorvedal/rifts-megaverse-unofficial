@@ -36,6 +36,7 @@ let chatListenersRegistered = false;
 let combatRoundHooksRegistered = false;
 const roundResetByCombat = new Map();
 const CATASTROPHIC_SDC_DAMAGE = 10000;
+const CRITICAL_DAMAGE_MULTIPLIER = 2;
 
 function num(value, fallback = 0) {
   const n = Number(value);
@@ -72,6 +73,262 @@ function getNaturalD20(roll) {
   const die = roll?.dice?.[0];
   const result = die?.results?.[0]?.result;
   return num(result, 0);
+}
+
+function getAttackCriticalRange(attacker, { weapon = null, attackContext = null } = {}) {
+  const actionKey = String(attackContext?.key ?? "standard").trim().toLowerCase();
+  if (actionKey === "grapple") return null;
+
+  const isUnarmedAttack = weapon?.flags?.rifts?.isUnarmedManeuver === true
+    || Boolean(getManeuverKeyFromWeaponId(weapon?.id ?? ""));
+  if (!isUnarmedAttack) return 20;
+
+  const derivedRange = Math.max(
+    2,
+    Math.floor(num(
+      attacker?.system?.combat?.derived?.handToHandCritRange,
+      num(attacker?.system?.progression?.handToHandSpecialRules?.critRange, 20)
+    ))
+  );
+
+  return Math.min(20, derivedRange);
+}
+
+function getAttackBaseHitNumber({ weapon = null, attackContext = null } = {}) {
+  const actionKey = String(attackContext?.key ?? "standard").trim().toLowerCase();
+  const attackType = weapon?.system?.weapon?.attackType ?? "strike";
+  const isRangedAttack = attackType !== "strike" || ["aimedshot", "burstfire"].includes(actionKey);
+  return isRangedAttack ? 8 : 5;
+}
+
+function getAttackKnockoutStunRange(attacker, { weapon = null, attackContext = null } = {}) {
+  const actionKey = String(attackContext?.key ?? "standard").trim().toLowerCase();
+  if (actionKey === "grapple") return null;
+
+  const isUnarmedAttack = weapon?.flags?.rifts?.isUnarmedManeuver === true
+    || Boolean(getManeuverKeyFromWeaponId(weapon?.id ?? ""));
+  if (!isUnarmedAttack) return null;
+
+  const derivedRange = Math.max(
+    0,
+    Math.floor(num(
+      attacker?.system?.combat?.derived?.handToHandKnockoutStunRange,
+      num(attacker?.system?.progression?.handToHandSpecialRules?.knockoutStunRange, 0)
+    ))
+  );
+
+  if (derivedRange <= 0) return null;
+  return Math.min(20, derivedRange);
+}
+
+function getAttackDeathBlowRange(attacker, { weapon = null, attackContext = null } = {}) {
+  const actionKey = String(attackContext?.key ?? "standard").trim().toLowerCase();
+  if (actionKey === "grapple") return null;
+
+  const isUnarmedAttack = weapon?.flags?.rifts?.isUnarmedManeuver === true
+    || Boolean(getManeuverKeyFromWeaponId(weapon?.id ?? ""));
+  if (!isUnarmedAttack) return null;
+
+  const derivedRange = Math.max(
+    0,
+    Math.floor(num(
+      attacker?.system?.combat?.derived?.handToHandDeathBlowRange,
+      num(attacker?.system?.progression?.handToHandSpecialRules?.deathBlowRange, 0)
+    ))
+  );
+
+  if (derivedRange <= 0) return null;
+  return Math.min(20, derivedRange);
+}
+
+function effectHasStatus(effect, statusId) {
+  if (!effect || !statusId) return false;
+
+  if (effect.statuses instanceof Set) return effect.statuses.has(statusId);
+  if (Array.isArray(effect.statuses)) return effect.statuses.includes(statusId);
+
+  const sourceStatuses = foundry.utils.getProperty(effect, "_source.statuses");
+  if (Array.isArray(sourceStatuses)) return sourceStatuses.includes(statusId);
+  return foundry.utils.getProperty(effect, "flags.core.statusId") === statusId;
+}
+
+function getKnockoutStunStatusDefinition() {
+  const candidates = ["stunned", "dazed"];
+  const configured = Array.isArray(CONFIG.statusEffects) ? CONFIG.statusEffects : [];
+
+  for (const candidate of candidates) {
+    const match = configured.find((entry) => String(entry?.id ?? "") === candidate);
+    if (match) return match;
+  }
+
+  return null;
+}
+
+function getDeathBlowStatusDefinition() {
+  const candidates = ["defeated", "dead", "unconscious"];
+  const configured = Array.isArray(CONFIG.statusEffects) ? CONFIG.statusEffects : [];
+
+  for (const candidate of candidates) {
+    const match = configured.find((entry) => String(entry?.id ?? "") === candidate);
+    if (match) return match;
+  }
+
+  return null;
+}
+
+async function applyKnockoutStunEffect(target) {
+  if (!target) {
+    return {
+      triggered: false,
+      applied: false,
+      pending: false,
+      statusId: "",
+      label: game.i18n.localize("RIFTS.Combat.KnockoutStun")
+    };
+  }
+
+  const ownerLevel = CONST.DOCUMENT_OWNERSHIP_LEVELS?.OWNER ?? 3;
+  const canApply = game.user?.isGM || target.testUserPermission(game.user, ownerLevel);
+  const statusDef = getKnockoutStunStatusDefinition();
+  const statusId = String(statusDef?.id ?? "stunned");
+  const label = statusDef?.name
+    ? game.i18n.localize(statusDef.name)
+    : game.i18n.localize("RIFTS.Combat.KnockoutStun");
+  const icon = String(statusDef?.img ?? "icons/svg/daze.svg");
+
+  if (!canApply) {
+    return {
+      triggered: true,
+      applied: false,
+      pending: true,
+      statusId,
+      label
+    };
+  }
+
+  const existing = target.effects?.find?.((effect) =>
+    effectHasStatus(effect, statusId)
+    || foundry.utils.getProperty(effect, "flags.rifts-megaverse.source") === "handToHandKnockoutStun"
+  ) ?? null;
+
+  const duration = {
+    rounds: 1,
+    startRound: Math.max(0, Math.floor(num(game.combat?.round, 0))),
+    startTurn: Math.max(0, Math.floor(num(game.combat?.turn, 0)))
+  };
+
+  const effectData = {
+    name: game.i18n.localize("RIFTS.Combat.KnockoutStun"),
+    img: icon,
+    statuses: statusId ? [statusId] : [],
+    disabled: false,
+    duration,
+    flags: {
+      core: {
+        statusId
+      },
+      "rifts-megaverse": {
+        generatedStatus: statusId,
+        source: "handToHandKnockoutStun"
+      }
+    }
+  };
+
+  if (existing && typeof existing.update === "function") {
+    await existing.update(effectData);
+    return {
+      triggered: true,
+      applied: true,
+      pending: false,
+      refreshed: true,
+      statusId,
+      label
+    };
+  }
+
+  await target.createEmbeddedDocuments("ActiveEffect", [effectData]);
+  return {
+    triggered: true,
+    applied: true,
+    pending: false,
+    refreshed: false,
+    statusId,
+      label
+  };
+}
+
+async function applyDeathBlowEffect(target) {
+  if (!target) {
+    return {
+      triggered: false,
+      applied: false,
+      pending: false,
+      statusId: "",
+      label: game.i18n.localize("RIFTS.Combat.DeathBlow")
+    };
+  }
+
+  const ownerLevel = CONST.DOCUMENT_OWNERSHIP_LEVELS?.OWNER ?? 3;
+  const canApply = game.user?.isGM || target.testUserPermission(game.user, ownerLevel);
+  const statusDef = getDeathBlowStatusDefinition();
+  const statusId = String(statusDef?.id ?? "defeated");
+  const label = statusDef?.name
+    ? game.i18n.localize(statusDef.name)
+    : game.i18n.localize("RIFTS.Combat.DeathBlow");
+  const icon = String(statusDef?.img ?? "icons/svg/skull.svg");
+
+  if (!canApply) {
+    return {
+      triggered: true,
+      applied: false,
+      pending: true,
+      statusId,
+      label
+    };
+  }
+
+  const existing = target.effects?.find?.((effect) =>
+    effectHasStatus(effect, statusId)
+    || foundry.utils.getProperty(effect, "flags.rifts-megaverse.source") === "handToHandDeathBlow"
+  ) ?? null;
+
+  const effectData = {
+    name: game.i18n.localize("RIFTS.Combat.DeathBlow"),
+    img: icon,
+    statuses: statusId ? [statusId] : [],
+    disabled: false,
+    flags: {
+      core: {
+        statusId
+      },
+      "rifts-megaverse": {
+        generatedStatus: statusId,
+        source: "handToHandDeathBlow"
+      }
+    }
+  };
+
+  if (existing && typeof existing.update === "function") {
+    await existing.update(effectData);
+  } else {
+    await target.createEmbeddedDocuments("ActiveEffect", [effectData]);
+  }
+
+  if (game.combat) {
+    const relatedCombatants = game.combat.combatants.filter((combatant) => combatant?.actorId === target.id);
+    for (const combatant of relatedCombatants) {
+      if (combatant?.defeated === true || combatant?.isDefeated === true) continue;
+      await combatant.update({ defeated: true });
+    }
+  }
+
+  return {
+    triggered: true,
+    applied: true,
+    pending: false,
+    statusId,
+    label
+  };
 }
 
 function getTargetAr(targetActor) {
@@ -278,11 +535,18 @@ function actorCanUseSpecialManeuver(actor, key) {
   if (!actor) return false;
 
   if (typeof actor.hasSpecialManeuver === "function") {
-    return actor.hasSpecialManeuver(key) === true;
+    if (actor.hasSpecialManeuver(key) === true) return true;
   }
 
   const normalized = String(key ?? "").trim().toLowerCase();
   if (!normalized) return false;
+
+  const ownedMatch = actor.items?.find?.((item) => {
+    if (item?.type !== "specialManeuver") return false;
+    const itemKey = String(item.system?.key ?? item.name ?? "").trim().toLowerCase().replace(/[\s-]+/g, "");
+    return itemKey === normalized.replace(/[\s-]+/g, "");
+  }) ?? null;
+  if (ownedMatch) return true;
 
   const derivedKeys = Array.isArray(actor.system?.combat?.derived?.availableManeuverKeys)
     ? actor.system.combat.derived.availableManeuverKeys
@@ -306,11 +570,34 @@ function getDefenseAvailability(defender, { weapon = null, attackContext = null 
 }
 
 function getActorApmState(actor) {
-  const total = Math.max(0, Math.floor(num(actor?.system?.combat?.apmTotal, num(actor?.system?.combat?.derived?.apmTotal, 0))));
+  const total = Math.max(
+    0,
+    Math.floor(num(
+      actor?.system?.combat?.apmTotal,
+      num(
+        actor?.system?.combat?.derived?.apmTotal,
+        num(
+          actor?.system?.combat?.derived?.attacksPerMelee,
+          num(actor?.system?.progression?.attacksPerMelee, 0)
+        )
+      )
+    ))
+  );
   const spent = Math.max(0, Math.floor(num(actor?.system?.combat?.apmSpent, 0)));
   let remaining = Math.max(0, Math.floor(num(actor?.system?.combat?.apmRemaining, 0)));
+  const actorTokenId = String(actor?.token?.id ?? actor?.parent?.id ?? "");
+  const isCombatant = Boolean(game.combat?.combatants?.find((entry) => {
+    const combatantTokenId = String(entry?.tokenId ?? entry?.token?.id ?? "");
+    return entry?.actorId === actor?.id || (actorTokenId && combatantTokenId === actorTokenId);
+  }));
 
   if (remaining <= 0 && spent === 0 && total > 0) {
+    remaining = total;
+  }
+
+  // Outside active combat tracking, stale spent/remaining values should not disable
+  // reaction buttons. Default to the actor's full current APM budget.
+  if (!game.combat || !isCombatant) {
     remaining = total;
   }
 
@@ -348,8 +635,106 @@ function notifyCannotDodge(defender, spend = null) {
   }));
 }
 
+function getRollWithPunchBonus(defender) {
+  return Math.max(
+    0,
+    Math.floor(num(
+      defender?.system?.combat?.derived?.handToHandPullRollBonus,
+      num(defender?.system?.progression?.handToHandSpecialRules?.pullRollBonusValue, 0)
+    ))
+  );
+}
+
+function appendReactionOutcome(root, label, text, success = false) {
+  if (!(root instanceof HTMLElement)) return;
+
+  root.querySelector(".rifts-reaction-outcome")?.remove();
+
+  const paragraph = document.createElement("p");
+  paragraph.className = `rifts-reaction-outcome ${success ? "is-success" : "is-failure"}`;
+  paragraph.innerHTML = `<strong>${label}:</strong> ${text}`;
+  root.append(paragraph);
+}
+
+function cloneReactionDamageButton(sourceButton, {
+  label,
+  reactionDamageMultiplier = "1",
+  reactionOutcomeText = "",
+  isRecommended = false,
+  disabled = false
+} = {}) {
+  if (!(sourceButton instanceof HTMLElement)) return null;
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.dataset.action = "roll-damage";
+  button.textContent = label;
+  button.className = isRecommended ? "is-recommended" : "is-alternative";
+  button.disabled = disabled === true;
+
+  for (const [key, value] of Object.entries(sourceButton.dataset ?? {})) {
+    if (key === "action") continue;
+    button.dataset[key] = String(value ?? "");
+  }
+
+  button.dataset.reactionDamageMultiplier = String(reactionDamageMultiplier);
+  button.dataset.reactionOutcomeText = String(reactionOutcomeText ?? "");
+  return button;
+}
+
+function buildRollWithPunchFollowupFlavor({
+  sourceDamageButton = null,
+  success = false,
+  attackTotal = 0,
+  reactionTotal = 0,
+  pullRollBonus = 0
+} = {}) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "rifts-reaction-followup-card";
+
+  const summary = document.createElement("p");
+  summary.innerHTML = `<strong>${game.i18n.localize("RIFTS.Maneuvers.RollWithPunch")}:</strong> ${game.i18n.format(
+    success ? "RIFTS.Maneuvers.RollWithPunchSuccess" : "RIFTS.Maneuvers.RollWithPunchFailure",
+    { attackTotal, reactionTotal, bonus: pullRollBonus }
+  )}`;
+  wrapper.append(summary);
+
+  const damageOutcome = document.createElement("p");
+  damageOutcome.innerHTML = `<strong>${game.i18n.localize("RIFTS.Rolls.Outcome")}:</strong> ${game.i18n.localize(
+    success ? "RIFTS.Maneuvers.RollWithPunchDamageHalved" : "RIFTS.Maneuvers.RollWithPunchDamageNormal"
+  )}`;
+  wrapper.append(damageOutcome);
+
+  if (sourceDamageButton instanceof HTMLElement) {
+    const buttonRow = document.createElement("div");
+    buttonRow.className = "reaction-row";
+
+    const normalButton = cloneReactionDamageButton(sourceDamageButton, {
+      label: game.i18n.localize("RIFTS.Combat.RollDamage"),
+      reactionDamageMultiplier: "1",
+      reactionOutcomeText: game.i18n.localize("RIFTS.Maneuvers.RollWithPunchDamageNormal"),
+      isRecommended: !success,
+      disabled: success
+    });
+
+    const halfButton = cloneReactionDamageButton(sourceDamageButton, {
+      label: game.i18n.localize("RIFTS.Combat.RollHalfDamage"),
+      reactionDamageMultiplier: "0.5",
+      reactionOutcomeText: game.i18n.localize("RIFTS.Maneuvers.RollWithPunchDamageHalved"),
+      isRecommended: success,
+      disabled: !success
+    });
+
+    if (normalButton) buttonRow.append(normalButton);
+    if (halfButton) buttonRow.append(halfButton);
+    wrapper.append(buttonRow);
+  }
+
+  return wrapper.outerHTML;
+}
+
 function disableReactionButtons(root) {
-  root.querySelectorAll("[data-action='react-parry'], [data-action='react-dodge'], [data-action='react-auto-dodge'], [data-action='react-all-out-dodge']").forEach((entry) => {
+  root.querySelectorAll("[data-action='react-parry'], [data-action='react-dodge'], [data-action='react-auto-dodge'], [data-action='react-roll-with-punch'], [data-action='react-all-out-dodge']").forEach((entry) => {
     entry.disabled = true;
   });
 }
@@ -396,7 +781,9 @@ async function postAttackCard({
   ammoResult = null,
   unarmed = null,
   advancedActionLabelOverride = "",
-  impactResult = null
+  impactResult = null,
+  knockoutStunResult = null,
+  deathBlowResult = null
 }) {
   const weaponData = getWeaponData(weapon);
   const defense = getDefenseAvailability(target, { weapon, attackContext });
@@ -422,6 +809,19 @@ async function postAttackCard({
     weaponBonus: resolution.weaponBonus,
     attackModifier: resolution.attackModifier,
     outcomeLabel: game.i18n.localize(`RIFTS.Combat.${resolution.outcomeLabel}`),
+    isCritical: resolution.isCritical === true,
+    criticalRange: Math.max(2, Math.floor(num(resolution.criticalRange, 20))),
+    criticalDamageMultiplier: Math.max(1, Math.floor(num(resolution.criticalDamageMultiplier, 1))),
+    knockoutStunTriggered: resolution.knockoutStunTriggered === true,
+    knockoutStunRange: Math.max(0, Math.floor(num(resolution.knockoutStunRange, 0))),
+    knockoutStunApplied: knockoutStunResult?.applied === true,
+    knockoutStunPending: knockoutStunResult?.pending === true,
+    knockoutStunLabel: String(knockoutStunResult?.label ?? game.i18n.localize("RIFTS.Combat.KnockoutStun")),
+    deathBlowTriggered: resolution.deathBlowTriggered === true,
+    deathBlowRange: Math.max(0, Math.floor(num(resolution.deathBlowRange, 0))),
+    deathBlowApplied: deathBlowResult?.applied === true,
+    deathBlowPending: deathBlowResult?.pending === true,
+    deathBlowLabel: String(deathBlowResult?.label ?? game.i18n.localize("RIFTS.Combat.DeathBlow")),
     hitLocationLabel: resolution.hitLocation
       ? game.i18n.localize(`RIFTS.Combat.HitLocation.${resolution.hitLocation}`)
       : game.i18n.localize("RIFTS.Combat.HitLocation.none"),
@@ -507,7 +907,15 @@ async function postAttackCard({
         unarmedStrikeModifier: num(unarmed?.strikeModifier, 0),
         unarmedDamageMultiplier: Math.max(1, Math.floor(num(unarmed?.damageMultiplier, 1))),
         unarmedRequiresHit: unarmed?.requiresHit === true,
-        impactResult: impactResult ?? null
+        impactResult: impactResult ?? null,
+        knockoutStunRange: Math.max(0, Math.floor(num(resolution.knockoutStunRange, 0))),
+        knockoutStunTriggered: resolution.knockoutStunTriggered === true,
+        knockoutStunApplied: knockoutStunResult?.applied === true,
+        knockoutStunPending: knockoutStunResult?.pending === true,
+        deathBlowRange: Math.max(0, Math.floor(num(resolution.deathBlowRange, 0))),
+        deathBlowTriggered: resolution.deathBlowTriggered === true,
+        deathBlowApplied: deathBlowResult?.applied === true,
+        deathBlowPending: deathBlowResult?.pending === true
       }
     }
   });
@@ -526,7 +934,8 @@ async function postDamageCard({
   attackerToken = null,
   targetToken = null,
   unarmedManeuverKey = "",
-  unarmedDamageFormula = ""
+  unarmedDamageFormula = "",
+  outcomeText = ""
 }) {
   const speaker = ChatMessage.getSpeaker({ actor: attacker });
   const flavor = await foundry.applications.handlebars.renderTemplate(DAMAGE_TEMPLATE, {
@@ -551,7 +960,8 @@ async function postDamageCard({
     isMegaDamage,
     amount: roll.total,
     unarmedManeuverKey,
-    unarmedDamageFormula
+    unarmedDamageFormula,
+    outcomeText
   });
 
   return roll.toMessage({
@@ -574,7 +984,8 @@ async function postDamageCard({
         damageModeLabel,
         scaleReasonLabel,
         unarmedManeuverKey,
-        unarmedDamageFormula
+        unarmedDamageFormula,
+        outcomeText
       }
     }
   });
@@ -601,6 +1012,12 @@ export async function resolveAttack({ attacker, target = null, weapon = null, at
   const attackRoll = await (new Roll(`1d20 + ${totalBonus}`)).evaluate();
   const naturalRoll = getNaturalD20(attackRoll);
   const isGrapple = attackContext?.key === "grapple";
+  const baseHitNumber = getAttackBaseHitNumber({ weapon, attackContext });
+  const criticalRange = getAttackCriticalRange(attacker, { weapon, attackContext });
+  const knockoutStunRange = getAttackKnockoutStunRange(attacker, { weapon, attackContext });
+  const deathBlowRange = getAttackDeathBlowRange(attacker, { weapon, attackContext });
+  const isCritical = criticalRange !== null && naturalRoll >= criticalRange && naturalRoll !== 1;
+  const criticalDamageMultiplier = isCritical ? CRITICAL_DAMAGE_MULTIPLIER : 1;
 
   if (!target) {
     return {
@@ -613,12 +1030,20 @@ export async function resolveAttack({ attacker, target = null, weapon = null, at
       targetAr: 0,
       outcomeLabel: "AttackOutcome.noTarget",
       hitLocation: null,
-      canRollDamage: false
+      canRollDamage: false,
+      baseHitNumber,
+      criticalRange,
+      isCritical,
+      criticalDamageMultiplier,
+      knockoutStunRange,
+      knockoutStunTriggered: false,
+      deathBlowRange,
+      deathBlowTriggered: false
     };
   }
 
   const targetAr = getTargetAr(target);
-  if (naturalRoll === 1) {
+  if (naturalRoll === 1 || attackRoll.total < baseHitNumber) {
     return {
       attackRoll,
       naturalRoll,
@@ -629,7 +1054,15 @@ export async function resolveAttack({ attacker, target = null, weapon = null, at
       targetAr,
       outcomeLabel: "AttackOutcome.miss",
       hitLocation: null,
-      canRollDamage: false
+      canRollDamage: false,
+      baseHitNumber,
+      criticalRange,
+      isCritical: false,
+      criticalDamageMultiplier: 1,
+      knockoutStunRange,
+      knockoutStunTriggered: false,
+      deathBlowRange,
+      deathBlowTriggered: false
     };
   }
 
@@ -645,11 +1078,29 @@ export async function resolveAttack({ attacker, target = null, weapon = null, at
       targetAr,
       outcomeLabel: isGrapple ? "AttackOutcome.grappleSuccess" : "AttackOutcome.hitBody",
       hitLocation: "body",
-      canRollDamage: !isGrapple
+      canRollDamage: !isGrapple,
+      baseHitNumber,
+      criticalRange,
+      isCritical,
+      criticalDamageMultiplier,
+      knockoutStunRange,
+      knockoutStunTriggered: false,
+      deathBlowRange,
+      deathBlowTriggered: false
     };
   }
 
   const hitLocation = isGrapple ? "body" : (targetAr > 0 && naturalRoll >= targetAr ? "armor" : "body");
+  const knockoutStunTriggered = !isGrapple
+    && hitLocation === "body"
+    && knockoutStunRange !== null
+    && naturalRoll >= knockoutStunRange
+    && naturalRoll !== 1;
+  const deathBlowTriggered = !isGrapple
+    && hitLocation === "body"
+    && deathBlowRange !== null
+    && naturalRoll >= deathBlowRange
+    && naturalRoll !== 1;
 
   return {
     attackRoll,
@@ -663,11 +1114,27 @@ export async function resolveAttack({ attacker, target = null, weapon = null, at
       ? "AttackOutcome.grappleSuccess"
       : (hitLocation === "armor" ? "AttackOutcome.hitArmor" : "AttackOutcome.hitBody"),
     hitLocation,
-    canRollDamage: !isGrapple
+    canRollDamage: !isGrapple,
+    baseHitNumber,
+    criticalRange,
+    isCritical,
+    criticalDamageMultiplier,
+    knockoutStunRange,
+    knockoutStunTriggered,
+    deathBlowRange,
+    deathBlowTriggered
   };
 }
 
-export async function rollDamage({ attacker = null, weapon = null, isMegaDamage = false, attackContext = null, formulaOverride = "" } = {}) {
+export async function rollDamage({
+  attacker = null,
+  weapon = null,
+  isMegaDamage = false,
+  attackContext = null,
+  formulaOverride = "",
+  criticalDamageMultiplier = 1,
+  reactionDamageMultiplier = 1
+} = {}) {
   const weaponData = getWeaponData(weapon);
   let formula = String(formulaOverride ?? "").trim();
 
@@ -682,6 +1149,18 @@ export async function rollDamage({ attacker = null, weapon = null, isMegaDamage 
     if (attackContext?.key === "grapple") {
       formula = "0";
     }
+  }
+
+  const critMultiplier = Math.max(1, Math.floor(num(criticalDamageMultiplier, 1)));
+  if (critMultiplier > 1) {
+    formula = `(${formula}) * ${critMultiplier}`;
+  }
+
+  const reactionMultiplier = Math.max(0, num(reactionDamageMultiplier, 1));
+  if (reactionMultiplier > 0 && reactionMultiplier !== 1) {
+    formula = reactionMultiplier < 1
+      ? `floor((${formula}) * ${reactionMultiplier})`
+      : `((${formula}) * ${reactionMultiplier})`;
   }
 
   const roll = await (new Roll(formula)).evaluate();
@@ -1000,6 +1479,13 @@ export async function attackWithWeapon({ attacker, weaponId, attackAction = "sta
     resolution
   });
 
+  const knockoutStunResult = resolution.knockoutStunTriggered === true
+    ? await applyKnockoutStunEffect(target)
+    : null;
+  const deathBlowResult = resolution.deathBlowTriggered === true
+    ? await applyDeathBlowEffect(target)
+    : null;
+
   const message = await postAttackCard({
     attacker,
     attackerToken,
@@ -1012,7 +1498,9 @@ export async function attackWithWeapon({ attacker, weaponId, attackAction = "sta
     attackContext,
     usedHeldAction,
     ammoResult,
-    impactResult
+    impactResult,
+    knockoutStunResult,
+    deathBlowResult
   });
 
   if (combat && actionGate.isCurrent) {
@@ -1155,6 +1643,13 @@ export async function attackWithUnarmedManeuver({
     resolution
   });
 
+  const knockoutStunResult = resolution.knockoutStunTriggered === true
+    ? await applyKnockoutStunEffect(target)
+    : null;
+  const deathBlowResult = resolution.deathBlowTriggered === true
+    ? await applyDeathBlowEffect(target)
+    : null;
+
   const message = await postAttackCard({
     attacker,
     attackerToken,
@@ -1183,7 +1678,9 @@ export async function attackWithUnarmedManeuver({
       damageFormula: finalUnarmedDamageFormula
     },
     advancedActionLabelOverride: String(advancedActionLabelOverride ?? "").trim() || game.i18n.localize("RIFTS.Unarmed.Strike"),
-    impactResult
+    impactResult,
+    knockoutStunResult,
+    deathBlowResult
   });
 
   if (combat && actionGate.isCurrent) {
@@ -1334,7 +1831,6 @@ export function registerCombatChatListeners() {
         root.dataset.riftsReactionResolved = "true";
         disableReactionButtons(root);
 
-
         await defender.rollDodge();
         await defender.update({
           "system.combat.lastActionType": "auto-dodge",
@@ -1382,6 +1878,41 @@ export function registerCombatChatListeners() {
           ui.notifications.warn(game.i18n.localize("RIFTS.Advanced.NotAvailable"));
           return;
         }
+
+        const attackTotal = num(clickButton.dataset.attackTotal, 0);
+        const dodgeTotal = num(defender.system?.combat?.derived?.dodgeTotal, num(defender.system?.combat?.dodgeMod, 0));
+        const pullRollBonus = getRollWithPunchBonus(defender);
+        const totalBonus = dodgeTotal + pullRollBonus;
+        const roll = await (new Roll(`1d20 + ${totalBonus}`)).evaluate();
+        const success = roll.total > attackTotal;
+        const sourceDamageButton = root.querySelector("[data-action='roll-damage']");
+
+        await roll.toMessage({
+          speaker: ChatMessage.getSpeaker({ actor: defender }),
+          flavor: buildRollWithPunchFollowupFlavor({
+            sourceDamageButton,
+            success,
+            attackTotal,
+            reactionTotal: roll.total,
+            pullRollBonus
+          })
+        });
+
+        root.querySelectorAll("[data-action='roll-damage']").forEach((damageButton) => {
+          damageButton.dataset.reactionDamageMultiplier = success ? "0.5" : "1";
+          damageButton.dataset.reactionOutcomeText = success
+            ? game.i18n.localize("RIFTS.Maneuvers.RollWithPunchDamageHalved")
+            : game.i18n.localize("RIFTS.Maneuvers.RollWithPunchDamageNormal");
+        });
+
+        appendReactionOutcome(
+          root,
+          game.i18n.localize("RIFTS.Maneuvers.RollWithPunch"),
+          success
+            ? game.i18n.localize("RIFTS.Maneuvers.RollWithPunchDamageHalved")
+            : game.i18n.localize("RIFTS.Maneuvers.RollWithPunchDamageNormal"),
+          success
+        );
 
         await defender.update({
           "system.combat.lastActionType": "roll-with-punch",
@@ -1542,6 +2073,9 @@ export function registerCombatChatListeners() {
         const attackActionKey = clickButton.dataset.attackActionKey ?? "standard";
         const unarmedManeuverKey = clickButton.dataset.unarmedManeuverKey ?? "";
         const unarmedDamageFormula = clickButton.dataset.unarmedDamageFormula ?? "";
+        const criticalDamageMultiplier = Math.max(1, Math.floor(num(clickButton.dataset.criticalDamageMultiplier, 1)));
+        const reactionDamageMultiplier = Math.max(0, num(clickButton.dataset.reactionDamageMultiplier, 1));
+        const reactionOutcomeText = String(clickButton.dataset.reactionOutcomeText ?? "");
 
         const attackerRef = resolveActorFromTokenOrActor({ tokenId: attackerTokenId, actorId: attackerId });
         const targetRef = resolveActorFromTokenOrActor({ tokenId: targetTokenId, actorId: targetId });
@@ -1559,7 +2093,9 @@ export function registerCombatChatListeners() {
           weapon,
           isMegaDamage,
           attackContext,
-          formulaOverride: unarmedDamageFormula
+          formulaOverride: unarmedDamageFormula,
+          criticalDamageMultiplier,
+          reactionDamageMultiplier
         });
 
         const scaleContext = getScaleContext({ attacker, target, weapon });
@@ -1593,7 +2129,8 @@ export function registerCombatChatListeners() {
           attackerToken: attackerRef.token ?? attacker?.token ?? null,
           targetToken: targetRef.token ?? target?.token ?? null,
           unarmedManeuverKey,
-          unarmedDamageFormula
+          unarmedDamageFormula,
+          outcomeText: reactionOutcomeText
         });
       });
     });

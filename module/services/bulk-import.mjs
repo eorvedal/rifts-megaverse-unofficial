@@ -121,7 +121,7 @@ function parseNumericArray(value, fallback = []) {
 }
 
 
-const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "bodyThrow", "pullRollBonus"]);
+const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "critRange18", "critRange17", "knockoutStun18", "knockoutStun17", "deathBlow20", "deathBlow19", "bodyThrow", "pullRollBonus"]);
 
 function normalizeHthSpecialRulesProgressionImport(value, issues, fieldName = "specialRulesProgression") {
   if (value === null || value === undefined || value === "") return {};
@@ -1043,11 +1043,40 @@ function mapHandToHandProfile(rawRow, issues) {
     return numeric;
   };
 
+  const parseUnlockLevelField = (value, fieldName) => {
+    if (value === null || value === undefined || value === "") return 0;
+
+    const directNumber = Number(value);
+    if (Number.isFinite(directNumber)) {
+      return Math.max(0, Math.floor(directNumber));
+    }
+
+    const numeric = parseNumericArray(value, []);
+    const positive = numeric.find((entry) => Number.isFinite(entry) && Number(entry) > 0);
+    if (Number.isFinite(positive)) {
+      return Math.max(0, Math.floor(Number(positive)));
+    }
+
+    const hasRawContent = Array.isArray(value)
+      ? value.length > 0
+      : isPlainObject(value)
+        ? Object.keys(value).length > 0
+        : text(value).length > 0;
+    if (hasRawContent) {
+      issues.errors.push(`${fieldName} must be a level number or numeric progression value.`);
+    }
+
+    return 0;
+  };
+
   const apmBonus = parseProgressionField(progression.apmBonus ?? rawRow.apmBonus, "progression.apmBonus");
+  const initiativeBonus = parseProgressionField(progression.initiativeBonus ?? rawRow.initiativeBonus, "progression.initiativeBonus");
+  const disarmBonus = parseProgressionField(progression.disarmBonus ?? rawRow.disarmBonus, "progression.disarmBonus");
+  const entangleBonus = parseProgressionField(progression.entangleBonus ?? rawRow.entangleBonus, "progression.entangleBonus");
   const strikeBonus = parseProgressionField(progression.strikeBonus ?? rawRow.strikeBonus, "progression.strikeBonus");
   const parryBonus = parseProgressionField(progression.parryBonus ?? rawRow.parryBonus, "progression.parryBonus");
   const dodgeBonus = parseProgressionField(progression.dodgeBonus ?? rawRow.dodgeBonus, "progression.dodgeBonus");
-  const autoDodgeLevel = parseProgressionField(progression.autoDodgeLevel ?? rawRow.autoDodgeLevel, "progression.autoDodgeLevel");
+  const autoDodgeLevel = parseUnlockLevelField(progression.autoDodgeLevel ?? rawRow.autoDodgeLevel, "progression.autoDodgeLevel");
   const damageBonus = parseProgressionField(progression.damageBonus ?? rawRow.damageBonus, "progression.damageBonus");
   const specialRulesProgression = normalizeHthSpecialRulesProgressionImport(
     source.specialRulesProgression ?? rawRow.specialRulesProgression ?? progression.specialRulesProgression,
@@ -1078,6 +1107,9 @@ function mapHandToHandProfile(rawRow, issues) {
       notes: text(source.notes ?? rawRow.notes),
       progression: {
         apmBonus,
+        initiativeBonus,
+        disarmBonus,
+        entangleBonus,
         strikeBonus,
         parryBonus,
         dodgeBonus,
@@ -1091,7 +1123,7 @@ function mapHandToHandProfile(rawRow, issues) {
     }
   };
 
-  const summary = `apm:${apmBonus.length} strike:${strikeBonus.length} maneuvers:${grantedManeuvers.length} rules:${Object.keys(specialRulesProgression).length}`;
+  const summary = `apm:${apmBonus.length} init:${initiativeBonus.length} disarm:${disarmBonus.length} entangle:${entangleBonus.length} strike:${strikeBonus.length} maneuvers:${grantedManeuvers.length} rules:${Object.keys(specialRulesProgression).length}`;
   return toProfileResult(documentData, summary);
 }
 
@@ -1534,7 +1566,7 @@ const IMPORT_PROFILES = {
           strikeBonus: [0, 1, 1, 2],
           parryBonus: [0, 1, 1, 2],
           dodgeBonus: [0, 0, 1, 1],
-          autoDodgeLevel: [0, 0, 9],
+          autoDodgeLevel: 9,
           damageBonus: [0, 0, 1, 2]
         },
         specialRulesProgression: {

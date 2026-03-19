@@ -157,6 +157,39 @@
   padding: 0.5rem;
 }
 
+.rifts-attack-card .reaction-row,
+.rifts-damage-card .reaction-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.rifts-attack-card .reaction-row button.is-recommended,
+.rifts-damage-card .reaction-row button.is-recommended {
+  background: #1f5f2a;
+  border: 1px solid #16441e;
+  color: #fff;
+  font-weight: 700;
+}
+
+.rifts-attack-card .reaction-row button.is-alternative,
+.rifts-damage-card .reaction-row button.is-alternative {
+  opacity: 0.8;
+}
+
+.rifts-attack-card .rifts-reaction-outcome.is-success,
+.rifts-damage-card .rifts-reaction-outcome.is-success {
+  color: #1f5f2a;
+  font-weight: 700;
+}
+
+.rifts-attack-card .rifts-reaction-outcome.is-failure,
+.rifts-damage-card .rifts-reaction-outcome.is-failure {
+  color: #7a3d00;
+  font-weight: 700;
+}
+
 .rifts-roll-card .subtitle {
   color: #666;
 }
@@ -411,8 +444,13 @@
   flex-wrap: wrap;
 }
 
-.rifts-sheet .header-meta input {
+.rifts-sheet .header-meta input,
+.rifts-sheet .header-meta select {
   width: 86px;
+}
+
+.rifts-sheet .progression-meta select[name="system.details.alignment"] {
+  width: 190px;
 }
 
 .rifts-sheet .progression-meta {

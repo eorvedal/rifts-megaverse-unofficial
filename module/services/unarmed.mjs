@@ -27,6 +27,20 @@ const UNARMED_MANEUVERS = {
     descriptionKey: "RIFTS.Unarmed.Strike",
     specialRulesKey: ""
   },
+  bodyThrow: {
+    key: "bodyThrow",
+    labelKey: "RIFTS.Unarmed.BodyThrow",
+    actionCost: 1,
+    damageFormula: "1d6",
+    strikeModifier: 0,
+    canKnockdown: true,
+    canKnockback: false,
+    knockbackValue: 0,
+    impactType: "slammed",
+    descriptionKey: "RIFTS.Unarmed.Strike",
+    specialRulesKey: "RIFTS.Unarmed.BodyThrowImpactHint",
+    requiresRule: "bodyThrow"
+  },
   bodyBlock: {
     key: "bodyBlock",
     labelKey: "RIFTS.Unarmed.BodyBlock",
@@ -52,10 +66,21 @@ function localize(key, fallback = "") {
   return game?.i18n ? game.i18n.localize(key) : key;
 }
 
+function getActiveHandToHandSpecialRules(actor) {
+  const derived = actor?.system?.combat?.derived?.handToHandSpecialRules;
+  if (derived && typeof derived === "object") return derived;
+
+  const progression = actor?.system?.progression?.handToHandSpecialRules;
+  if (progression && typeof progression === "object") return progression;
+
+  return null;
+}
+
 export function normalizeManeuverKey(value) {
   const key = String(value ?? "").trim().toLowerCase();
   if (["punch"].includes(key)) return "punch";
   if (["kick"].includes(key)) return "kick";
+  if (["bodythrow", "body-throw", "bodyflip", "body-flip", "throw", "flip"].includes(key)) return "bodyThrow";
   if (["bodyblock", "body-block", "tackle", "bodyblocktackle"].includes(key)) return "bodyBlock";
   return key;
 }
@@ -82,6 +107,16 @@ export function getUnarmedManeuvers() {
     description: entry.descriptionKey ? localize(entry.descriptionKey) : "",
     specialRules: entry.specialRulesKey ? localize(entry.specialRulesKey) : ""
   }));
+}
+
+export function getAvailableUnarmedManeuvers(actor) {
+  const rules = getActiveHandToHandSpecialRules(actor);
+
+  return getUnarmedManeuvers().filter((entry) => {
+    const requiredRule = String(entry?.requiresRule ?? "").trim();
+    if (!requiredRule) return true;
+    return rules?.[requiredRule] === true;
+  });
 }
 
 export function getStrengthDamageBonusFromPS(psValue = 0) {
@@ -132,8 +167,28 @@ function normalizeManeuverData(rawManeuver = null) {
   };
 }
 
+function applyHandToHandRuleAdjustments(actor, maneuver) {
+  if (!maneuver || typeof maneuver !== "object") return maneuver;
+
+  const rules = getActiveHandToHandSpecialRules(actor);
+  if (!rules || typeof rules !== "object") return maneuver;
+
+  const adjusted = { ...maneuver };
+
+  // HtH kick unlock/progression upgrades the standard kick damage floor without
+  // overriding stronger maneuver-specific kick formulas such as karate kicks.
+  if (adjusted.key === "kick" && rules.kickAttack === true) {
+    const currentFormula = String(adjusted.damageFormula ?? "").trim().toLowerCase();
+    if (!currentFormula || currentFormula === "1d6") {
+      adjusted.damageFormula = "1d8";
+    }
+  }
+
+  return adjusted;
+}
+
 export function buildUnarmedDamageProfileFromData(actor, rawManeuver = null) {
-  const maneuver = normalizeManeuverData(rawManeuver);
+  const maneuver = applyHandToHandRuleAdjustments(actor, normalizeManeuverData(rawManeuver));
 
   const strengthBonus = getStrengthDamageBonus(actor);
   const handToHandBonus = getHandToHandDamageBonus(actor);

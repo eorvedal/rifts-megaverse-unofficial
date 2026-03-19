@@ -1,5 +1,5 @@
 import { getTargetFromUI } from "../services/combat.mjs";
-import { buildUnarmedDamageProfile, getUnarmedManeuvers } from "../services/unarmed.mjs";
+import { buildUnarmedDamageProfile, getAvailableUnarmedManeuvers } from "../services/unarmed.mjs";
 import { normalizeSpecialManeuverEntry } from "../services/maneuvers.mjs";
 import { RiftsSelectionDialog } from "../apps/selection-dialog.mjs";
 import { openLevelUpDialog } from "../apps/level-up.mjs";
@@ -881,6 +881,16 @@ export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
       large: game.i18n.localize("RIFTS.Size.Large"),
       giant: game.i18n.localize("RIFTS.Size.Giant")
     };
+    context.alignmentBlankLabel = game.i18n.localize("RIFTS.Sheet.None");
+    context.alignmentOptions = {
+      principled: game.i18n.localize("RIFTS.Alignment.Principled"),
+      scrupulous: game.i18n.localize("RIFTS.Alignment.Scrupulous"),
+      unprincipled: game.i18n.localize("RIFTS.Alignment.Unprincipled"),
+      anarchist: game.i18n.localize("RIFTS.Alignment.Anarchist"),
+      miscreant: game.i18n.localize("RIFTS.Alignment.Miscreant"),
+      aberrant: game.i18n.localize("RIFTS.Alignment.Aberrant"),
+      diabolic: game.i18n.localize("RIFTS.Alignment.Diabolic")
+    };
     context.heldActionCount = Math.max(0, Math.floor(num(this.document.system?.combat?.heldActionCount, 0)));
     context.heldActionReady = this.document.system?.combat?.heldActionReady === true;
     context.heldActionActive = this.document.system?.combat?.heldAction === true;
@@ -891,7 +901,7 @@ export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
     context.apmTotal = num(this.document.system?.combat?.apmTotal, num(this.document.system?.combat?.derived?.apmTotal, context.attacksPerMelee));
     context.apmRemaining = num(this.document.system?.combat?.apmRemaining, num(this.document.system?.combat?.derived?.apmRemaining, context.apmTotal));
     context.canUseUnarmedManeuver = context.apmRemaining > 0;
-    context.unarmedManeuvers = getUnarmedManeuvers().map((maneuver) => {
+    context.unarmedManeuvers = getAvailableUnarmedManeuvers(this.document).map((maneuver) => {
       const profile = buildUnarmedDamageProfile(this.document, maneuver.key);
       return {
         key: maneuver.key,
@@ -974,13 +984,16 @@ export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
     context.activeHandToHandName = activeHandToHand?.name ?? game.i18n.localize("RIFTS.HandToHand.None");
     context.activeHandToHandBonuses = {
       apmBonus: num(combatDerived.handToHandApmBonus, num(activeHandToHandBonuses.apmBonus, 0)),
+      initiativeBonus: num(combatDerived.handToHandInitiativeBonus, num(activeHandToHandBonuses.initiativeBonus, 0)),
+      disarmBonus: num(combatDerived.handToHandDisarmBonus, num(activeHandToHandBonuses.disarmBonus, 0)),
+      entangleBonus: num(combatDerived.handToHandEntangleBonus, num(activeHandToHandBonuses.entangleBonus, 0)),
       strikeBonus: num(combatDerived.handToHandStrikeBonus, num(activeHandToHandBonuses.strikeBonus, 0)),
       parryBonus: num(combatDerived.handToHandParryBonus, num(activeHandToHandBonuses.parryBonus, 0)),
       dodgeBonus: num(combatDerived.handToHandDodgeBonus, num(activeHandToHandBonuses.dodgeBonus, 0)),
       damageBonus: num(combatDerived.handToHandDamageBonus, num(activeHandToHandBonuses.damageBonus, 0)),
       autoDodgeLevel: num(combatDerived.handToHandAutoDodgeLevel, num(activeHandToHandBonuses.autoDodgeLevel, 0))
     };
-    context.activeHandToHandBonusesSummary = `${game.i18n.localize("RIFTS.HandToHand.APMBonus")}: ${context.activeHandToHandBonuses.apmBonus}, ${game.i18n.localize("RIFTS.HandToHand.StrikeBonus")}: ${context.activeHandToHandBonuses.strikeBonus}, ${game.i18n.localize("RIFTS.HandToHand.ParryBonus")}: ${context.activeHandToHandBonuses.parryBonus}, ${game.i18n.localize("RIFTS.HandToHand.DodgeBonus")}: ${context.activeHandToHandBonuses.dodgeBonus}, ${game.i18n.localize("RIFTS.HandToHand.DamageBonus")}: ${context.activeHandToHandBonuses.damageBonus}`;
+    context.activeHandToHandBonusesSummary = `${game.i18n.localize("RIFTS.HandToHand.APMBonus")}: ${context.activeHandToHandBonuses.apmBonus}, ${game.i18n.localize("RIFTS.Rolls.Initiative")}: ${context.activeHandToHandBonuses.initiativeBonus}, ${game.i18n.localize("RIFTS.HandToHand.DisarmBonus")}: ${context.activeHandToHandBonuses.disarmBonus}, ${game.i18n.localize("RIFTS.HandToHand.EntangleBonus")}: ${context.activeHandToHandBonuses.entangleBonus}, ${game.i18n.localize("RIFTS.HandToHand.StrikeBonus")}: ${context.activeHandToHandBonuses.strikeBonus}, ${game.i18n.localize("RIFTS.HandToHand.ParryBonus")}: ${context.activeHandToHandBonuses.parryBonus}, ${game.i18n.localize("RIFTS.HandToHand.DodgeBonus")}: ${context.activeHandToHandBonuses.dodgeBonus}, ${game.i18n.localize("RIFTS.HandToHand.DamageBonus")}: ${context.activeHandToHandBonuses.damageBonus}`;
     context.autoDodgeStatusLabel = context.autoDodgeAvailable
       ? game.i18n.localize("RIFTS.Sheet.Active")
       : game.i18n.localize("RIFTS.Sheet.Inactive");

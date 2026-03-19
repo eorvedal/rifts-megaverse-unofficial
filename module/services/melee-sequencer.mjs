@@ -78,10 +78,26 @@ function refreshCombatTracker() {
   ui.combat.render();
 }
 
+async function syncFoundryTurnPointer(combat, state) {
+  if (!combat || !game.user?.isGM) return;
+
+  const current = getCurrentMeleeAction(combat, state);
+  if (!current?.combatantId) return;
+
+  const turnIndex = Array.from(combat.turns ?? []).findIndex((entry) => entry?.id === current.combatantId);
+  if (turnIndex < 0) return;
+
+  const currentTurn = Math.max(0, Math.floor(num(combat.turn, 0)));
+  if (currentTurn === turnIndex) return;
+
+  await combat.update({ turn: turnIndex });
+}
+
 async function setQueueState(combat, state) {
   if (!combat) return null;
   const normalized = normalizeState(state, combat.round ?? 0);
   await combat.setFlag(FLAG_SCOPE, FLAG_KEY, normalized);
+  await syncFoundryTurnPointer(combat, normalized);
   refreshCombatTracker();
   return normalized;
 }

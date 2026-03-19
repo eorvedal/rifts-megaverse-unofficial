@@ -10,6 +10,7 @@ import * as RiftsProgression from "./services/progression.mjs";
 import * as RiftsUnarmed from "./services/unarmed.mjs";
 import * as RiftsManeuvers from "./services/maneuvers.mjs";
 import * as RiftsImpact from "./services/impact.mjs";
+import * as RiftsMovement from "./services/movement.mjs";
 import * as RiftsBulkImport from "./services/bulk-import.mjs";
 import * as RiftsLevelUp from "./services/level-up.mjs";
 import { openBulkImporter, RiftsBulkImporterMenu } from "./apps/bulk-importer.mjs";
@@ -236,6 +237,7 @@ Hooks.once("ready", async () => {
   RiftsCombat.registerCombatRoundHooks();
   RiftsMeleeSequencer.registerMeleeSequencerHooks();
   RiftsCombatTracker.registerCombatTrackerIntegration();
+  RiftsMovement.registerMovementHooks();
 
   game.rifts = {
     rolls: RiftsRolls,
@@ -249,6 +251,7 @@ Hooks.once("ready", async () => {
     unarmed: RiftsUnarmed,
     maneuvers: RiftsManeuvers,
     impact: RiftsImpact,
+    movement: RiftsMovement,
     importer: {
       ...RiftsBulkImport,
       open: openBulkImporter

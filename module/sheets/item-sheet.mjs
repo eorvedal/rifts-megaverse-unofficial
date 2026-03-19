@@ -69,6 +69,42 @@ function formatProgressionArrayInput(value) {
   return normalizeProgressionArrayInput(value).join(", ");
 }
 
+function normalizeUnlockLevelInput(value) {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return Math.max(0, Math.floor(value));
+  }
+
+  if (typeof value === "string") {
+    const trimmed = value.trim();
+    if (!trimmed) return 0;
+    const numeric = Number(trimmed);
+    if (Number.isFinite(numeric)) return Math.max(0, Math.floor(numeric));
+
+    try {
+      return normalizeUnlockLevelInput(JSON.parse(trimmed));
+    } catch (_error) {
+      return 0;
+    }
+  }
+
+  if (Array.isArray(value)) {
+    for (const entry of value) {
+      const numeric = normalizeUnlockLevelInput(entry);
+      if (numeric > 0) return numeric;
+    }
+    return 0;
+  }
+
+  if (value && typeof value === "object") {
+    for (const entry of Object.values(value)) {
+      const numeric = normalizeUnlockLevelInput(entry);
+      if (numeric > 0) return numeric;
+    }
+  }
+
+  return 0;
+}
+
 function normalizeProgressionMapInput(value) {
   let parsed = value;
 
@@ -496,7 +532,7 @@ function normalizeHthManeuverPackageInput(value) {
   return normalizeManeuverPackageEntries(parsed);
 }
 
-const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "bodyThrow", "pullRollBonus"]);
+const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "critRange18", "critRange17", "knockoutStun18", "knockoutStun17", "deathBlow20", "deathBlow19", "bodyThrow", "pullRollBonus"]);
 
 function normalizeHthSpecialRulesProgressionInput(value) {
   let parsed = value;
@@ -836,10 +872,14 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     }
 
     context.hthApmBonusText = formatProgressionArrayInput(this.document.system?.progression?.apmBonus ?? []);
+    context.hthInitiativeBonusText = formatProgressionArrayInput(this.document.system?.progression?.initiativeBonus ?? []);
+    context.hthDisarmBonusText = formatProgressionArrayInput(this.document.system?.progression?.disarmBonus ?? []);
+    context.hthEntangleBonusText = formatProgressionArrayInput(this.document.system?.progression?.entangleBonus ?? []);
     context.hthStrikeBonusText = formatProgressionArrayInput(this.document.system?.progression?.strikeBonus ?? []);
     context.hthParryBonusText = formatProgressionArrayInput(this.document.system?.progression?.parryBonus ?? []);
     context.hthDodgeBonusText = formatProgressionArrayInput(this.document.system?.progression?.dodgeBonus ?? []);
-    context.hthAutoDodgeLevelText = formatProgressionArrayInput(this.document.system?.progression?.autoDodgeLevel ?? []);
+    const autoDodgeUnlockLevel = normalizeUnlockLevelInput(this.document.system?.progression?.autoDodgeLevel ?? 0);
+    context.hthAutoDodgeLevelText = autoDodgeUnlockLevel > 0 ? String(autoDodgeUnlockLevel) : "";
     context.hthDamageBonusText = formatProgressionArrayInput(this.document.system?.progression?.damageBonus ?? []);
     context.hthManeuverPackageText = stringifyJson(this.document.system?.maneuverPackage?.grantedManeuvers ?? [], []);
 
@@ -1398,12 +1438,22 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     root.querySelectorAll("[data-action='hth-progression-array']").forEach((field) => {
       field.addEventListener("change", async (event) => {
         const progressionKey = event.currentTarget.dataset.progressionKey;
-        if (!["apmBonus", "strikeBonus", "parryBonus", "dodgeBonus", "autoDodgeLevel", "damageBonus"].includes(progressionKey)) return;
+        if (!["apmBonus", "initiativeBonus", "disarmBonus", "entangleBonus", "strikeBonus", "parryBonus", "dodgeBonus", "damageBonus"].includes(progressionKey)) return;
 
         const raw = String(event.currentTarget.value ?? "").trim();
         const normalized = normalizeProgressionArrayInput(raw);
         await this.document.update({ [`system.progression.${progressionKey}`]: normalized });
         if (event.currentTarget) event.currentTarget.value = normalized.join(", ");
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='hth-unlock-level']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const progressionKey = String(event.currentTarget.dataset.progressionKey ?? "").trim();
+        if (progressionKey !== "autoDodgeLevel") return;
+
+        const normalized = normalizeUnlockLevelInput(event.currentTarget.value);
+        await this.document.update({ [`system.progression.${progressionKey}`]: normalized });
+        if (event.currentTarget) event.currentTarget.value = normalized > 0 ? String(normalized) : "";
       }, { signal });
     });
 

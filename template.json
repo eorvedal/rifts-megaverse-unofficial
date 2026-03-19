@@ -10,6 +10,7 @@
         "level": 1,
         "experience": 0,
         "credits": 0,
+        "alignment": "",
         "sizeCategory": "human"
       },
       "sheet": {
@@ -61,6 +62,8 @@
         "heldActionCount": 0,
         "heldActionReady": false,
         "lastAdvancedAction": "",
+        "movementUsedThisAction": 0,
+        "movementActionKey": "",
         "derived": {
           "strikeTotal": 0,
           "parryTotal": 0,
@@ -86,6 +89,9 @@
           "handToHandStyleId": "",
           "handToHandStyleName": "",
           "handToHandApmBonus": 0,
+          "handToHandInitiativeBonus": 0,
+          "handToHandDisarmBonus": 0,
+          "handToHandEntangleBonus": 0,
           "handToHandStrikeBonus": 0,
           "handToHandParryBonus": 0,
           "handToHandDodgeBonus": 0,
@@ -98,6 +104,10 @@
           "heldAction": false,
           "heldActionCount": 0,
           "heldActionReady": false,
+          "outOfCombatMovement": 0,
+          "movementPerAction": 0,
+          "movementUsedThisAction": 0,
+          "movementRemainingThisAction": 0,
           "hasActivePowerArmor": false,
           "activePowerArmorId": "",
           "activePowerArmorName": "",
@@ -148,6 +158,9 @@
         "activeHandToHandName": "",
         "handToHandBonuses": {
           "apmBonus": 0,
+          "initiativeBonus": 0,
+          "disarmBonus": 0,
+          "entangleBonus": 0,
           "strikeBonus": 0,
           "parryBonus": 0,
           "dodgeBonus": 0,
@@ -241,6 +254,7 @@
         "level": 1,
         "experience": 0,
         "credits": 0,
+        "alignment": "",
         "sizeCategory": "human"
       },
       "sheet": {
@@ -292,6 +306,8 @@
         "heldActionCount": 0,
         "heldActionReady": false,
         "lastAdvancedAction": "",
+        "movementUsedThisAction": 0,
+        "movementActionKey": "",
         "derived": {
           "strikeTotal": 0,
           "parryTotal": 0,
@@ -317,6 +333,9 @@
           "handToHandStyleId": "",
           "handToHandStyleName": "",
           "handToHandApmBonus": 0,
+          "handToHandInitiativeBonus": 0,
+          "handToHandDisarmBonus": 0,
+          "handToHandEntangleBonus": 0,
           "handToHandStrikeBonus": 0,
           "handToHandParryBonus": 0,
           "handToHandDodgeBonus": 0,
@@ -328,7 +347,11 @@
           "autoDodgeAvailable": false,
           "heldAction": false,
           "heldActionCount": 0,
-          "heldActionReady": false
+          "heldActionReady": false,
+          "outOfCombatMovement": 0,
+          "movementPerAction": 0,
+          "movementUsedThisAction": 0,
+          "movementRemainingThisAction": 0
         }
       },
       "skills": {
@@ -391,6 +414,8 @@
         "heldActionCount": 0,
         "heldActionReady": false,
         "lastAdvancedAction": "",
+        "movementUsedThisAction": 0,
+        "movementActionKey": "",
         "derived": {
           "strikeTotal": 0,
           "parryTotal": 0,
@@ -399,7 +424,11 @@
           "mountedWeapons": [],
           "mountedWeaponCount": 0,
           "apmTotal": 1,
-          "apmRemaining": 1
+          "apmRemaining": 1,
+          "outOfCombatMovement": 0,
+          "movementPerAction": 0,
+          "movementUsedThisAction": 0,
+          "movementRemainingThisAction": 0
         }
       },
       "progression": {},
@@ -740,10 +769,13 @@
       "notes": "",
       "progression": {
         "apmBonus": [],
+        "initiativeBonus": [],
+        "disarmBonus": [],
+        "entangleBonus": [],
         "strikeBonus": [],
         "parryBonus": [],
         "dodgeBonus": [],
-        "autoDodgeLevel": [],
+        "autoDodgeLevel": 0,
         "damageBonus": []
       },
       "specialRulesProgression": {},

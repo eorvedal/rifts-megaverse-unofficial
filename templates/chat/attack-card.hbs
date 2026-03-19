@@ -56,6 +56,29 @@
   <p><strong>{{localize "RIFTS.Combat.WeaponBonus"}}:</strong> {{weaponBonus}}</p>
   <p><strong>{{localize "RIFTS.Advanced.Modifier"}}:</strong> {{attackModifier}}</p>
   <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{outcomeLabel}}</p>
+  {{#if isCritical}}
+    <p><strong>{{localize "RIFTS.Combat.CriticalStrike"}}:</strong> {{localize "RIFTS.Combat.CriticalRangeLabel"}} {{criticalRange}}+ (x{{criticalDamageMultiplier}})</p>
+  {{/if}}
+  {{#if knockoutStunTriggered}}
+    <p><strong>{{localize "RIFTS.Combat.KnockoutStun"}}:</strong> {{localize "RIFTS.Combat.KnockoutStunRangeLabel"}} {{knockoutStunRange}}+</p>
+    {{#if knockoutStunApplied}}
+      <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.KnockoutStunApplied"}}</p>
+    {{else}}
+      {{#if knockoutStunPending}}
+        <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.KnockoutStunPending"}}</p>
+      {{/if}}
+    {{/if}}
+  {{/if}}
+  {{#if deathBlowTriggered}}
+    <p><strong>{{localize "RIFTS.Combat.DeathBlow"}}:</strong> {{localize "RIFTS.Combat.DeathBlowRangeLabel"}} {{deathBlowRange}}+</p>
+    {{#if deathBlowApplied}}
+      <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.DeathBlowApplied"}}</p>
+    {{else}}
+      {{#if deathBlowPending}}
+        <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.DeathBlowPending"}}</p>
+      {{/if}}
+    {{/if}}
+  {{/if}}
   <p><strong>{{localize "RIFTS.Combat.HitLocationLabel"}}:</strong> {{hitLocationLabel}}</p>
 
   {{#if canReact}}
@@ -92,6 +115,7 @@
           data-action="react-roll-with-punch"
           data-defender-id="{{defenderId}}"
           data-defender-token-id="{{defenderTokenId}}"
+          data-attack-total="{{total}}"
         >{{localize "RIFTS.Maneuvers.RollWithPunch"}} ({{localize "RIFTS.Advanced.Reaction"}})</button>
       {{/if}}
       {{#if canAllOutDodge}}
@@ -132,6 +156,9 @@
       data-attack-action-key="{{advancedActionKey}}"
       data-unarmed-maneuver-key="{{unarmedManeuverKey}}"
       data-unarmed-damage-formula="{{unarmedDamageFormula}}"
+      data-critical-damage-multiplier="{{criticalDamageMultiplier}}"
+      data-reaction-damage-multiplier="1"
+      data-reaction-outcome-text=""
     >{{localize "RIFTS.Combat.RollDamage"}}</button>
   {{else}}
     <p>{{localize "RIFTS.Combat.NoDamageWithoutTarget"}}</p>
