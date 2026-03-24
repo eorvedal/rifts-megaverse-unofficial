@@ -1,0 +1,549 @@
+[
+    {
+        "system":  {
+                       "notes":  "A built-in light laser weapon for quick battlefield firing. Each blast counts as one melee attack.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm Light Laser Blaster",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "A medium laser built into the forearm for stronger firepower at standard rifle range.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm Medium Laser Blaster",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "A heavy laser weapon built into the arm for powerful short-ranged assault shots.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm Heavy Laser Blaster",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "A built-in ion weapon suited to repeated battlefield shots.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm Ion Blaster",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "A belt-fed forearm machine-gun that can fire either S.D.C. or M.D. rounds depending on the ammunition loaded.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm Mini-Machine-Gun",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Launch mini-missiles from an arm or shoulder housing. Reload individual missiles by hand between attacks.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm or Shoulder Mini-Missile Launcher",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "A built-in plasma weapon for hard-hitting short-range fire.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm Plasma Ejector",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "A forearm particle beam projector for punishing short-range attacks.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Forearm Particle Beam",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Conceal a thin wire in the wrist for strangling or similar close-quarters attacks.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "wrist"
+                   },
+        "name":  "Garrote Wrist Wire",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Fire a grappling hook and line for climbing, hitching rides on larger machines, or crossing obstacles.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Grapnel and Launcher",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Turn a finger into a tiny explosive charge for desperate close-range demolition or thrown attacks.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "High Explosive Finger Joints",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Drive sharpened spikes through the knuckles for nastier punches and blade parries.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "Knuckle Spikes",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Fire a laser blast directly from one or both eyes. A simultaneous double blast counts as one melee action.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+                                                      "strike":  1
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Laser Eye",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Hide a tiny M.D. laser in a finger for quick surprise shots at short range.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "Laser Finger Blaster",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Use a built-in finger laser as a fine cutting, repair, and soldering tool.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "Laser Utility Finger",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "A piston-driven combat arm designed for brutal close-quarters strikes. It grants one extra attack per melee and improves initiative.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+                                                      "initiative":  1,
+                                                      "apm":  1
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "arm"
+                   },
+        "name":  "Pneumatic Punching Jackhammer Arm",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Extend blades from the fingers for close hand-to-hand fighting.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "Retractable Finger Blades",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Extend larger blades from the knuckles to turn a punch into a slashing attack.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "Retractable Knuckle Blades",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Keep a vibro-blade hidden in the forearm and deploy it when melee combat begins.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "forearm"
+                   },
+        "name":  "Retractable Vibro-Blade",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Hide a removable hand-held energy blaster in a leg compartment or mount it externally on the leg or back.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "leg"
+                   },
+        "name":  "Weapon Rod Concealed in Leg",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Slide out a concealed injection needle to deliver drugs, tranquilizers, poison, or similar chemicals in close contact.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "wrist"
+                   },
+        "name":  "Wrist Needle and Drug Dispenser",
+        "type":  "bionic"
+    }
+]

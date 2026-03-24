@@ -1,0 +1,210 @@
+[
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -10,
+                                     "mdc":  {
+                                                 "value":  255,
+                                                 "max":  255
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "A popular medium-weight full environmental suit with excellent mobility. Location M.D.C.: main body 70, helmet 45, arms 25 each, legs 45 each. Weight: 21 lbs. Apply a -10% movement penalty while worn. Cost: 38,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Gladiator Full Environmental Body Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -15,
+                                     "mdc":  {
+                                                 "value":  255,
+                                                 "max":  255
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "A knight-styled full environmental suit with heavy protection. Location M.D.C.: main body 95, helmet 50, arms 30 each, legs 50 each. Weight: 24 lbs. Apply a -15% movement penalty while worn. Cost: 55,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Crusader Full Environmental Body Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -5,
+                                     "mdc":  {
+                                                 "value":  147,
+                                                 "max":  147
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "Traditional medium-weight Juicer armor. Standard suit location M.D.C.: main body 45, helmet 30, arms 12 each, legs 24 each. Heavy version: main body 60, helmet 50, arms 20 each, legs 35 each. Standard movement penalty is -5% for a Juicer, -10% for anyone who is not a Juicer or Crazy. Cost: 28,000 credits for the standard model and 32,000 for the heavy model.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Juicer Assassin Plate Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -5,
+                                     "mdc":  {
+                                                 "value":  177,
+                                                 "max":  177
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "A lightweight environmental suit with flexible padding and light armor plates. Location M.D.C.: main body 50, helmet 35, arms 16 each, legs 30 each. Weight: 11 lbs. Apply a -5% movement penalty while worn. Cost: 35,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Urban Warrior Padded Environmental Body Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -10,
+                                     "mdc":  {
+                                                 "value":  139,
+                                                 "max":  139
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "An inexpensive suit built from lightweight M.D.C. polycarbonate plate. Location M.D.C.: main body 35, helmet 30, arms 15 each, legs 22 each. Weight: 13 lbs. Apply a -10% movement penalty while worn. Cost: 18,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Plastic-Man Full Environmental Body Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -10,
+                                     "mdc":  {
+                                                 "value":  155,
+                                                 "max":  155
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "A stylish non-environmental suit with a heavy plate vest and padded armor. Location M.D.C.: main body 45, helmet 35, arms 15 each, legs 25 each. Weight: 16 lbs. Apply a -10% movement penalty while worn. Cost: 24,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Huntsman Plate and Padded Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -10,
+                                     "mdc":  {
+                                                 "value":  225,
+                                                 "max":  225
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "A lightweight environmental armor made from padding, Kevlar, and composite plates. Location M.D.C.: main body 60, helmet 50, arms 30 each, legs 55 each. Weight: 17 lbs. Apply a -10% movement penalty while worn. Cost: 32,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Bushman Full Composite Environmental Body Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -15,
+                                     "mdc":  {
+                                                 "value":  255,
+                                                 "max":  255
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "A heavier Bushman variant with reinforced body plating. Use the same helmet, arm, and leg values as the standard Bushman suit, but increase main body M.D.C. to 90. Apply a -15% movement penalty while worn. Cost: 46,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Bushman Trooper Environmental Body Armor",
+        "type":  "armor"
+    }
+]

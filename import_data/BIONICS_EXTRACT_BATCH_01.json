@@ -1,0 +1,291 @@
+[
+    {
+        "system":  {
+                       "notes":  "Rocket into higher and longer leaps. Use them when clearing obstacles or crossing dangerous gaps.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "legs"
+                   },
+        "name":  "Bionic Booster Jets",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Go without breathing for up to two hours once the cell is charged, and filter smoke, tear gas, and many chemical fumes.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "chest"
+                   },
+        "name":  "Bionic Lung with Gas Filter and Oxygen Storage Cell",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Project the voice like a bullhorn to command attention across a noisy battlefield or crowded street.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Built-In Loudspeaker",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Deploy a concealed length of strong cord for climbing, improvised grappling, or similar field tricks.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "arm"
+                   },
+        "name":  "Climb Cord",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Keep a small computer and calculator built into the limb for field calculations and simple data work.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "arm"
+                   },
+        "name":  "Computer and Calculator built into the Arm",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Release repair nanobots to patch armor, internal systems, organs, sensors, and other built-in hardware.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "chest"
+                   },
+        "name":  "Cyber-Nano-Robot Repair Systems",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Track underwater depth and sound a warning before the wearer exceeds safe operating limits.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Depth Gauge and Alarm",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Plug an E-Clip directly into the body to power a built-in weapon or another compatible system.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "arm"
+                   },
+        "name":  "E-Clip Port",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Hide tools, bugs, grenades, cards, chemicals, or small weapons inside the body for surprise use later.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "general"
+                   },
+        "name":  "Secret Compartments",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Gain one additional arm and hand or a full second pair. A full extra pair adds one attack per melee plus +1 to strike and parry.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+                                                      "apm":  1,
+                                                      "parry":  1,
+                                                      "strike":  1
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "chest"
+                   },
+        "name":  "Additional Hand and Arm",
+        "type":  "bionic"
+    },
+    {
+        "system":  {
+                       "notes":  "Use these legs for long jumps, quick evasive movement, and rapid bursts of motion. Combine with booster jets for even greater leaps.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+                                                      "dodge":  1,
+                                                      "initiative":  1
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "legs"
+                   },
+        "name":  "Legs for Leaping",
+        "type":  "bionic"
+    }
+]

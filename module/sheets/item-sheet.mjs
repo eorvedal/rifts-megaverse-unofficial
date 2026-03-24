@@ -1,6 +1,21 @@
 import { isXPTableAscending, normalizeXPThresholdTable } from "../services/progression.mjs";
 import { normalizeManeuverPackageEntries, normalizeSpecialManeuverEntry } from "../services/maneuvers.mjs";
 import { normalizeChoicePoolSource, parsePoolSourceInput, poolSourceHasEntries, poolSourceToDisplayValue } from "../services/choice-lists.mjs";
+import { normalizeHandToHandSpecialRuleId } from "../services/hand-to-hand-rules.mjs";
+import {
+  SKILL_AUTOMATION_TYPES,
+  defaultPhysicalSkillRules,
+  defaultSkillEffects,
+  defaultSkillRollableEffects,
+  defaultWeaponProficiencyData,
+  hasSkillRollableEffects,
+  normalizePhysicalSkillRules,
+  normalizeSkillAutomationType,
+  normalizeSkillEffects,
+  normalizeSkillRollableEffects,
+  normalizeWeaponProficiencyData,
+  normalizeWeaponProficiencyKey
+} from "../services/skill-automation.mjs";
 
 const { ItemSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
@@ -532,8 +547,6 @@ function normalizeHthManeuverPackageInput(value) {
   return normalizeManeuverPackageEntries(parsed);
 }
 
-const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "critRange18", "critRange17", "knockoutStun18", "knockoutStun17", "deathBlow20", "deathBlow19", "bodyThrow", "pullRollBonus"]);
-
 function normalizeHthSpecialRulesProgressionInput(value) {
   let parsed = value;
   if (typeof parsed === "string") {
@@ -555,8 +568,8 @@ function normalizeHthSpecialRulesProgressionInput(value) {
     const sourceRules = Array.isArray(rawRules) ? rawRules : [rawRules];
     const normalizedRules = [];
     for (const rawRule of sourceRules) {
-      const ruleId = String(rawRule ?? "").trim();
-      if (!ruleId || !HTH_SPECIAL_RULE_IDS.has(ruleId)) continue;
+      const ruleId = normalizeHandToHandSpecialRuleId(rawRule);
+      if (!ruleId) continue;
       if (!normalizedRules.includes(ruleId)) normalizedRules.push(ruleId);
     }
 
@@ -883,8 +896,40 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
     context.hthDamageBonusText = formatProgressionArrayInput(this.document.system?.progression?.damageBonus ?? []);
     context.hthManeuverPackageText = stringifyJson(this.document.system?.maneuverPackage?.grantedManeuvers ?? [], []);
 
+    if (context.isSkill) {
+      context.system.automationType = normalizeSkillAutomationType(context.system.automationType);
+      context.system.effects = normalizeSkillEffects(context.system.effects ?? defaultSkillEffects());
+      context.system.rollableEffects = normalizeSkillRollableEffects(context.system.rollableEffects ?? defaultSkillRollableEffects());
+      context.system.resolvedEffects = normalizeSkillEffects(context.system.resolvedEffects ?? defaultSkillEffects());
+      context.system.physical = normalizePhysicalSkillRules(context.system.physical ?? defaultPhysicalSkillRules());
+      context.system.weaponProficiency = normalizeWeaponProficiencyData(context.system.weaponProficiency ?? defaultWeaponProficiencyData());
+
+      context.skillAutomationTypeOptions = {
+        "": game.i18n.localize("RIFTS.Skills.AutomationNone"),
+        [SKILL_AUTOMATION_TYPES.physical]: game.i18n.localize("RIFTS.Skills.PhysicalSkillAutomation"),
+        [SKILL_AUTOMATION_TYPES.weaponProficiency]: game.i18n.localize("RIFTS.Skills.WeaponProficiencyAutomation")
+      };
+      context.isSkillAutomationPhysical = context.system.automationType === SKILL_AUTOMATION_TYPES.physical;
+      context.isSkillAutomationWeaponProficiency = context.system.automationType === SKILL_AUTOMATION_TYPES.weaponProficiency;
+      context.skillEffectsText = stringifyJson(context.system.effects, defaultSkillEffects());
+      context.skillRollableEffectsText = stringifyJson(context.system.rollableEffects, defaultSkillRollableEffects());
+      context.skillResolvedEffectsText = stringifyJson(context.system.resolvedEffects, defaultSkillEffects());
+      context.skillHasRollableEffects = hasSkillRollableEffects(context.system.rollableEffects);
+      context.skillPhysicalRules = context.system.physical;
+      context.skillWpData = context.system.weaponProficiency;
+      context.skillWpClassificationOptions = {
+        ancient: game.i18n.localize("RIFTS.Skills.WPClassificationAncient"),
+        modern: game.i18n.localize("RIFTS.Skills.WPClassificationModern")
+      };
+      context.skillWpStrikeProgressionText = formatProgressionArrayInput(context.system.weaponProficiency.strikeProgression ?? []);
+      context.skillWpParryProgressionText = formatProgressionArrayInput(context.system.weaponProficiency.parryProgression ?? []);
+      context.skillWpThrownProgressionText = formatProgressionArrayInput(context.system.weaponProficiency.thrownProgression ?? []);
+      context.skillWpRangeProgressionText = formatProgressionArrayInput(context.system.weaponProficiency.rangeProgression ?? []);
+    }
+
     if (context.isWeapon) {
       context.system.weapon ??= {};
+      context.system.weapon.proficiencyKey = normalizeWeaponProficiencyKey(context.system.weapon.proficiencyKey);
       context.system.weapon.isBurstCapable = context.system.weapon.isBurstCapable === true;
       context.system.weapon.fireMode = context.system.weapon.fireMode ?? "single";
       context.system.weapon.burstSize = Number.isFinite(Number(context.system.weapon.burstSize))
@@ -1433,6 +1478,75 @@ export class RiftsItemSheet extends HandlebarsApplicationMixin(ItemSheetV2) {
         } catch (_error) {
           ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidGrantedSkillsJSON"));
         }
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='skill-effects']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalized = normalizeSkillEffects(raw);
+          await this.document.update({ "system.effects": normalized });
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, defaultSkillEffects());
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidSkillEffectsJSON"));
+        }
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='skill-rollable-effects']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const raw = String(event.currentTarget.value ?? "").trim();
+
+        try {
+          const normalized = normalizeSkillRollableEffects(raw);
+          await this.document.update({ "system.rollableEffects": normalized });
+          if (event.currentTarget) event.currentTarget.value = stringifyJson(normalized, defaultSkillRollableEffects());
+        } catch (_error) {
+          ui.notifications.error(game.i18n.localize("RIFTS.Errors.InvalidSkillEffectsJSON"));
+        }
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='skill-physical-rules']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const fieldEl = event.currentTarget;
+        const ruleKey = String(fieldEl?.dataset?.ruleKey ?? "").trim();
+        if (!ruleKey) return;
+
+        const current = normalizePhysicalSkillRules(this.document.system?.physical ?? defaultPhysicalSkillRules());
+        const next = foundry.utils.deepClone(current);
+
+        if (fieldEl.type === "checkbox") next[ruleKey] = fieldEl.checked === true;
+        else if (ruleKey === "bodyBlockTackleDamage") next[ruleKey] = String(fieldEl.value ?? "").trim();
+        else next[ruleKey] = Math.max(0, Math.floor(Number(fieldEl.value ?? 0) || 0));
+
+        await this.document.update({ "system.physical": next });
+        if (fieldEl.type !== "checkbox") {
+          fieldEl.value = ruleKey === "bodyBlockTackleDamage" ? next[ruleKey] : String(next[ruleKey] ?? "");
+        }
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='skill-wp-key']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const normalized = normalizeWeaponProficiencyKey(event.currentTarget.value);
+        await this.document.update({ "system.weaponProficiency.proficiencyKey": normalized });
+        if (event.currentTarget) event.currentTarget.value = normalized;
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='skill-wp-progression-array']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const progressionKey = String(event.currentTarget.dataset.progressionKey ?? "").trim();
+        if (!["strikeProgression", "parryProgression", "thrownProgression", "rangeProgression"].includes(progressionKey)) return;
+
+        const normalized = normalizeProgressionArrayInput(String(event.currentTarget.value ?? "").trim());
+        await this.document.update({ [`system.weaponProficiency.${progressionKey}`]: normalized });
+        if (event.currentTarget) event.currentTarget.value = normalized.join(", ");
+      }, { signal });
+    });
+    root.querySelectorAll("[data-action='weapon-proficiency-key']").forEach((field) => {
+      field.addEventListener("change", async (event) => {
+        const normalized = normalizeWeaponProficiencyKey(event.currentTarget.value);
+        await this.document.update({ "system.weapon.proficiencyKey": normalized });
+        if (event.currentTarget) event.currentTarget.value = normalized;
       }, { signal });
     });
     root.querySelectorAll("[data-action='hth-progression-array']").forEach((field) => {

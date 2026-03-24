@@ -1,0 +1,314 @@
+[
+    {
+        "name":  "Anthropology",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Study intelligent cultures, social customs, beliefs, and behavior patterns.",
+                       "category":  "Science",
+                       "base":  20,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Use this to avoid taboos, recognize dangerous cultural practices, and identify pre-Rifts artifacts or ruins in broad terms."
+                   }
+    },
+    {
+        "name":  "Archaeology",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Excavate, preserve, restore, and identify relics and ruins from ancient civilizations.",
+                       "category":  "Science",
+                       "base":  20,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Use this to judge whether an item is truly ancient or a forgery and to recognize pre-Rifts technology and artifacts."
+                   }
+    },
+    {
+        "name":  "Astronomy",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Study the stars and use them to judge direction, season, time, and distance.",
+                       "category":  "Science",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Biology",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Understand cells, anatomy, physiology, evolution, and genetics.",
+                       "category":  "Science",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Botany",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Study plants, their categories, and how they grow and cross-fertilize.",
+                       "category":  "Science",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Chemistry",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Understand chemical principles well enough to analyze and synthesize compounds in a lab.",
+                       "category":  "Science",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Chemistry - Analytical",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use advanced chemical analysis and laboratory methods to study and create compounds.",
+                       "category":  "Science",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Requires Chemistry, Advanced Mathematics, and Literacy. Computer Operation is strongly recommended."
+                   }
+    },
+    {
+        "name":  "Mathematics - Basic",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use counting, arithmetic, fractions, and everyday practical mathematics.",
+                       "category":  "Science",
+                       "base":  45,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Mathematics - Advanced",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use algebra, geometry, trigonometry, calculus, and higher mathematical formulas.",
+                       "category":  "Science",
+                       "base":  45,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Art",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Draw, paint, sculpt, or create crafted works of visual art.",
+                       "category":  "Technical",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Computer Operation",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Operate computers, keyboards, printers, modems, and routine software systems.",
+                       "category":  "Technical",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "This does not include programming or hacking."
+                   }
+    },
+    {
+        "name":  "Computer Programming",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Design, debug, test, and write computer programs and software.",
+                       "category":  "Technical",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Hacking attempts are at -40% unless the character also knows Computer Hacking."
+                   }
+    },
+    {
+        "name":  "Language",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Speak and understand one additional language.",
+                       "category":  "Technical",
+                       "base":  50,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Take this skill once for each language the character knows."
+                   }
+    },
+    {
+        "name":  "Literacy",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Read and write one language.",
+                       "category":  "Technical",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Take this skill once for each written language the character can read and write."
+                   }
+    },
+    {
+        "name":  "Lore - Demons and Monsters",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Study demons, supernatural monsters, their legends, habits, powers, and weaknesses.",
+                       "category":  "Technical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Lore - Faerie",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Study faerie folk, their habits, powers, and legends.",
+                       "category":  "Technical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Photography",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use cameras, lenses, filters, lighting, development, and photo duplication techniques.",
+                       "category":  "Technical",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Writing",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Write stories, poems, articles, reports, or similar prose.",
+                       "category":  "Technical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "A failed roll produces awkward writing that is difficult to understand."
+                   }
+    },
+    {
+        "name":  "Boat Building",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Build rafts, canoes, rowboats, and flatbed boats from available materials.",
+                       "category":  "Wilderness",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "A failed roll means the boat leaks and will need additional time to patch."
+                   }
+    },
+    {
+        "name":  "Carpentry",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Work wood, repair damage, judge craftsmanship, and build useful wooden items.",
+                       "category":  "Wilderness",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "If the character also knows Boat Building, add a +5% bonus to that skill."
+                   }
+    },
+    {
+        "name":  "Hunting",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Kill and prepare animals for food.",
+                       "category":  "Wilderness",
+                       "base":  0,
+                       "perLevel":  0,
+                       "modifier":  0,
+                       "notes":  "Add +2% to Prowl, +5% to Track Animals, +5% to Skin and Prepare Animal Hides, +5% to Wilderness Survival, and +5% to Cook when preparing the catch."
+                   }
+    },
+    {
+        "name":  "Identify Plants and Fruits",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Recognize edible, herbal, and poisonous plants and know where they grow.",
+                       "category":  "Wilderness",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Land Navigation",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Stay on course over land by reading landmarks, distance, sound, and terrain.",
+                       "category":  "Wilderness",
+                       "base":  36,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  "Roll about once every three miles traveled. A failed roll means the traveler drifts off course."
+                   }
+    },
+    {
+        "name":  "Preserve Food",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Can foods, dry meat and produce, and preserve food with smoking, salting, or pickling methods.",
+                       "category":  "Wilderness",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Skin and Prepare Animal Hides",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Skin, tan, stretch, and preserve animal hides as fur or leather.",
+                       "category":  "Wilderness",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "If the character also knows Sewing, add a +5% bonus to Sewing."
+                   }
+    },
+    {
+        "name":  "Track Animals",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Identify animals by tracks, spoor, scent, and habits and follow their trail.",
+                       "category":  "Wilderness",
+                       "base":  20,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Tracking humans with this skill is possible at -20%."
+                   }
+    }
+]

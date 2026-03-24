@@ -108,6 +108,14 @@
           "movementPerAction": 0,
           "movementUsedThisAction": 0,
           "movementRemainingThisAction": 0,
+          "control": {
+            "grappled": false,
+            "entangled": false,
+            "held": false,
+            "restrained": false,
+            "movementBlocked": false,
+            "dodgeBlocked": false
+          },
           "hasActivePowerArmor": false,
           "activePowerArmorId": "",
           "activePowerArmorName": "",
@@ -351,7 +359,15 @@
           "outOfCombatMovement": 0,
           "movementPerAction": 0,
           "movementUsedThisAction": 0,
-          "movementRemainingThisAction": 0
+          "movementRemainingThisAction": 0,
+          "control": {
+            "grappled": false,
+            "entangled": false,
+            "held": false,
+            "restrained": false,
+            "movementBlocked": false,
+            "dodgeBlocked": false
+          }
         }
       },
       "skills": {
@@ -428,7 +444,15 @@
           "outOfCombatMovement": 0,
           "movementPerAction": 0,
           "movementUsedThisAction": 0,
-          "movementRemainingThisAction": 0
+          "movementRemainingThisAction": 0,
+          "control": {
+            "grappled": false,
+            "entangled": false,
+            "held": false,
+            "restrained": false,
+            "movementBlocked": false,
+            "dodgeBlocked": false
+          }
         }
       },
       "progression": {},
@@ -643,11 +667,50 @@
       "base": 30,
       "perLevel": 0,
       "modifier": 0,
+      "automationType": "",
       "isOCCSkill": false,
       "isRelatedSkill": false,
       "isSecondarySkill": false,
       "sourceType": "",
       "sourceId": "",
+      "effects": {
+        "attributes": { "iq": 0, "me": 0, "ma": 0, "ps": 0, "pp": 0, "pe": 0, "pb": 0, "spd": 0 },
+        "combat": { "strike": 0, "parry": 0, "dodge": 0, "initiative": 0, "apm": 0 },
+        "resources": { "hp": 0, "sdc": 0, "mdc": 0, "ppe": 0, "isp": 0 },
+        "flags": {}
+      },
+      "rollableEffects": {
+        "attributes": { "iq": "", "me": "", "ma": "", "ps": "", "pp": "", "pe": "", "pb": "", "spd": "" },
+        "combat": { "strike": "", "parry": "", "dodge": "", "initiative": "", "apm": "" },
+        "resources": { "hp": "", "sdc": "", "mdc": "", "ppe": "", "isp": "" }
+      },
+      "resolvedEffects": {
+        "attributes": { "iq": 0, "me": 0, "ma": 0, "ps": 0, "pp": 0, "pe": 0, "pb": 0, "spd": 0 },
+        "combat": { "strike": 0, "parry": 0, "dodge": 0, "initiative": 0, "apm": 0 },
+        "resources": { "hp": 0, "sdc": 0, "mdc": 0, "ppe": 0, "isp": 0 },
+        "flags": {}
+      },
+      "physical": {
+        "rollWithPunchBonus": 0,
+        "climbBonus": 0,
+        "climbBaseGrant": 0,
+        "prowlBonus": 0,
+        "prowlBaseGrant": 0,
+        "kickAttack": false,
+        "kickDamageFormula": "",
+        "crushSqueeze": false,
+        "automaticKnockoutOn20": false,
+        "bodyBlockTackleDamage": ""
+      },
+      "weaponProficiency": {
+        "proficiencyKey": "",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
       "notes": ""
     },
     "weapon": {
@@ -659,6 +722,7 @@
         "damage": "1d6",
         "bonusStrike": 0,
         "range": "",
+        "proficiencyKey": "",
         "ammo": { "value": 0, "max": 0 },
         "isMounted": false,
         "mountName": "",

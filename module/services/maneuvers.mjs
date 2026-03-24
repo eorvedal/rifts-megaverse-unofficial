@@ -1,5 +1,7 @@
 import { attackWithUnarmedManeuver, getTargetFromUI } from "./combat.mjs";
 import { normalizeManeuverKey } from "./unarmed.mjs";
+import { getDeathBlowAttackCost } from "./rules-settings.mjs";
+import { getPhysicalSkillRollWithPunchBonus } from "./skill-automation.mjs";
 
 const SPECIAL_MANEUVER_DEFINITIONS = {
   disarm: {
@@ -120,6 +122,10 @@ function getHandToHandPullRollBonus(actor) {
       num(actor?.system?.progression?.handToHandSpecialRules?.pullRollBonusValue, 0)
     ))
   );
+}
+
+function getTotalPullRollBonus(actor) {
+  return getHandToHandPullRollBonus(actor) + getPhysicalSkillRollWithPunchBonus(actor);
 }
 
 function getHandToHandDisarmBonus(actor) {
@@ -312,9 +318,18 @@ export function normalizeSpecialManeuverKey(value) {
   const normalized = normalizeName(value);
   if (["disarm"].includes(normalized)) return "disarm";
   if (["entangle"].includes(normalized)) return "entangle";
+  if (["hold", "holds", "grapplehold", "grapple-hold"].includes(normalized)) return "holds";
+  if (["knockoutstun", "knockout-stun", "knockout stun", "ko", "kostun"].includes(normalized)) return "knockoutStun";
+  if (["deathblow", "death-blow", "death blow"].includes(normalized)) return "deathBlow";
   if (["pullpunch", "pull-punch", "pull punch"].includes(normalized)) return "pullPunch";
   if (["rollwithpunch", "roll-with-punch", "roll with punch"].includes(normalized)) return "rollWithPunch";
   return normalizeManeuverKey(value) || normalized;
+}
+
+function getConfiguredManeuverActionCost(maneuver) {
+  const key = normalizeSpecialManeuverKey(maneuver?.key || maneuver?.name);
+  if (key === "deathBlow") return getDeathBlowAttackCost();
+  return Math.max(0, Math.floor(num(maneuver?.actionCost, 1)));
 }
 
 export function normalizeSpecialManeuverEntry(rawEntry = {}) {
@@ -327,7 +342,11 @@ export function normalizeSpecialManeuverEntry(rawEntry = {}) {
     name: label,
     category: normalizeText(rawEntry.category || base?.category || "offensive"),
     description: normalizeText(rawEntry.description || base?.description || ""),
-    actionCost: Math.max(0, Math.floor(num(rawEntry.actionCost, num(base?.actionCost, 1)))),
+    actionCost: getConfiguredManeuverActionCost({
+      key,
+      name: label,
+      actionCost: num(rawEntry.actionCost, num(base?.actionCost, 1))
+    }),
     strikeModifier: num(rawEntry.strikeModifier, num(base?.strikeModifier, 0)),
     damageFormula: normalizeText(rawEntry.damageFormula || base?.damageFormula || "0") || "0",
     damageMultiplier: Math.max(1, Math.floor(num(rawEntry.damageMultiplier, num(base?.damageMultiplier, 1)))),
@@ -684,7 +703,7 @@ function applyHandToHandManeuverBonuses(actor, maneuver) {
     return adjusted;
   }
 
-  const bonus = getHandToHandPullRollBonus(actor);
+  const bonus = getTotalPullRollBonus(actor);
   if (bonus <= 0) return maneuver;
   adjusted.appliedPullRollBonus = bonus;
 
@@ -735,7 +754,7 @@ export async function useSpecialManeuver(actor, maneuverOrId, options = {}) {
     maneuverData: {
       key: maneuver.key || normalizeSpecialManeuverKey(maneuver.name),
       label: maneuver.name,
-      actionCost: Math.max(1, maneuver.actionCost),
+      actionCost: Math.max(1, getConfiguredManeuverActionCost(maneuver)),
       strikeModifier: maneuver.strikeModifier,
       damageFormula: maneuver.damageFormula,
       damageMultiplier: Math.max(1, Math.floor(num(maneuver.damageMultiplier, 1))),
@@ -757,6 +776,7 @@ export async function useSpecialManeuver(actor, maneuverOrId, options = {}) {
   let noteKey = "";
   if (key === "disarm") noteKey = "RIFTS.Maneuvers.DisarmNote";
   if (key === "entangle") noteKey = "RIFTS.Maneuvers.EntangleNote";
+  if (key === "holds") noteKey = "RIFTS.Maneuvers.HoldsNote";
   if (key === "pullPunch") noteKey = "RIFTS.Maneuvers.PullPunchNote";
 
   if (noteKey) {

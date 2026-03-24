@@ -1,0 +1,707 @@
+﻿[
+    {
+    "name":  "Borg",
+    "type":  "occ",
+    "system":  {
+                   "category":  "Men of Arms",
+                   "description":  "Full-conversion or partial-conversion cyborg built for war, shock force, and survival in the heaviest fighting.",
+                   "notes":  "Use the Coalition or mercenary combat borg as the default package. The runaway slave-borg variant remains available through the class notes and manual adjustments.",
+                   "attributeRequirements":  {
+                                                 "iq":  null,
+                                                 "me":  null,
+                                                 "ma":  null,
+                                                 "ps":  null,
+                                                 "pp":  null,
+                                                 "pe":  null,
+                                                 "pb":  null,
+                                                 "spd":  null
+                                             },
+                   "startingCredits":  {
+                                           "credits":  0
+                                       },
+                   "xp":  {
+                              "value":  0
+                          },
+                   "progression":  {
+                                       "xpTable":  [
+                                                       0,
+                                                       2101,
+                                                       4201,
+                                                       8401,
+                                                       17201,
+                                                       25401,
+                                                       35801,
+                                                       51001,
+                                                       71201,
+                                                       96401,
+                                                       131601,
+                                                       181801,
+                                                       232001,
+                                                       282201,
+                                                       342401
+                                                   ],
+                                       "maxLevel":  15
+                                   },
+                   "startingResources":  {
+                                             "hp":  0,
+                                             "sdc":  0,
+                                             "isp":  0,
+                                             "ppe":  0
+                                         },
+                   "resourceProgression":  {
+                                               "hpPerLevel":  "",
+                                               "sdcPerLevel":  "",
+                                               "ispPerLevel":  "",
+                                               "ppePerLevel":  ""
+                                           },
+                   "skillSelection":  {
+                                          "occ":  0,
+                                          "related":  6,
+                                          "secondary":  8,
+                                          "occProgression":  {
+
+                                                             },
+                                          "relatedProgression":  {
+
+                                                                 },
+                                          "secondaryProgression":  {
+                                                                       "4":  2,
+                                                                       "8":  2
+                                                                   }
+                                      },
+                   "skillPackage":  {
+                                        "occSkills":  [
+                                                          {
+                                                              "name":  "Radio: Basic",
+                                                              "category":  "Communications",
+                                                              "base":  45,
+                                                              "perLevel":  5,
+                                                              "modifier":  10,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "Hover Craft (Ground)",
+                                                              "category":  "Pilot",
+                                                              "base":  50,
+                                                              "perLevel":  5,
+                                                              "modifier":  10,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "Tanks and APCs",
+                                                              "category":  "Pilot",
+                                                              "base":  36,
+                                                              "perLevel":  4,
+                                                              "modifier":  5,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "Read Sensory Equipment",
+                                                              "category":  "Pilot Related",
+                                                              "base":  30,
+                                                              "perLevel":  5,
+                                                              "modifier":  10,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "Weapon Systems",
+                                                              "category":  "Pilot Related",
+                                                              "base":  40,
+                                                              "perLevel":  5,
+                                                              "modifier":  5,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "Climbing",
+                                                              "category":  "Physical",
+                                                              "base":  40,
+                                                              "perLevel":  5,
+                                                              "modifier":  5,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "W.P. Energy Pistol",
+                                                              "category":  "Weapon Proficiency",
+                                                              "base":  0,
+                                                              "perLevel":  0,
+                                                              "modifier":  0,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "W.P. Energy Rifle",
+                                                              "category":  "Weapon Proficiency",
+                                                              "base":  0,
+                                                              "perLevel":  0,
+                                                              "modifier":  0,
+                                                              "notes":  ""
+                                                          },
+                                                          {
+                                                              "name":  "Language",
+                                                              "category":  "Technical",
+                                                              "base":  50,
+                                                              "perLevel":  5,
+                                                              "modifier":  46,
+                                                              "notes":  "Speak American and one additional language at 96% proficiency."
+                                                          },
+                                                          {
+                                                              "name":  "Hand to Hand Training",
+                                                              "category":  "Combat",
+                                                              "base":  0,
+                                                              "perLevel":  0,
+                                                              "modifier":  0,
+                                                              "notes":  "Use the full-conversion combat package by default with Hand to Hand: Expert. The slave-borg variant starts with Hand to Hand: Basic."
+                                                          }
+                                                      ],
+                                        "relatedSkills":  [
+                                                              {
+                                                                  "name":  "Airplane",
+                                                                  "category":  "Pilot",
+                                                                  "base":  50,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Art",
+                                                                  "category":  "Technical",
+                                                                  "base":  35,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Automobile",
+                                                                  "category":  "Pilot",
+                                                                  "base":  60,
+                                                                  "perLevel":  2,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Automotive Mechanics",
+                                                                  "category":  "Mechanical",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Basic Electronics",
+                                                                  "category":  "Electrical",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Boat Building",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Boat: Motor and Hydrofoils",
+                                                                  "category":  "Pilot",
+                                                                  "base":  55,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Boat: Sail Type",
+                                                                  "category":  "Pilot",
+                                                                  "base":  60,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Boat: Ships",
+                                                                  "category":  "Pilot",
+                                                                  "base":  45,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Carpentry",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Computer Operation",
+                                                                  "category":  "Technical",
+                                                                  "base":  40,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Computer Programming",
+                                                                  "category":  "Technical",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Cook",
+                                                                  "category":  "Domestic",
+                                                                  "base":  35,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Cryptography",
+                                                                  "category":  "Communications",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Dance",
+                                                                  "category":  "Domestic",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Demolitions",
+                                                                  "category":  "Military",
+                                                                  "base":  60,
+                                                                  "perLevel":  3,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Demolitions Disposal",
+                                                                  "category":  "Military",
+                                                                  "base":  60,
+                                                                  "perLevel":  3,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "First Aid",
+                                                                  "category":  "Medical",
+                                                                  "base":  45,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Fishing",
+                                                                  "category":  "Domestic",
+                                                                  "base":  40,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Helicopter",
+                                                                  "category":  "Pilot",
+                                                                  "base":  35,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Horsemanship",
+                                                                  "category":  "Pilot",
+                                                                  "base":  40,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Hover Craft (Ground)",
+                                                                  "category":  "Pilot",
+                                                                  "base":  50,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Hunting",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  0,
+                                                                  "perLevel":  0,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Identify Plants and Fruits",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Jet Aircraft",
+                                                                  "category":  "Pilot",
+                                                                  "base":  40,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Jet Fighters",
+                                                                  "category":  "Pilot",
+                                                                  "base":  40,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Jet Packs",
+                                                                  "category":  "Pilot",
+                                                                  "base":  42,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Land Navigation",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  36,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Language",
+                                                                  "category":  "Technical",
+                                                                  "base":  50,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Laser",
+                                                                  "category":  "Communications",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Literacy",
+                                                                  "category":  "Technical",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Lore - Demons and Monsters",
+                                                                  "category":  "Technical",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Lore - Faerie",
+                                                                  "category":  "Technical",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Mathematics - Basic",
+                                                                  "category":  "Science",
+                                                                  "base":  45,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Motorcycle",
+                                                                  "category":  "Pilot",
+                                                                  "base":  60,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Navigation",
+                                                                  "category":  "Pilot Related",
+                                                                  "base":  40,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Optic Systems",
+                                                                  "category":  "Communications",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Photography",
+                                                                  "category":  "Technical",
+                                                                  "base":  35,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Play Musical Instrument",
+                                                                  "category":  "Domestic",
+                                                                  "base":  35,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Preserve Food",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Radio: Basic",
+                                                                  "category":  "Communications",
+                                                                  "base":  45,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Radio: Scramblers",
+                                                                  "category":  "Communications",
+                                                                  "base":  35,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Read Sensory Equipment",
+                                                                  "category":  "Pilot Related",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Robot Combat: Basic",
+                                                                  "category":  "Pilot",
+                                                                  "base":  0,
+                                                                  "perLevel":  0,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Robot Combat: Elite",
+                                                                  "category":  "Pilot",
+                                                                  "base":  0,
+                                                                  "perLevel":  0,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Robots and Power Armor",
+                                                                  "category":  "Pilot",
+                                                                  "base":  56,
+                                                                  "perLevel":  3,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Sewing",
+                                                                  "category":  "Domestic",
+                                                                  "base":  40,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Sing",
+                                                                  "category":  "Domestic",
+                                                                  "base":  35,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Skin and Prepare Animal Hides",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Surveillance Systems",
+                                                                  "category":  "Communications",
+                                                                  "base":  30,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "T.V./Video",
+                                                                  "category":  "Communications",
+                                                                  "base":  25,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Tanks and APCs",
+                                                                  "category":  "Pilot",
+                                                                  "base":  36,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Track Animals",
+                                                                  "category":  "Wilderness",
+                                                                  "base":  20,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Truck",
+                                                                  "category":  "Pilot",
+                                                                  "base":  40,
+                                                                  "perLevel":  4,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Weapon Systems",
+                                                                  "category":  "Pilot Related",
+                                                                  "base":  40,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              },
+                                                              {
+                                                                  "name":  "Writing",
+                                                                  "category":  "Technical",
+                                                                  "base":  25,
+                                                                  "perLevel":  5,
+                                                                  "modifier":  5,
+                                                                  "notes":  ""
+                                                              }
+                                                          ],
+                                        "secondarySkills":  [
+
+                                                            ]
+                                    },
+                   "startingPowers":  {
+                                          "spells":  [
+
+                                                     ],
+                                          "psionics":  [
+
+                                                       ]
+                                      },
+                   "powerProgression":  {
+                                            "spellProgression":  {
+
+                                                                 },
+                                            "psionicProgression":  {
+
+                                                                   }
+                                        },
+                   "choiceProgression":  {
+                                             "1":  [
+                                                       {
+                                                           "choiceType":  "weaponProficiencies",
+                                                           "count":  2,
+                                                           "lists":  [
+                                                                         "wp-all"
+                                                                     ]
+                                                       }
+                                                   ]
+                                         },
+                   "choicePools":  {
+                                       "spells":  [
+
+                                                  ],
+                                       "psionics":  [
+
+                                                    ],
+                                       "maneuvers":  [
+
+                                                     ],
+                                       "weaponProficiencies":  [
+
+                                                               ],
+                                       "packageChoices":  [
+
+                                                          ],
+                                       "optionalChoices":  [
+
+                                                           ]
+                                   },
+                   "effects":  {
+                                   "attributes":  {
+
+                                                  },
+                                   "combat":  {
+
+                                              },
+                                   "resources":  {
+
+                                                 },
+                                   "flags":  {
+                                                 "borg":  true,
+                                                 "fullConversion":  true
+                                             }
+                               },
+                   "grantedAbilities":  [
+                                            {
+                                                "name":  "Combat Cyborg Conversion",
+                                                "notes":  "Play the default class package as a combat borg with military bionics, reinforced body structure, and battlefield-grade conversion."
+                                            },
+                                            {
+                                                "name":  "Magic Resistance",
+                                                "notes":  "Apply the class bonus of +3 to save versus magic. Borgs are also immune to bio-manipulation and cannot be read with See Aura."
+                                            },
+                                            {
+                                                "name":  "Techno-Wizard and Magic Limitations",
+                                                "notes":  "Borgs cannot cast magic, operate techno-wizard devices, or use rune magic as a practitioner. Full conversion destroys psionics completely, while partial conversion halves I.S.P."
+                                            },
+                                            {
+                                                "name":  "Coalition Borg Standard Capabilities",
+                                                "notes":  "Use the listed military full-conversion baseline for Coalition borgs: P.S. 28, P.P. 20, average Spd 132, built-in language translator, and the standard military conversion package from the bionics section."
+                                            },
+                                            {
+                                                "name":  "Slave-Borg Variant",
+                                                "notes":  "To play a runaway slave-borg, swap to the peasant-style skill package described in the class text, reduce the starting gear and money accordingly, and use the less specialized bionic loadout."
+                                            },
+                                            {
+                                                "name":  "Vehicle Restrictions",
+                                                "notes":  "Coalition borgs are usually limited to hover vehicles and motorcycles and are seldom issued robot vehicles or power armor."
+                                            }
+                                        ],
+                   "grantedSkills":  [
+
+                                     ],
+                   "unresolvedNotes":  [
+                                           "The full-conversion military baseline includes fixed physical statistics and bionic hardware that are better handled through actual bionic item packages later rather than faked as permanent attribute bonuses here.",
+                                           "Starting money differs sharply by variant: Coalition enlistment pay, mercenary starting cash, and runaway slave-borg resources remain table-managed.",
+                                           "If the character is only partially converted, keep the class notes for retained psionics and different hardware assumptions in play."
+                                       ]
+               }
+}
+]

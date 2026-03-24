@@ -1,3 +1,5 @@
+import { getPhysicalSkillUnarmedRules } from "./skill-automation.mjs";
+
 const UNARMED_PREFIX = "unarmed:";
 
 const UNARMED_MANEUVERS = {
@@ -53,6 +55,20 @@ const UNARMED_MANEUVERS = {
     impactType: "slammed",
     descriptionKey: "RIFTS.Unarmed.Strike",
     specialRulesKey: "RIFTS.Unarmed.BodyBlockImpactHint"
+  },
+  crushSqueeze: {
+    key: "crushSqueeze",
+    labelKey: "RIFTS.Unarmed.CrushSqueeze",
+    actionCost: 1,
+    damageFormula: "1d4",
+    strikeModifier: 0,
+    canKnockdown: false,
+    canKnockback: false,
+    knockbackValue: 0,
+    impactType: "",
+    descriptionKey: "RIFTS.Unarmed.Strike",
+    specialRulesKey: "RIFTS.Unarmed.CrushSqueezeHint",
+    requiresPhysicalRule: "crushSqueeze"
   }
 };
 
@@ -82,6 +98,7 @@ export function normalizeManeuverKey(value) {
   if (["kick"].includes(key)) return "kick";
   if (["bodythrow", "body-throw", "bodyflip", "body-flip", "throw", "flip"].includes(key)) return "bodyThrow";
   if (["bodyblock", "body-block", "tackle", "bodyblocktackle"].includes(key)) return "bodyBlock";
+  if (["crushsqueeze", "crush-squeeze", "crush squeeze", "squeeze", "crush"].includes(key)) return "crushSqueeze";
   return key;
 }
 
@@ -111,11 +128,15 @@ export function getUnarmedManeuvers() {
 
 export function getAvailableUnarmedManeuvers(actor) {
   const rules = getActiveHandToHandSpecialRules(actor);
+  const physicalRules = getPhysicalSkillUnarmedRules(actor);
 
   return getUnarmedManeuvers().filter((entry) => {
     const requiredRule = String(entry?.requiresRule ?? "").trim();
-    if (!requiredRule) return true;
-    return rules?.[requiredRule] === true;
+    const requiredPhysicalRule = String(entry?.requiresPhysicalRule ?? "").trim();
+    if (!requiredRule && !requiredPhysicalRule) return true;
+    if (requiredRule && rules?.[requiredRule] === true) return true;
+    if (requiredPhysicalRule && physicalRules?.[requiredPhysicalRule] === true) return true;
+    return false;
   });
 }
 
@@ -171,17 +192,30 @@ function applyHandToHandRuleAdjustments(actor, maneuver) {
   if (!maneuver || typeof maneuver !== "object") return maneuver;
 
   const rules = getActiveHandToHandSpecialRules(actor);
-  if (!rules || typeof rules !== "object") return maneuver;
+  const physicalRules = getPhysicalSkillUnarmedRules(actor);
+  if ((!rules || typeof rules !== "object") && (!physicalRules || typeof physicalRules !== "object")) return maneuver;
 
   const adjusted = { ...maneuver };
 
   // HtH kick unlock/progression upgrades the standard kick damage floor without
   // overriding stronger maneuver-specific kick formulas such as karate kicks.
-  if (adjusted.key === "kick" && rules.kickAttack === true) {
+  if (adjusted.key === "kick") {
+    const physicalKickDamage = String(physicalRules?.kickDamageFormula ?? "").trim();
+    if (physicalKickDamage) {
+      adjusted.damageFormula = physicalKickDamage;
+    }
+
+    if (rules?.kickAttack === true || physicalRules?.kickAttack === true) {
     const currentFormula = String(adjusted.damageFormula ?? "").trim().toLowerCase();
     if (!currentFormula || currentFormula === "1d6") {
       adjusted.damageFormula = "1d8";
     }
+    }
+  }
+
+  if (adjusted.key === "bodyBlock") {
+    const bodyBlockDamage = String(physicalRules?.bodyBlockTackleDamage ?? "").trim();
+    if (bodyBlockDamage) adjusted.damageFormula = bodyBlockDamage;
   }
 
   return adjusted;

@@ -25,6 +25,17 @@ import {
   hasValidVehicleMdc,
   normalizeScale
 } from "../services/scale.mjs";
+import {
+  aggregatePhysicalSkillAutomation,
+  defaultSkillEffects,
+  hasSkillRollableEffects,
+  getPhysicalSkillRollAdjustments,
+  normalizeSkillRollableEffects,
+  normalizeSkillEffects,
+  resolveWeaponProficiencyBonuses
+} from "../services/skill-automation.mjs";
+import { normalizeHandToHandSpecialRuleId, HTH_SPECIAL_RULE_IDS } from "../services/hand-to-hand-rules.mjs";
+import { effectHasStatus } from "../services/status-effects.mjs";
 
 function num(value, fallback = 0) {
   const n = Number(value);
@@ -48,6 +59,42 @@ function normalizeText(value) {
 
 function normalizeName(value) {
   return normalizeText(value).toLowerCase();
+}
+
+function actorHasControlEffect(actor, { source = "", statuses = [] } = {}) {
+  const sourceKey = normalizeText(source);
+  const statusIds = Array.isArray(statuses)
+    ? statuses.map((entry) => normalizeText(entry)).filter((entry) => entry.length > 0)
+    : [];
+
+  return actor?.effects?.some?.((effect) => {
+    if (sourceKey && foundry.utils.getProperty(effect, "flags.rifts-megaverse.source") === sourceKey) return true;
+    return statusIds.some((statusId) => effectHasStatus(effect, statusId));
+  }) === true;
+}
+
+function getCombatControlState(actor) {
+  const grappled = actorHasControlEffect(actor, {
+    source: "advancedGrapple",
+    statuses: ["grappled", "restrained", "immobilized"]
+  });
+  const entangled = actorHasControlEffect(actor, {
+    source: "maneuverEntangle",
+    statuses: ["restrained", "immobilized"]
+  });
+  const held = actorHasControlEffect(actor, {
+    source: "maneuverHolds",
+    statuses: ["restrained", "immobilized"]
+  });
+  const restrained = grappled || entangled || held;
+  return {
+    grappled,
+    entangled,
+    held,
+    restrained,
+    movementBlocked: restrained,
+    dodgeBlocked: restrained
+  };
 }
 
 function normalizeSizeCategory(value, fallback = "human") {
@@ -293,8 +340,6 @@ function getHandToHandBonuses(handToHandItem, level) {
   };
 }
 
-const HTH_SPECIAL_RULE_KEYS = ["kickAttack", "critRange19", "critRange18", "critRange17", "knockoutStun18", "knockoutStun17", "deathBlow20", "deathBlow19", "bodyThrow", "pullRollBonus"];
-
 function getDefaultHandToHandSpecialRules() {
   return {
     kickAttack: false,
@@ -313,24 +358,6 @@ function getDefaultHandToHandSpecialRules() {
     pullRollBonusValue: 0,
     unlocked: []
   };
-}
-
-function normalizeHandToHandSpecialRuleId(value) {
-  const normalized = normalizeName(value);
-  if (!normalized) return "";
-
-  if (["kickattack", "kick", "kick-attack"].includes(normalized)) return "kickAttack";
-  if (["critrange19", "crit19", "critical19", "criticalstrike19"].includes(normalized)) return "critRange19";
-  if (["critrange18", "crit18", "critical18", "criticalstrike18"].includes(normalized)) return "critRange18";
-  if (["critrange17", "crit17", "critical17", "criticalstrike17"].includes(normalized)) return "critRange17";
-  if (["knockoutstun18", "kostun18", "stun18", "knockout18"].includes(normalized)) return "knockoutStun18";
-  if (["knockoutstun17", "kostun17", "stun17", "knockout17"].includes(normalized)) return "knockoutStun17";
-  if (["deathblow20", "death20", "death-blow20", "deathblow"].includes(normalized)) return "deathBlow20";
-  if (["deathblow19", "death19", "death-blow19"].includes(normalized)) return "deathBlow19";
-  if (["bodythrow", "bodyflip", "bodythrowflip", "judo-style-body-throw", "judo-style-body-flip"].includes(normalized)) return "bodyThrow";
-  if (["pullrollbonus", "pullroll", "pull-roll", "pull-roll-bonus", "pullpunchbonus", "rollwithpunchbonus"].includes(normalized)) return "pullRollBonus";
-
-  return "";
 }
 
 function normalizeHandToHandSpecialRulesList(rawRules) {
@@ -398,7 +425,7 @@ function getUnlockedHandToHandSpecialRuleIds(rawProgression, level) {
   for (const unlockLevel of sortedLevels) {
     if (unlockLevel > actorLevel) continue;
     for (const ruleId of normalized[String(unlockLevel)] ?? []) {
-      if (!HTH_SPECIAL_RULE_KEYS.includes(ruleId)) continue;
+      if (!HTH_SPECIAL_RULE_IDS.includes(ruleId)) continue;
       if (unlocked.includes(ruleId)) continue;
       unlocked.push(ruleId);
     }
@@ -1517,6 +1544,41 @@ function aggregateAugmentationEffects(actor, itemType) {
 function combineAugmentationEffects(cyberneticEffects, bionicEffects) {
   return combineEffectTotals(cyberneticEffects, bionicEffects);
 }
+
+function aggregateSkillPassiveEffects(actor) {
+  const physical = aggregatePhysicalSkillAutomation(actor);
+  const totals = {
+    attributes: foundry.utils.deepClone(physical.effects?.attributes ?? defaultSkillEffects().attributes),
+    combat: foundry.utils.deepClone(physical.effects?.combat ?? defaultSkillEffects().combat),
+    resources: foundry.utils.deepClone(physical.effects?.resources ?? defaultSkillEffects().resources),
+    flags: foundry.utils.deepClone(physical.effects?.flags ?? {}),
+    grantedAbilities: [],
+    grantedSkills: []
+  };
+
+  return {
+    itemType: "skill",
+    count: physical.count ?? 0,
+    items: foundry.utils.deepClone(physical.items ?? []),
+    ...totals,
+    physicalRules: foundry.utils.deepClone(physical.rules ?? {}),
+    summary: formatAugmentationSummary(totals)
+  };
+}
+
+function hasResolvedSkillEffects(rawEffects) {
+  const effects = normalizeSkillEffects(rawEffects);
+  return [
+    ...Object.values(effects.attributes ?? {}),
+    ...Object.values(effects.combat ?? {}),
+    ...Object.values(effects.resources ?? {})
+  ].some((value) => num(value, 0) !== 0);
+}
+
+function getEffectRollLabel(groupKey, effectKey) {
+  if (groupKey === "combat" && effectKey === "apm") return "APM";
+  return String(effectKey ?? "").toUpperCase();
+}
 export class RiftsActor extends Actor {
   prepareDerivedData() {
     super.prepareDerivedData();
@@ -1541,7 +1603,8 @@ export class RiftsActor extends Actor {
     let cyberneticEffects = aggregateAugmentationEffects(this, "cybernetic");
     let bionicEffects = aggregateAugmentationEffects(this, "bionic");
     let augmentationEffects = combineAugmentationEffects(cyberneticEffects, bionicEffects);
-    let combinedPassiveEffects = combineEffectTotals(classPassiveEffects, augmentationEffects);
+    let skillPassiveEffects = aggregateSkillPassiveEffects(this);
+    let combinedPassiveEffects = combineEffectTotals(combineEffectTotals(classPassiveEffects, augmentationEffects), skillPassiveEffects);
     let classBonuses = { strike: 0, parry: 0, dodge: 0, initiative: 0 };
     let classSkillPackage = { occSkills: [], relatedSkills: [], secondarySkills: [] };
     let activeHandToHand = null;
@@ -1617,6 +1680,12 @@ export class RiftsActor extends Actor {
     system.combat.derived.movementPerAction = 0;
     system.combat.derived.movementUsedThisAction = 0;
     system.combat.derived.movementRemainingThisAction = 0;
+    system.combat.derived.physicalSkillRollWithPunchBonus = 0;
+    system.combat.derived.physicalSkillKickAttack = false;
+    system.combat.derived.physicalSkillKickDamageFormula = "";
+    system.combat.derived.physicalSkillCrushSqueeze = false;
+    system.combat.derived.physicalSkillAutomaticKnockoutOn20 = false;
+    system.combat.derived.physicalSkillBodyBlockTackleDamage = "";
     system.combat.derived.effectiveDurability = normalizeScale(system.combat.derived.effectiveDurability ?? system.combat.derived.effectiveScale, system.combat.scale);
     system.combat.derived.effectiveDurabilityLabelKey = getScaleLabelKey(system.combat.derived.effectiveDurability);
     system.combat.derived.activeArmorDurability = "sdc";
@@ -1674,6 +1743,7 @@ export class RiftsActor extends Actor {
 
       system.skills ??= {};
       system.skills.derived ??= {};
+      system.skills.derived.physical ??= {};
 
       system.progression ??= {};
     }
@@ -1731,7 +1801,8 @@ export class RiftsActor extends Actor {
       cyberneticEffects = aggregateAugmentationEffects(this, "cybernetic");
       bionicEffects = aggregateAugmentationEffects(this, "bionic");
       augmentationEffects = combineAugmentationEffects(cyberneticEffects, bionicEffects);
-      combinedPassiveEffects = combineEffectTotals(classPassiveEffects, augmentationEffects);
+      skillPassiveEffects = aggregateSkillPassiveEffects(this);
+      combinedPassiveEffects = combineEffectTotals(combineEffectTotals(classPassiveEffects, augmentationEffects), skillPassiveEffects);
 
       for (const key of AUGMENT_ATTRIBUTE_KEYS) {
         if (!system.attributes?.[key]) continue;
@@ -1781,12 +1852,13 @@ export class RiftsActor extends Actor {
       const ppValue = num(system.attributes?.pp?.value, 0);
       // Placeholder baseline from PP. Deterministic and intentionally simple.
       const ppBaseline = ppValue > 10 ? Math.floor((ppValue - 10) / 2) : 0;
+      const combatControl = getCombatControlState(this);
 
       system.combat.derived.strikeTotal = ppBaseline + system.combat.strikeMod + handToHandBonuses.strikeBonus + num(combinedPassiveEffects.combat?.strike, 0);
       system.combat.derived.parryTotal = ppBaseline + system.combat.parryMod + handToHandBonuses.parryBonus + num(combinedPassiveEffects.combat?.parry, 0);
       system.combat.derived.dodgeTotal = ppBaseline + system.combat.dodgeMod + handToHandBonuses.dodgeBonus + num(combinedPassiveEffects.combat?.dodge, 0);
       system.combat.derived.initiativeTotal = ppBaseline + system.combat.initiativeMod + handToHandBonuses.initiativeBonus + num(combinedPassiveEffects.combat?.initiative, 0);
-      system.combat.autoDodgeAvailable = handToHandBonuses.autoDodgeAvailable;
+      system.combat.autoDodgeAvailable = handToHandBonuses.autoDodgeAvailable && combatControl.dodgeBlocked !== true;
 
       system.progression.activeClassId = activeClass?.id ?? "";
       system.progression.activeClassType = activeClass?.type ?? "";
@@ -1807,6 +1879,7 @@ export class RiftsActor extends Actor {
       system.progression.attacksPerMeleeModifierBonus = handToHandBonuses.apmBonus + num(combinedPassiveEffects.combat?.apm, 0);
       system.progression.classBonuses = classBonuses;
       system.progression.classEffectsSummary = classPassiveEffects.summary;
+      system.progression.skillEffectsSummary = skillPassiveEffects.summary;
       system.progression.occEffectsSummary = activeOccEffects.summary;
       system.progression.rccEffectsSummary = activeRccEffects.summary;
       system.progression.classGrantedAbilities = foundry.utils.deepClone(classPassiveEffects.grantedAbilities ?? []);
@@ -1865,6 +1938,7 @@ export class RiftsActor extends Actor {
       system.derived.nextLevelXP = progressionData.nextLevelXP;
       system.derived.xpProgress = progressionData.progressPercent;
       system.derived.classEffectsSummary = classPassiveEffects.summary;
+      system.derived.skillEffectsSummary = skillPassiveEffects.summary;
       system.derived.occEffectsSummary = activeOccEffects.summary;
       system.derived.rccEffectsSummary = activeRccEffects.summary;
       system.derived.cyberneticEffectsSummary = cyberneticEffects.summary;
@@ -1883,6 +1957,11 @@ export class RiftsActor extends Actor {
         combat: foundry.utils.deepClone(augmentationEffects.combat ?? {}),
         resources: foundry.utils.deepClone(augmentationEffects.resources ?? {})
       };
+      system.derived.skillEffects = {
+        attributes: foundry.utils.deepClone(skillPassiveEffects.attributes ?? {}),
+        combat: foundry.utils.deepClone(skillPassiveEffects.combat ?? {}),
+        resources: foundry.utils.deepClone(skillPassiveEffects.resources ?? {})
+      };
       system.derived.classEffects = {
         attributes: foundry.utils.deepClone(classPassiveEffects.attributes ?? {}),
         combat: foundry.utils.deepClone(classPassiveEffects.combat ?? {}),
@@ -1891,6 +1970,32 @@ export class RiftsActor extends Actor {
 
       system.skills.derived.level = level;
       system.skills.derived.levelOffset = Math.max(0, level - 1);
+      system.skills.derived.physical = {
+        count: Math.max(0, Math.floor(num(skillPassiveEffects.count, 0))),
+        summary: String(skillPassiveEffects.summary ?? ""),
+        passiveEffects: foundry.utils.deepClone({
+          attributes: skillPassiveEffects.attributes ?? {},
+          combat: skillPassiveEffects.combat ?? {},
+          resources: skillPassiveEffects.resources ?? {}
+        }),
+        rules: foundry.utils.deepClone(skillPassiveEffects.physicalRules ?? {})
+      };
+      const climbSkill = this.items.find((item) => item.type === "skill" && normalizeName(item.name).includes("climb")) ?? null;
+      const prowlSkill = this.items.find((item) => item.type === "skill" && normalizeName(item.name).includes("prowl")) ?? null;
+      const climbBreakdown = climbSkill ? this.getSkillTarget(climbSkill) : null;
+      const prowlBreakdown = prowlSkill ? this.getSkillTarget(prowlSkill) : null;
+      system.skills.derived.physical.rollWithPunchBonus = Math.max(0, Math.floor(num(skillPassiveEffects.physicalRules?.rollWithPunchBonus, 0)));
+      system.skills.derived.physical.climbBonus = Math.max(0, Math.floor(num(skillPassiveEffects.physicalRules?.climbBonus, 0)));
+      system.skills.derived.physical.climbBaseGrant = Math.max(0, Math.floor(num(skillPassiveEffects.physicalRules?.climbBaseGrant, 0)));
+      system.skills.derived.physical.prowlBonus = Math.max(0, Math.floor(num(skillPassiveEffects.physicalRules?.prowlBonus, 0)));
+      system.skills.derived.physical.prowlBaseGrant = Math.max(0, Math.floor(num(skillPassiveEffects.physicalRules?.prowlBaseGrant, 0)));
+      system.skills.derived.physical.kickAttack = skillPassiveEffects.physicalRules?.kickAttack === true;
+      system.skills.derived.physical.kickDamageFormula = normalizeText(skillPassiveEffects.physicalRules?.kickDamageFormula);
+      system.skills.derived.physical.crushSqueeze = skillPassiveEffects.physicalRules?.crushSqueeze === true;
+      system.skills.derived.physical.automaticKnockoutOn20 = skillPassiveEffects.physicalRules?.automaticKnockoutOn20 === true;
+      system.skills.derived.physical.bodyBlockTackleDamage = normalizeText(skillPassiveEffects.physicalRules?.bodyBlockTackleDamage);
+      system.skills.derived.physical.climbTarget = climbBreakdown?.target ?? system.skills.derived.physical.climbBaseGrant;
+      system.skills.derived.physical.prowlTarget = prowlBreakdown?.target ?? system.skills.derived.physical.prowlBaseGrant;
 
       const activePowerArmor = (activeArmor?.system?.armor?.isPowerArmor === true || activeArmor?.system?.isPowerArmor === true) ? activeArmor : null;
       const powerArmorSdc = getArmorPool(activePowerArmor, "sdc");
@@ -2023,6 +2128,13 @@ export class RiftsActor extends Actor {
     system.combat.derived.handToHandKnockoutStunRange = Math.max(0, Math.floor(num(handToHandSpecialRules.knockoutStunRange, 0)));
     system.combat.derived.handToHandDeathBlowRange = Math.max(0, Math.floor(num(handToHandSpecialRules.deathBlowRange, 0)));
     system.combat.derived.handToHandPullRollBonus = Math.max(0, Math.floor(num(handToHandSpecialRules.pullRollBonusValue, 0)));
+    system.combat.derived.physicalSkillRollWithPunchBonus = Math.max(0, Math.floor(num(system.skills?.derived?.physical?.rollWithPunchBonus, 0)));
+    system.combat.derived.physicalSkillKickAttack = system.skills?.derived?.physical?.kickAttack === true;
+    system.combat.derived.physicalSkillKickDamageFormula = normalizeText(system.skills?.derived?.physical?.kickDamageFormula);
+    system.combat.derived.physicalSkillCrushSqueeze = system.skills?.derived?.physical?.crushSqueeze === true;
+    system.combat.derived.physicalSkillAutomaticKnockoutOn20 = system.skills?.derived?.physical?.automaticKnockoutOn20 === true;
+    system.combat.derived.physicalSkillBodyBlockTackleDamage = normalizeText(system.skills?.derived?.physical?.bodyBlockTackleDamage);
+    system.combat.derived.control = foundry.utils.deepClone(getCombatControlState(this));
     system.combat.derived.attacksPerMelee = attacksPerMelee;
 
     const effectiveDurability = getEffectiveActorScale(this, { activeArmor });
@@ -2067,10 +2179,16 @@ export class RiftsActor extends Actor {
     system.combat.derived.heldActionReady = system.combat.heldActionReady;
 
     const spdValue = num(system.attributes?.spd?.value, 0);
-    const outOfCombatMovement = Math.max(0, spdValue * 5);
+    let outOfCombatMovement = Math.max(0, spdValue * 5);
     const movementApm = Math.max(1, num(system.combat.apmTotal, num(system.combat.derived.attacksPerMelee, 1)));
-    const movementPerAction = outOfCombatMovement / movementApm;
+    let movementPerAction = outOfCombatMovement / movementApm;
     const movementUsedThisAction = Math.max(0, num(system.combat.movementUsedThisAction, 0));
+    const combatControl = foundry.utils.getProperty(system, "combat.derived.control") ?? {};
+
+    if (combatControl.movementBlocked === true) {
+      outOfCombatMovement = 0;
+      movementPerAction = 0;
+    }
 
     system.combat.derived.outOfCombatMovement = outOfCombatMovement;
     system.combat.derived.movementPerAction = movementPerAction;
@@ -2391,6 +2509,8 @@ export class RiftsActor extends Actor {
         base: 0,
         modifier: 0,
         classBonus: 0,
+        automationBonus: 0,
+        baseGrant: 0,
         perLevel: 0,
         target: 0,
         category: "",
@@ -2401,22 +2521,33 @@ export class RiftsActor extends Actor {
     const base = num(skill.system?.base, 0);
     const modifier = num(skill.system?.modifier, 0);
     const classBonus = getClassSkillBonus(this.getActiveClassItem(), skill);
+    const automation = getPhysicalSkillRollAdjustments(this, skill);
     const perLevel = num(skill.system?.perLevel, 0);
     const levelBonus = perLevel * Math.max(level - 1, 0);
-    const rawTarget = base + modifier + classBonus + levelBonus;
+    const effectiveBase = Math.max(base, num(automation.baseGrant, 0));
+    const automationBonus = num(automation.bonus, 0);
+    const rawTarget = effectiveBase + modifier + classBonus + levelBonus + automationBonus;
     const target = Math.max(0, Math.floor(num(rawTarget, 0)));
 
     return {
       level,
-      base,
+      base: effectiveBase,
+      originalBase: base,
       modifier,
       classBonus,
+      automationBonus,
+      baseGrant: num(automation.baseGrant, 0),
       perLevel,
       levelBonus,
       target,
       category: normalizeText(skill.system?.category),
       sourceType: normalizeText(skill.system?.sourceType)
     };
+  }
+
+  getWeaponProficiencyContext(weaponOrId, options = {}) {
+    const weapon = typeof weaponOrId === "string" ? this.items.get(weaponOrId) : weaponOrId;
+    return resolveWeaponProficiencyBonuses(this, weapon, options);
   }
 
   getEffectiveDurability() {
@@ -2733,6 +2864,65 @@ export class RiftsActor extends Actor {
       actor: this,
       breakdown: this.getSkillTarget(skillId)
     });
+  }
+
+  async rollPhysicalSkillBonuses(skillId, { reroll = false } = {}) {
+    const skill = typeof skillId === "string" ? this.items.get(skillId) : skillId;
+    if (!skill || skill.type !== "skill") return null;
+
+    const automationType = String(skill.system?.automationType ?? "").trim();
+    if (automationType !== "physical") return null;
+
+    const rollableEffects = normalizeSkillRollableEffects(skill.system?.rollableEffects);
+    if (!hasSkillRollableEffects(rollableEffects)) return null;
+
+    const alreadyResolved = hasResolvedSkillEffects(skill.system?.resolvedEffects);
+    if (alreadyResolved && reroll !== true) {
+      ui.notifications.warn(game.i18n.localize("RIFTS.Skills.BonusesAlreadyRolled"));
+      return null;
+    }
+
+    const resolvedEffects = defaultSkillEffects();
+    const rollSummaries = [];
+    const rollData = this.getRollData?.() ?? {};
+
+    for (const [groupKey, groupValues] of Object.entries(rollableEffects)) {
+      if (!groupValues || typeof groupValues !== "object") continue;
+
+      for (const [effectKey, rawFormula] of Object.entries(groupValues)) {
+        const formula = normalizeText(rawFormula);
+        if (!formula) continue;
+
+        const result = await resolveRollableValue(formula, { fallback: 0, rollData });
+        resolvedEffects[groupKey][effectKey] = Math.max(0, Math.floor(num(result.value, 0)));
+        rollSummaries.push({
+          label: getEffectRollLabel(groupKey, effectKey),
+          formula,
+          value: Math.max(0, Math.floor(num(result.value, 0)))
+        });
+      }
+    }
+
+    await skill.update({ "system.resolvedEffects": resolvedEffects });
+
+    const summary = formatAugmentationSummary(resolvedEffects) || game.i18n.localize("RIFTS.Sheet.None");
+    const content = [
+      `<h3>${game.i18n.localize("RIFTS.Skills.RollBonuses")}: ${skill.name}</h3>`,
+      ...rollSummaries.map((entry) => `<p><strong>${entry.label}</strong>: ${entry.formula} = ${entry.value}</p>`),
+      `<p><strong>${game.i18n.localize("RIFTS.Sheet.PassiveEffects")}:</strong> ${summary}</p>`
+    ];
+
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this }),
+      content: content.join("")
+    });
+
+    return {
+      skillId: skill.id,
+      skillName: skill.name,
+      resolvedEffects,
+      summary
+    };
   }
 
   async attackWithWeapon(weaponId, options = {}) {

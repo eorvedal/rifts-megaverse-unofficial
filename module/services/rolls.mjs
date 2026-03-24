@@ -1,3 +1,5 @@
+import { useHighRollSkillSuccess } from "./rules-settings.mjs";
+
 const CHAT_TEMPLATE = "systems/rifts-megaverse/templates/chat/roll-card.hbs";
 
 function asNumber(value) {
@@ -158,7 +160,13 @@ export async function rollSkill(skillId, { actor = null, label = null, breakdown
 
   const target = Math.max(0, asNumber(computed.target) ?? 0);
   const roll = await (new Roll("1d100")).evaluate();
-  const isSuccess = roll.total <= target;
+  const highRollMode = useHighRollSkillSuccess();
+  const effectiveTarget = highRollMode
+    ? Math.max(0, 100 - target)
+    : target;
+  const isSuccess = highRollMode
+    ? roll.total > effectiveTarget
+    : roll.total <= target;
   const outcome = isSuccess
     ? game.i18n.localize("RIFTS.Rolls.Success")
     : game.i18n.localize("RIFTS.Rolls.Failure");
@@ -172,7 +180,7 @@ export async function rollSkill(skillId, { actor = null, label = null, breakdown
     subtitle: label ?? skill?.name ?? skillId ?? game.i18n.localize("RIFTS.Rolls.UnnamedSkill"),
     roll,
     showTarget: true,
-    target,
+    target: effectiveTarget,
     outcome,
     showCategory: category.length > 0,
     category,

@@ -1,6 +1,14 @@
 import { getTargetFromUI } from "../services/combat.mjs";
 import { buildUnarmedDamageProfile, getAvailableUnarmedManeuvers } from "../services/unarmed.mjs";
 import { normalizeSpecialManeuverEntry } from "../services/maneuvers.mjs";
+import {
+  hasSkillRollableEffects,
+  isPhysicalSkill,
+  isWeaponProficiencySkill,
+  normalizeSkillEffects,
+  normalizeSkillRollableEffects,
+  resolveWeaponProficiencyBonuses
+} from "../services/skill-automation.mjs";
 import { RiftsSelectionDialog } from "../apps/selection-dialog.mjs";
 import { openLevelUpDialog } from "../apps/level-up.mjs";
 import { openCharacterCreationWizard } from "../apps/character-creation-wizard.mjs";
@@ -79,8 +87,9 @@ function formatProgressionMapSummary(rawMap) {
 }
 
 
-function weaponData(item) {
+function weaponData(actor, item) {
   const fireMode = item.system?.weapon?.fireMode ?? "single";
+  const proficiency = resolveWeaponProficiencyBonuses(actor, item, { useParry: false });
   return {
     isMegaDamage: item.system?.weapon?.isMegaDamage === true,
     damage: item.system?.weapon?.damage ?? item.system?.damage ?? "1d6",
@@ -96,7 +105,15 @@ function weaponData(item) {
     fireModeLabel: fireMode === "burst"
       ? game.i18n.localize("RIFTS.Advanced.BurstFire")
       : game.i18n.localize("RIFTS.Advanced.SingleShot"),
-    supportsAimedShot: item.system?.weapon?.supportsAimedShot !== false
+    supportsAimedShot: item.system?.weapon?.supportsAimedShot !== false,
+    proficiencyKey: normalizeText(item.system?.weapon?.proficiencyKey),
+    proficiencyMatched: proficiency.matched === true,
+    proficiencyName: normalizeText(proficiency.skillName),
+    proficiencyClassification: normalizeText(proficiency.classification),
+    proficiencyStrikeBonus: Math.floor(num(proficiency.appliedStrikeBonus, 0)),
+    proficiencyParryBonus: Math.floor(num(proficiency.appliedParryBonus, 0)),
+    proficiencyThrownBonus: Math.floor(num(proficiency.thrownBonus, 0)),
+    proficiencyRangeBonus: Math.max(0, Math.floor(num(proficiency.rangeBonus, 0)))
   };
 }
 
@@ -382,7 +399,18 @@ function skillTags(skill) {
   if (skill.system?.isOCCSkill) tags.push(game.i18n.localize("RIFTS.Skills.OccSkill"));
   if (skill.system?.isRelatedSkill) tags.push(game.i18n.localize("RIFTS.Skills.RelatedSkill"));
   if (skill.system?.isSecondarySkill) tags.push(game.i18n.localize("RIFTS.Skills.SecondarySkill"));
+  if (isPhysicalSkill(skill)) tags.push(game.i18n.localize("RIFTS.Skills.PhysicalSkillAutomation"));
+  if (isWeaponProficiencySkill(skill)) tags.push(game.i18n.localize("RIFTS.Skills.WeaponProficiencyAutomation"));
   return tags;
+}
+
+function hasResolvedSkillBonuses(rawEffects) {
+  const effects = normalizeSkillEffects(rawEffects);
+  return [
+    ...Object.values(effects.attributes ?? {}),
+    ...Object.values(effects.combat ?? {}),
+    ...Object.values(effects.resources ?? {})
+  ].some((value) => num(value, 0) !== 0);
 }
 
 export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
@@ -477,20 +505,26 @@ export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
       .map((skill) => {
         const breakdown = this.document.getSkillTarget(skill);
         const tags = skillTags(skill);
+        const rollableEffects = normalizeSkillRollableEffects(skill.system?.rollableEffects);
+        const hasRollableBonuses = hasSkillRollableEffects(rollableEffects);
+        const resolvedBonusSummary = formatAugmentationEffectsSummary(skill.system?.resolvedEffects ?? {});
         return {
           item: skill,
           target: breakdown.target,
           category: normalizeText(skill.system?.category),
           sourceType: normalizeText(skill.system?.sourceType),
           tags,
-          tagsLabel: tags.join(", ")
+          tagsLabel: tags.join(", "),
+          canRollBonuses: isPhysicalSkill(skill) && hasRollableBonuses && !hasResolvedSkillBonuses(skill.system?.resolvedEffects),
+          hasResolvedBonuses: hasResolvedSkillBonuses(skill.system?.resolvedEffects),
+          resolvedBonusSummary
         };
       });
 
     const weapons = this.document.items
       .filter((item) => item.type === "weapon")
       .sort((a, b) => a.name.localeCompare(b.name))
-      .map((item) => ({ item, data: weaponData(item) }));
+      .map((item) => ({ item, data: weaponData(this.document, item) }));
     const equippedWeapon = weapons.find((entry) => entry.data.equipped)?.item ?? null;
 
     const allArmors = this.document.items
@@ -530,6 +564,21 @@ export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
       .filter((item) => item.type === "handToHand")
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((item) => ({ item, data: handToHandData(item) }));
+
+    const physicalSkillSummary = this.document.system?.skills?.derived?.physical ?? {};
+    const physicalSkillEffectsSummary = formatAugmentationEffectsSummary(physicalSkillSummary.passiveEffects ?? {});
+    const physicalSkillUnlockedActions = [];
+    if (physicalSkillSummary.kickAttack === true) physicalSkillUnlockedActions.push(game.i18n.localize("RIFTS.Skills.KickAttackUnlock"));
+    if (normalizeText(physicalSkillSummary.kickDamageFormula)) {
+      physicalSkillUnlockedActions.push(`${game.i18n.localize("RIFTS.Skills.KickDamageFormula")}: ${physicalSkillSummary.kickDamageFormula}`);
+    }
+    if (physicalSkillSummary.crushSqueeze === true) physicalSkillUnlockedActions.push(game.i18n.localize("RIFTS.Skills.CrushSqueezeUnlock"));
+    if (physicalSkillSummary.automaticKnockoutOn20 === true) {
+      physicalSkillUnlockedActions.push(game.i18n.localize("RIFTS.Skills.AutomaticKnockoutOn20"));
+    }
+    if (normalizeText(physicalSkillSummary.bodyBlockTackleDamage)) {
+      physicalSkillUnlockedActions.push(`${game.i18n.localize("RIFTS.Skills.BodyBlockTackleDamage")}: ${physicalSkillSummary.bodyBlockTackleDamage}`);
+    }
 
     const specialManeuverItems = this.document.items
       .filter((item) => item.type === "specialManeuver")
@@ -805,6 +854,10 @@ export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
     context.isCombatSubtabWeapons = combatSubtab === "weapons";
     context.isCombatSubtabArmor = combatSubtab === "armor";
     context.skills = skills;
+    context.physicalSkillSummary = physicalSkillSummary;
+    context.hasPhysicalSkillSummary = num(physicalSkillSummary.count, 0) > 0;
+    context.physicalSkillEffectsSummary = physicalSkillEffectsSummary;
+    context.physicalSkillUnlockedActionsLabel = physicalSkillUnlockedActions.join(", ");
     context.weapons = weapons;
     context.armors = armors;
     context.powerArmors = powerArmors;
@@ -2041,6 +2094,16 @@ export class RiftsCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
         if (!skillId) return;
         await this._flushPendingField(root);
         await this.document.rollSkill(skillId);
+      }, signal);
+    }
+
+    for (const button of root.querySelectorAll("[data-action='roll-skill-bonuses']")) {
+      this._bindEvent(button, "click", async (event) => {
+        event.preventDefault();
+        const skillId = event.currentTarget.dataset.skillId;
+        if (!skillId) return;
+        await this._flushPendingField(root);
+        await this.document.rollPhysicalSkillBonuses(skillId);
       }, signal);
     }
 

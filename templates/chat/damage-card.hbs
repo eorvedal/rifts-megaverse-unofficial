@@ -25,6 +25,9 @@
   {{#if outcomeText}}
     <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{outcomeText}}</p>
   {{/if}}
+  {{#if deathBlowDirectHp}}
+    <p><strong>{{localize "RIFTS.Combat.DeathBlow"}}:</strong> {{localize "RIFTS.Combat.DeathBlowDirectHp"}}</p>
+  {{/if}}
 
   {{#if canApplyDamage}}
     <button
@@ -40,6 +43,8 @@
       data-amount="{{amount}}"
       data-unarmed-maneuver-key="{{unarmedManeuverKey}}"
       data-unarmed-damage-formula="{{unarmedDamageFormula}}"
+      data-death-blow-direct-hp="{{deathBlowDirectHp}}"
+      data-death-blow-direct-hp-multiplier="{{deathBlowDirectHpMultiplier}}"
     >{{localize "RIFTS.Combat.ApplyDamage"}}</button>
   {{/if}}
 </div>

@@ -1,0 +1,806 @@
+[
+    {
+        "name":  "Cryptography",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Recognize, design, and break secret codes and messages.",
+                       "category":  "Communications",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Study a code for two hours before attempting to break it. A failed roll requires two more hours of study before trying again. Attempting the break after only ten minutes of study carries a -30% penalty."
+                   }
+    },
+    {
+        "name":  "Laser",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Operate sophisticated laser and fiber optic communication systems.",
+                       "category":  "Communications",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Requires Radio: Basic, Electrical Engineer, and Computer Operation."
+                   }
+    },
+    {
+        "name":  "Optic Systems",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use optical enhancement gear such as telescopic lenses, thermo-imagers, infrared systems, and filters.",
+                       "category":  "Communications",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "If the character also knows T.V./Video, add a one-time +5% bonus to that skill."
+                   }
+    },
+    {
+        "name":  "Radio: Basic",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Operate field radios, walkie-talkies, wire lines, communication security, and visual signals.",
+                       "category":  "Communications",
+                       "base":  45,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Radio: Scramblers",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use masking, scrambling, and unscrambling equipment to protect radio traffic.",
+                       "category":  "Communications",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Surveillance Systems",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Operate and hide surveillance equipment, run stakeouts, and follow subjects without being noticed.",
+                       "category":  "Communications",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "A failed roll can mean poor recordings, a bug that fails to transmit, or a tail that has been spotted. Complex high-tech systems also require Computer Operation and Literacy."
+                   }
+    },
+    {
+        "name":  "T.V./Video",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use video and audio recording equipment, field cameras, studio gear, editing, dubbing, and transmission equipment.",
+                       "category":  "Communications",
+                       "base":  25,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Cook",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Plan and prepare meals.",
+                       "category":  "Domestic",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "A failed roll means the food is edible but badly prepared or unpleasant to eat."
+                   }
+    },
+    {
+        "name":  "Dance",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Perform practiced dance steps smoothly and learn new moves quickly.",
+                       "category":  "Domestic",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Fishing",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Catch fish with the proper bait, poles, hooks, and lines, then clean and prepare them for eating.",
+                       "category":  "Domestic",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Play Musical Instrument",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Play one specific musical instrument with practiced skill.",
+                       "category":  "Domestic",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Take this skill once for each separate instrument the character can play."
+                   }
+    },
+    {
+        "name":  "Sewing",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Mend clothing, perform small alterations, and cut and sew simple patterns.",
+                       "category":  "Domestic",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Taking this skill twice can be treated as tailoring."
+                   }
+    },
+    {
+        "name":  "Sing",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Carry a tune and read music well enough to perform songs.",
+                       "category":  "Domestic",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Basic Electronics",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Understand simple circuits, wiring, schematics, and basic appliance repair.",
+                       "category":  "Electrical",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Computer Repair",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Diagnose, repair, or sabotage computers and similar hardware.",
+                       "category":  "Electrical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Roll once to figure out the problem and a second time to complete the repair or sabotage."
+                   }
+    },
+    {
+        "name":  "Electrical Engineer",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Diagnose electrical problems, repair complex devices, wire buildings or vehicles, and build electrical systems.",
+                       "category":  "Electrical",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Simple alarms or security systems are at -20%; complex ones are at -50%. Cut those penalties in half if the character also knows Surveillance Systems. Alien or techno-wizard devices are at -30%."
+                   }
+    },
+    {
+        "name":  "Robot Electronics",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Repair and understand robotics, military robot electronics, and related systems.",
+                       "category":  "Electrical",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Alien or extremely unfamiliar robot electronics are at -40%."
+                   }
+    },
+    {
+        "name":  "Detect Ambush",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Spot likely ambush ground and recognize the signs of guerilla tactics.",
+                       "category":  "Espionage",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Detect Concealment",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Spot camouflage, concealed structures or vehicles, and prepare unobtrusive shelters.",
+                       "category":  "Espionage",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Disguise",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use makeup, wigs, dyes, and putty to alter a person\u0027s appearance.",
+                       "category":  "Espionage",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Escape Artist",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Slip restraints through muscle control, joint work, knot knowledge, and hidden tools.",
+                       "category":  "Espionage",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "This does not replace Pick Locks."
+                   }
+    },
+    {
+        "name":  "Forgery",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Create false documents, signatures, passports, and other printed materials.",
+                       "category":  "Espionage",
+                       "base":  20,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "The forger needs an original or a copy to work from. Skilled forgers can recognize other counterfeits at -10%."
+                   }
+    },
+    {
+        "name":  "Intelligence",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Assess enemy activity, identify units and leaders, estimate strength, and recognize significant battlefield information.",
+                       "category":  "Espionage",
+                       "base":  32,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  "A failed roll means the evidence is inconclusive or the character misreads the situation."
+                   }
+    },
+    {
+        "name":  "Pick Locks",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Open key locks and basic tumbler locks with picks and tools.",
+                       "category":  "Espionage",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Each attempt takes 1D6 melee rounds. A failed roll means the lock holds and another attempt is needed."
+                   }
+    },
+    {
+        "name":  "Pick Pockets",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Remove small items from a person without being noticed.",
+                       "category":  "Espionage",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "On a failed roll, the item is not taken and there is a 67% chance the victim notices the attempt."
+                   }
+    },
+    {
+        "name":  "Sniper",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use long-range rifles for aimed single-shot marksmanship.",
+                       "category":  "Espionage",
+                       "base":  0,
+                       "perLevel":  0,
+                       "modifier":  0,
+                       "notes":  "Add +2 to strike on an aimed shot. Only rifles that can fire a single round or blast can be used for sniping."
+                   }
+    },
+    {
+        "name":  "Tracking",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Follow the signs left by people, animals, or vehicles and read the trail they leave behind.",
+                       "category":  "Espionage",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Roll once every 40 yards or meters while following a trail. Three consecutive failed rolls means the trail is lost."
+                   }
+    },
+    {
+        "name":  "Wilderness Survival",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Find water, food, shelter, and safe travel practices when stranded in the wild.",
+                       "category":  "Espionage",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Aircraft Mechanics",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Repair, rebuild, modify, and redesign conventional aircraft and hovercraft.",
+                       "category":  "Mechanical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Automotive Mechanics",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Repair, rebuild, modify, and redesign conventional ground vehicles and their engines.",
+                       "category":  "Mechanical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Hover jet systems are at -20%; reactor engines are at -40%."
+                   }
+    },
+    {
+        "name":  "Locksmith",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Repair, build, modify, and open key, tumbler, combination, and many electrical locks.",
+                       "category":  "Mechanical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Older locks may take 1D4 melees; advanced electronic locks may take minutes or hours depending on complexity."
+                   }
+    },
+    {
+        "name":  "Mechanical Engineer",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Analyze, repair, redesign, build, or sabotage machines and mechanical devices.",
+                       "category":  "Mechanical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Add a one-time +5% bonus to Locksmith and Surveillance Systems if the character also knows Mechanical Engineer. Alien or techno-wizard mechanics are at -30%."
+                   }
+    },
+    {
+        "name":  "Robot Mechanics",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Repair, modify, build, and sabotage robots, power armor, and exoskeletons.",
+                       "category":  "Mechanical",
+                       "base":  20,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Alien or extremely unfamiliar robot mechanics are at -30%."
+                   }
+    },
+    {
+        "name":  "Weapons Engineer",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Maintain, repair, modify, mount, and understand military weapon systems and body armor.",
+                       "category":  "Mechanical",
+                       "base":  25,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Criminal Sciences and Forensics",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use basic police science, fingerprinting, ballistics, and forensic medicine to examine evidence and corpses.",
+                       "category":  "Medical",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "First Aid",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Bandage wounds, stop bleeding, administer CPR, and use basic antiseptics and painkillers.",
+                       "category":  "Medical",
+                       "base":  45,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Holistic Medicine",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Use plants and natural remedies to prepare medicines, salves, anesthetics, tonics, and poisons.",
+                       "category":  "Medical",
+                       "base":  20,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "A failed roll means the treatment or concoction does not work. Seasonal availability of plants can limit what can be prepared."
+                   }
+    },
+    {
+        "name":  "Paramedic",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Perform advanced emergency treatment, set broken bones, suture wounds, use oxygen and emergency gear, and stabilize the badly injured.",
+                       "category":  "Medical",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "For coma or severe injury, roll three times. Two successes out of three means the patient is stabilized."
+                   }
+    },
+    {
+        "name":  "Medical Doctor",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Diagnose illness, treat patients, perform surgery, and manage general medical care.",
+                       "category":  "Medical",
+                       "base":  60,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Use the listed skill for diagnosis. Use 50% +5% per level for treatment and surgery rolls."
+                   }
+    },
+    {
+        "name":  "M.D. in Cybernetics",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Perform complex surgery and install or remove cybernetic devices.",
+                       "category":  "Medical",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Use the listed skill for diagnosis and non-surgical treatment. Use 60% +5% per level for surgery and cybernetic installation. Bionic work is at -15% unless the character also qualifies as an M.D.B."
+                   }
+    },
+    {
+        "name":  "Pathology",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Study disease, tissue damage, abnormal cell structure, and laboratory research methods.",
+                       "category":  "Medical",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Demolitions",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Set explosives, place charges, and sabotage structures or equipment.",
+                       "category":  "Military",
+                       "base":  60,
+                       "perLevel":  3,
+                       "modifier":  0,
+                       "notes":  "A failed roll means a dud with no explosion."
+                   }
+    },
+    {
+        "name":  "Demolitions Disposal",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Safely defuse mines, bombs, booby traps, dud rounds, and other explosive devices.",
+                       "category":  "Military",
+                       "base":  60,
+                       "perLevel":  3,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Airplane",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot propeller aircraft with one or two engines.",
+                       "category":  "Pilot",
+                       "base":  50,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Automobile",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Drive cars, jeeps, dune buggies, and small trucks.",
+                       "category":  "Pilot",
+                       "base":  60,
+                       "perLevel":  2,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Boat: Sail Type",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot small to medium sailing craft and fishing boats.",
+                       "category":  "Pilot",
+                       "base":  60,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Boat: Motor and Hydrofoils",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot small motor-driven boats, yachts, and hydrofoils.",
+                       "category":  "Pilot",
+                       "base":  55,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Boat: Ships",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot large seafaring sailing ships and major watercraft.",
+                       "category":  "Pilot",
+                       "base":  45,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Use 44% +4% per level for motor-driven ships."
+                   }
+    },
+    {
+        "name":  "Helicopter",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot helicopters, including combat helicopters.",
+                       "category":  "Pilot",
+                       "base":  35,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Weapon use on combat helicopters still requires Weapon Systems."
+                   }
+    },
+    {
+        "name":  "Horsemanship",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Ride, care for, judge, and maneuver horses in travel or combat.",
+                       "category":  "Pilot",
+                       "base":  40,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  "While charging on horseback, gain +1 to parry, +1 to dodge, and +4 damage. Projectile fire from a moving horse is inaccurate, and aimed shots are impossible."
+                   }
+    },
+    {
+        "name":  "Hover Craft (Ground)",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot hover cycles and ground-effect hover vehicles.",
+                       "category":  "Pilot",
+                       "base":  50,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Jet Aircraft",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot commercial jets and similar aircraft.",
+                       "category":  "Pilot",
+                       "base":  40,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Jet Fighters",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot fighter aircraft and use fighter tactics in the air.",
+                       "category":  "Pilot",
+                       "base":  40,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Jet Packs",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot backpack jet units and maintain airborne control close to the ground.",
+                       "category":  "Pilot",
+                       "base":  42,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Motorcycle",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot motorcycles, dirt bikes, mopeds, and other two- or three-wheeled vehicles.",
+                       "category":  "Pilot",
+                       "base":  60,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Robots and Power Armor",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot giant robots, robot vehicles, and power armor suits.",
+                       "category":  "Pilot",
+                       "base":  56,
+                       "perLevel":  3,
+                       "modifier":  0,
+                       "notes":  "This covers piloting only. Combat use is handled through Robot Combat skills."
+                   }
+    },
+    {
+        "name":  "Robot Combat: Basic",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Fight with standard robots and power armor at the basic training level.",
+                       "category":  "Pilot",
+                       "base":  0,
+                       "perLevel":  0,
+                       "modifier":  0,
+                       "notes":  "Use the Basic Robot Combat Training tables from the combat section for attacks, bonuses, and handling."
+                   }
+    },
+    {
+        "name":  "Robot Combat: Elite",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Master one specific robot or power armor type and fight with it at peak efficiency.",
+                       "category":  "Pilot",
+                       "base":  0,
+                       "perLevel":  0,
+                       "modifier":  0,
+                       "notes":  "Select this skill separately for each robot type. Use the robot combat tables in the combat section for the exact bonuses and attacks."
+                   }
+    },
+    {
+        "name":  "Truck",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot large cargo and transport trucks.",
+                       "category":  "Pilot",
+                       "base":  40,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Tanks and APCs",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Pilot tanks, armored personnel carriers, and other heavy military vehicles.",
+                       "category":  "Pilot",
+                       "base":  36,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Navigation",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Read maps, charts, landmarks, and instruments to stay on course by land, air, or sea.",
+                       "category":  "Pilot Related",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "On a failed roll, the pilot is off course. Determine distance off course by the vehicle type being used."
+                   }
+    },
+    {
+        "name":  "Read Sensory Equipment",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Read and operate radar, sonar, sensor panels, detection gear, and other vehicle or surveillance instruments.",
+                       "category":  "Pilot Related",
+                       "base":  30,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    },
+    {
+        "name":  "Weapon Systems",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Operate vehicle, robot, and power armor weapon systems such as missiles, cannons, rail guns, and lasers.",
+                       "category":  "Pilot Related",
+                       "base":  40,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Add +1 to strike when using these mounted or integrated weapon systems. Hand-held weapons are covered by weapon proficiencies."
+                   }
+    },
+    {
+        "name":  "Computer Hacking",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Break into computer systems, bypass defenses, and steal or sabotage data.",
+                       "category":  "Rogue",
+                       "base":  15,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "If the character is a hacker, add a one-time +5% bonus to Cryptography, Surveillance Systems, and Locksmith when dealing with electronic or computer-controlled locks."
+                   }
+    },
+    {
+        "name":  "Concealment",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Hide small objects on the body or in hand without being noticed.",
+                       "category":  "Rogue",
+                       "base":  20,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  "Small and light objects are easier to hide. Larger objects must still fit the size and weight limits described in the skill."
+                   }
+    },
+    {
+        "name":  "Palming",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Make a small object seem to disappear into the hand during close work.",
+                       "category":  "Rogue",
+                       "base":  20,
+                       "perLevel":  5,
+                       "modifier":  0,
+                       "notes":  "Add a +5% bonus to Pick Pockets."
+                   }
+    },
+    {
+        "name":  "Streetwise",
+        "type":  "skill",
+        "system":  {
+                       "description":  "Recognize gangs, black-market operators, criminal hangouts, and dangerous city situations.",
+                       "category":  "Rogue",
+                       "base":  20,
+                       "perLevel":  4,
+                       "modifier":  0,
+                       "notes":  ""
+                   }
+    }
+]

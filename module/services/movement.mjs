@@ -215,6 +215,10 @@ function buildPreparedMovementContext(tokenDocument, changes) {
   return { actor, distance, skip: false };
 }
 
+function isMovementBlockedByStatus(actor) {
+  return actor?.system?.combat?.derived?.control?.movementBlocked === true;
+}
+
 export function clearActorMovementTracking(actor) {
   if (!actor) return null;
 
@@ -310,7 +314,16 @@ export function registerMovementHooks() {
     const prepared = buildPreparedMovementContext(tokenDocument, changes);
     if (prepared.skip || !prepared.actor) return true;
 
-    const { actor, distance } = prepared;
+  const { actor, distance } = prepared;
+    if (isMovementBlockedByStatus(actor)) {
+      throttledWarn(
+        `movement-blocked:${tokenDocument?.id ?? actor.id}`,
+        game.i18n.localize("RIFTS.Movement.BlockedByControlEffect"),
+        userId
+      );
+      return false;
+    }
+
     const result = game.combat
       ? prepareCombatMovement(tokenDocument, actor, distance, userId)
       : prepareOutOfCombatMovement(actor, distance, tokenDocument, userId);

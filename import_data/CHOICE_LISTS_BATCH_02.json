@@ -1,0 +1,598 @@
+﻿[
+    {
+        "name":  "All Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-all",
+                       "label":  "All Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Alter Aura"
+                                             },
+                                             {
+                                                 "name":  "Astral Projection"
+                                             },
+                                             {
+                                                 "name":  "Bio-Manipulation"
+                                             },
+                                             {
+                                                 "name":  "Bio-Regeneration"
+                                             },
+                                             {
+                                                 "name":  "Bio-Regeneration (Super)"
+                                             },
+                                             {
+                                                 "name":  "Clairvoyance"
+                                             },
+                                             {
+                                                 "name":  "Commune with Spirits"
+                                             },
+                                             {
+                                                 "name":  "Deaden Pain"
+                                             },
+                                             {
+                                                 "name":  "Deaden Senses"
+                                             },
+                                             {
+                                                 "name":  "Death Trance"
+                                             },
+                                             {
+                                                 "name":  "Detect Psionics"
+                                             },
+                                             {
+                                                 "name":  "Ectoplasm"
+                                             },
+                                             {
+                                                 "name":  "Ectoplasmic Disguise"
+                                             },
+                                             {
+                                                 "name":  "Electrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Empathic Transmission"
+                                             },
+                                             {
+                                                 "name":  "Empathy"
+                                             },
+                                             {
+                                                 "name":  "Exorcism"
+                                             },
+                                             {
+                                                 "name":  "Group Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Group Trance"
+                                             },
+                                             {
+                                                 "name":  "Healing Touch"
+                                             },
+                                             {
+                                                 "name":  "Hydrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Hypnotic Suggestion"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Cold"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Fire"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Poison/Toxin"
+                                             },
+                                             {
+                                                 "name":  "Increased Healing"
+                                             },
+                                             {
+                                                 "name":  "Induce Sleep"
+                                             },
+                                             {
+                                                 "name":  "Intuitive Combat"
+                                             },
+                                             {
+                                                 "name":  "Levitation"
+                                             },
+                                             {
+                                                 "name":  "Machine Ghost"
+                                             },
+                                             {
+                                                 "name":  "Mask I.S.P. and Psionics"
+                                             },
+                                             {
+                                                 "name":  "Mask P.P.E."
+                                             },
+                                             {
+                                                 "name":  "Meditation"
+                                             },
+                                             {
+                                                 "name":  "Mentally Possess Others"
+                                             },
+                                             {
+                                                 "name":  "Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Mind Block Auto-Defense"
+                                             },
+                                             {
+                                                 "name":  "Mind Bolt"
+                                             },
+                                             {
+                                                 "name":  "Mind Bond"
+                                             },
+                                             {
+                                                 "name":  "Mind Wipe"
+                                             },
+                                             {
+                                                 "name":  "Nightvision"
+                                             },
+                                             {
+                                                 "name":  "Object Read"
+                                             },
+                                             {
+                                                 "name":  "P.P.E. Shield"
+                                             },
+                                             {
+                                                 "name":  "Presence Sense"
+                                             },
+                                             {
+                                                 "name":  "Psionic Invisibility"
+                                             },
+                                             {
+                                                 "name":  "Psi-Shield"
+                                             },
+                                             {
+                                                 "name":  "Psi-Sword"
+                                             },
+                                             {
+                                                 "name":  "Psychic Body Field"
+                                             },
+                                             {
+                                                 "name":  "Psychic Diagnosis"
+                                             },
+                                             {
+                                                 "name":  "Psychic Omni-Sight"
+                                             },
+                                             {
+                                                 "name":  "Psychic Purification"
+                                             },
+                                             {
+                                                 "name":  "Psychic Surgery"
+                                             },
+                                             {
+                                                 "name":  "Psychosomatic Disease"
+                                             },
+                                             {
+                                                 "name":  "Pyrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Radiate Horror Factor"
+                                             },
+                                             {
+                                                 "name":  "Read Dimensional Portal"
+                                             },
+                                             {
+                                                 "name":  "Remote Viewing"
+                                             },
+                                             {
+                                                 "name":  "Resist Fatigue"
+                                             },
+                                             {
+                                                 "name":  "Resist Hunger"
+                                             },
+                                             {
+                                                 "name":  "Resist Thirst"
+                                             },
+                                             {
+                                                 "name":  "Restore P.P.E."
+                                             },
+                                             {
+                                                 "name":  "See Aura"
+                                             },
+                                             {
+                                                 "name":  "See the Invisible"
+                                             },
+                                             {
+                                                 "name":  "Sense Dimensional Anomaly"
+                                             },
+                                             {
+                                                 "name":  "Sense Evil"
+                                             },
+                                             {
+                                                 "name":  "Sense Magic"
+                                             },
+                                             {
+                                                 "name":  "Sense Time"
+                                             },
+                                             {
+                                                 "name":  "Sixth Sense"
+                                             },
+                                             {
+                                                 "name":  "Speed Reading"
+                                             },
+                                             {
+                                                 "name":  "Stop Bleeding"
+                                             },
+                                             {
+                                                 "name":  "Summon Inner Strength"
+                                             },
+                                             {
+                                                 "name":  "Suppress Fear"
+                                             },
+                                             {
+                                                 "name":  "Telekinesis"
+                                             },
+                                             {
+                                                 "name":  "Telekinesis (Super)"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Acceleration Attack"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Force Field"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Leap"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Lift"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Punch"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Push"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Mental Operation"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Paralysis"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Possession"
+                                             },
+                                             {
+                                                 "name":  "Telemechanics"
+                                             },
+                                             {
+                                                 "name":  "Telepathy"
+                                             },
+                                             {
+                                                 "name":  "Total Recall"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose any psionic power from the full psionics list."
+                   }
+    },
+    {
+        "name":  "Healing Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-healing",
+                       "label":  "Healing Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Bio-Regeneration"
+                                             },
+                                             {
+                                                 "name":  "Deaden Pain"
+                                             },
+                                             {
+                                                 "name":  "Detect Psionics"
+                                             },
+                                             {
+                                                 "name":  "Exorcism"
+                                             },
+                                             {
+                                                 "name":  "Healing Touch"
+                                             },
+                                             {
+                                                 "name":  "Increased Healing"
+                                             },
+                                             {
+                                                 "name":  "Induce Sleep"
+                                             },
+                                             {
+                                                 "name":  "Meditation"
+                                             },
+                                             {
+                                                 "name":  "Psychic Diagnosis"
+                                             },
+                                             {
+                                                 "name":  "Psychic Purification"
+                                             },
+                                             {
+                                                 "name":  "Psychic Surgery"
+                                             },
+                                             {
+                                                 "name":  "Resist Fatigue"
+                                             },
+                                             {
+                                                 "name":  "Restore P.P.E."
+                                             },
+                                             {
+                                                 "name":  "Stop Bleeding"
+                                             },
+                                             {
+                                                 "name":  "Suppress Fear"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one Healing psionic power."
+                   }
+    },
+    {
+        "name":  "Physical Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-physical",
+                       "label":  "Physical Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Alter Aura"
+                                             },
+                                             {
+                                                 "name":  "Deaden Senses"
+                                             },
+                                             {
+                                                 "name":  "Death Trance"
+                                             },
+                                             {
+                                                 "name":  "Ectoplasm"
+                                             },
+                                             {
+                                                 "name":  "Ectoplasmic Disguise"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Cold"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Fire"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Poison/Toxin"
+                                             },
+                                             {
+                                                 "name":  "Levitation"
+                                             },
+                                             {
+                                                 "name":  "Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Nightvision"
+                                             },
+                                             {
+                                                 "name":  "Resist Fatigue"
+                                             },
+                                             {
+                                                 "name":  "Resist Hunger"
+                                             },
+                                             {
+                                                 "name":  "Resist Thirst"
+                                             },
+                                             {
+                                                 "name":  "Summon Inner Strength"
+                                             },
+                                             {
+                                                 "name":  "Telekinesis"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Leap"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Lift"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Punch"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Push"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one Physical psionic power."
+                   }
+    },
+    {
+        "name":  "Sensitive Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-sensitive",
+                       "label":  "Sensitive Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Astral Projection"
+                                             },
+                                             {
+                                                 "name":  "Clairvoyance"
+                                             },
+                                             {
+                                                 "name":  "Commune with Spirits"
+                                             },
+                                             {
+                                                 "name":  "Empathy"
+                                             },
+                                             {
+                                                 "name":  "Intuitive Combat"
+                                             },
+                                             {
+                                                 "name":  "Machine Ghost"
+                                             },
+                                             {
+                                                 "name":  "Mask I.S.P. and Psionics"
+                                             },
+                                             {
+                                                 "name":  "Mask P.P.E."
+                                             },
+                                             {
+                                                 "name":  "Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Object Read"
+                                             },
+                                             {
+                                                 "name":  "Presence Sense"
+                                             },
+                                             {
+                                                 "name":  "Read Dimensional Portal"
+                                             },
+                                             {
+                                                 "name":  "Remote Viewing"
+                                             },
+                                             {
+                                                 "name":  "See Aura"
+                                             },
+                                             {
+                                                 "name":  "See the Invisible"
+                                             },
+                                             {
+                                                 "name":  "Sense Dimensional Anomaly"
+                                             },
+                                             {
+                                                 "name":  "Sense Evil"
+                                             },
+                                             {
+                                                 "name":  "Sense Magic"
+                                             },
+                                             {
+                                                 "name":  "Sense Time"
+                                             },
+                                             {
+                                                 "name":  "Sixth Sense"
+                                             },
+                                             {
+                                                 "name":  "Speed Reading"
+                                             },
+                                             {
+                                                 "name":  "Telepathy"
+                                             },
+                                             {
+                                                 "name":  "Total Recall"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one Sensitive psionic power."
+                   }
+    },
+    {
+        "name":  "Super Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-super",
+                       "label":  "Super Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Bio-Manipulation"
+                                             },
+                                             {
+                                                 "name":  "Bio-Regeneration (Super)"
+                                             },
+                                             {
+                                                 "name":  "Electrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Empathic Transmission"
+                                             },
+                                             {
+                                                 "name":  "Group Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Group Trance"
+                                             },
+                                             {
+                                                 "name":  "Hydrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Hypnotic Suggestion"
+                                             },
+                                             {
+                                                 "name":  "Mentally Possess Others"
+                                             },
+                                             {
+                                                 "name":  "Mind Block Auto-Defense"
+                                             },
+                                             {
+                                                 "name":  "Mind Bolt"
+                                             },
+                                             {
+                                                 "name":  "Mind Bond"
+                                             },
+                                             {
+                                                 "name":  "Mind Wipe"
+                                             },
+                                             {
+                                                 "name":  "P.P.E. Shield"
+                                             },
+                                             {
+                                                 "name":  "Psi-Shield"
+                                             },
+                                             {
+                                                 "name":  "Psi-Sword"
+                                             },
+                                             {
+                                                 "name":  "Psionic Invisibility"
+                                             },
+                                             {
+                                                 "name":  "Psychic Body Field"
+                                             },
+                                             {
+                                                 "name":  "Psychic Omni-Sight"
+                                             },
+                                             {
+                                                 "name":  "Psychosomatic Disease"
+                                             },
+                                             {
+                                                 "name":  "Pyrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Radiate Horror Factor"
+                                             },
+                                             {
+                                                 "name":  "Telekinesis (Super)"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Acceleration Attack"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Force Field"
+                                             },
+                                             {
+                                                 "name":  "Telemechanics"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Mental Operation"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Paralysis"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Possession"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one Super psionic power."
+                   }
+    }
+]

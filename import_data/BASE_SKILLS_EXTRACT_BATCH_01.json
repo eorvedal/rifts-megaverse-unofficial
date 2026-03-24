@@ -1,0 +1,539 @@
+[
+  {
+    "name": "Acrobatics",
+    "type": "skill",
+    "system": {
+      "description": "Aerial agility, balance work, rope climbing, and tumbling.",
+      "category": "Physical",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "physical",
+      "effects": {
+        "attributes": { "ps": 1, "pp": 1, "pe": 1 }
+      },
+      "rollableEffects": {
+        "resources": { "sdc": "1d6" }
+      },
+      "physical": {
+        "rollWithPunchBonus": 2,
+        "climbBonus": 15,
+        "climbBaseGrant": 40,
+        "prowlBonus": 5,
+        "prowlBaseGrant": 30,
+        "kickAttack": true,
+        "kickDamageFormula": "1d8"
+      },
+      "notes": "Use Sense of Balance at 60% +5% per level. Use Walk Tightrope or High Wire at 60% +3% per level. Use Climb Rope at 80% +2% per level. Use Back Flip at 60% +5% per level."
+    }
+  },
+  {
+    "name": "Athletics (General)",
+    "type": "skill",
+    "system": {
+      "description": "General athletic conditioning for contests of strength, endurance, and agility.",
+      "category": "Physical",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "physical",
+      "effects": {
+        "attributes": { "ps": 1 },
+        "combat": { "parry": 1, "dodge": 1 }
+      },
+      "rollableEffects": {
+        "attributes": { "spd": "1d6" },
+        "resources": { "sdc": "1d8" }
+      },
+      "physical": {
+        "rollWithPunchBonus": 1
+      },
+      "notes": "Use this as broad athletic conditioning rather than a percentile skill roll."
+    }
+  },
+  {
+    "name": "Body Building & Weight Lifting",
+    "type": "skill",
+    "system": {
+      "description": "Muscle building and weight training for raw strength.",
+      "category": "Physical",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "physical",
+      "effects": {
+        "attributes": { "ps": 2 },
+        "resources": { "sdc": 10 }
+      },
+      "notes": "Apply these bonuses while the character keeps up the conditioning that earned them."
+    }
+  },
+  {
+    "name": "Boxing",
+    "type": "skill",
+    "system": {
+      "description": "Classic fist-fighting training that sharpens reflexes, endurance, and punching power.",
+      "category": "Physical",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "physical",
+      "effects": {
+        "attributes": { "ps": 2 },
+        "combat": { "parry": 2, "dodge": 2, "apm": 1 }
+      },
+      "rollableEffects": {
+        "resources": { "sdc": "3d6" }
+      },
+      "physical": {
+        "rollWithPunchBonus": 1,
+        "automaticKnockoutOn20": true
+      },
+      "notes": "A natural 20 body punch can knock the victim out. Roll 1D6 melees for the knockout duration if the group wants to track the full time spent unconscious."
+    }
+  },
+  {
+    "name": "Climbing",
+    "type": "skill",
+    "system": {
+      "description": "Tools and techniques for climbing sheer surfaces and rappelling.",
+      "category": "Physical",
+      "base": 40,
+      "perLevel": 5,
+      "modifier": 0,
+      "notes": "Roll once for every 20 feet of vertical climbing. One failed roll means the climber is losing their grip; a second failed roll means a fall. Use Rappelling at 30% +5% per level when descending by rope, helicopter line, wall, or cliff."
+    }
+  },
+  {
+    "name": "Gymnastics",
+    "type": "skill",
+    "system": {
+      "description": "Falls, rolls, tumbles, rope work, and balance training on bars and rings.",
+      "category": "Physical",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "physical",
+      "effects": {
+        "attributes": { "ps": 2, "pp": 1, "pe": 2 }
+      },
+      "rollableEffects": {
+        "resources": { "sdc": "2d6" }
+      },
+      "physical": {
+        "rollWithPunchBonus": 2,
+        "climbBonus": 7,
+        "climbBaseGrant": 25,
+        "prowlBonus": 5,
+        "prowlBaseGrant": 30,
+        "kickAttack": true,
+        "kickDamageFormula": "2d4"
+      },
+      "notes": "Use Sense of Balance at 50% +5% per level. Use Parallel Bars and Rings at 60% +3% per level. Use Climb Rope at 70% +2% per level. Use Back Flip at 70% +5% per level."
+    }
+  },
+  {
+    "name": "Prowl",
+    "type": "skill",
+    "system": {
+      "description": "Move quietly, slowly, and carefully enough to slip by unseen.",
+      "category": "Physical",
+      "base": 25,
+      "perLevel": 5,
+      "modifier": 0,
+      "notes": "A failed roll means the character has been seen or heard. A successful roll can set up a sneak attack or quiet approach."
+    }
+  },
+  {
+    "name": "Running",
+    "type": "skill",
+    "system": {
+      "description": "Steady running and exercise that build speed and endurance.",
+      "category": "Physical",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "physical",
+      "effects": {
+        "attributes": { "pe": 1 }
+      },
+      "rollableEffects": {
+        "attributes": { "spd": "4d4" },
+        "resources": { "sdc": "1d6" }
+      },
+      "notes": "Apply these gains after the character completes the conditioning represented by the skill."
+    }
+  },
+  {
+    "name": "Swimming",
+    "type": "skill",
+    "system": {
+      "description": "Keeping afloat, diving, lifesaving, and efficient swim technique.",
+      "category": "Physical",
+      "base": 50,
+      "perLevel": 5,
+      "modifier": 0,
+      "notes": "A swimmer can cover a distance equal to three times P.S. in yards or meters per melee and can keep up that pace for a number of minutes equal to P.E. Handle water movement and fatigue at the table for now."
+    }
+  },
+  {
+    "name": "S.C.U.B.A.",
+    "type": "skill",
+    "system": {
+      "description": "Skin diving and underwater swimming with a self-contained breathing rig.",
+      "category": "Physical",
+      "base": 50,
+      "perLevel": 5,
+      "modifier": 0,
+      "notes": "A diver can cover a distance equal to two times P.S. in yards or meters per melee and can keep up that pace for a number of minutes equal to P.E. Maximum safe depth without the bends is about 120 feet. Handle decompression, depth, and underwater hazards at the table for now."
+    }
+  },
+  {
+    "name": "Wrestling",
+    "type": "skill",
+    "system": {
+      "description": "School and collegiate wrestling that teaches leverage, pins, and close control.",
+      "category": "Physical",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "physical",
+      "effects": {
+        "attributes": { "ps": 2, "pe": 1 }
+      },
+      "rollableEffects": {
+        "resources": { "sdc": "4d6" }
+      },
+      "physical": {
+        "rollWithPunchBonus": 1,
+        "crushSqueeze": true,
+        "bodyBlockTackleDamage": "1d4"
+      },
+      "notes": "Body block or tackle does 1D4 damage and can knock an opponent down if they fail to dodge or parry. Crush or squeeze does 1D4 damage per attack. On a natural 18, 19, or 20, the wrestler can pin and incapacitate the opponent; resolve the exact hold at the table."
+    }
+  },
+  {
+    "name": "Back Flip",
+    "type": "specialManeuver",
+    "system": {
+      "key": "backFlip",
+      "category": "reactive",
+      "description": "Spring backward to clear space, recover footing, or escape a close rush.",
+      "actionCost": 0,
+      "strikeModifier": 0,
+      "damageFormula": "0",
+      "damageMultiplier": 1,
+      "isReactive": true,
+      "requiresTarget": false,
+      "requiresHit": false,
+      "sourceType": "skill",
+      "sourceName": "Acrobatics / Gymnastics",
+      "specialRules": "Use this when the character has room to flip clear. Resolve exact distance, footing, and obstacles at the table.",
+      "notes": ""
+    }
+  },
+  {
+    "name": "W.P. Archery and Targeting",
+    "type": "skill",
+    "system": {
+      "description": "Training with bows, slings, spears, and similar missile weapons.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-archery-targeting",
+        "classification": "ancient",
+        "allowedParry": true,
+        "strikeProgression": [0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6],
+        "parryProgression": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        "thrownProgression": [],
+        "rangeProgression": [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300]
+      },
+      "notes": "This proficiency covers thrown spears, slings, bows, and crossbows. When firing from horseback or a moving vehicle, cut the normal rate of fire in half and handle any lost bonuses at the table."
+    }
+  },
+  {
+    "name": "W.P. Blunt",
+    "type": "skill",
+    "system": {
+      "description": "Training with clubs, maces, hammers, staves, and other blunt weapons.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-blunt",
+        "classification": "ancient",
+        "allowedParry": true,
+        "strikeProgression": [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4],
+        "parryProgression": [1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4],
+        "thrownProgression": [],
+        "rangeProgression": []
+      }
+    }
+  },
+  {
+    "name": "W.P. Chain",
+    "type": "skill",
+    "system": {
+      "description": "Training with chain weapons, flails, and nunchaku.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-chain",
+        "classification": "ancient",
+        "allowedParry": true,
+        "strikeProgression": [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3],
+        "parryProgression": [0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3],
+        "thrownProgression": [],
+        "rangeProgression": []
+      }
+    }
+  },
+  {
+    "name": "W.P. Knife",
+    "type": "skill",
+    "system": {
+      "description": "Training with combat knives, utility knives, and thrown blades.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-knife",
+        "classification": "ancient",
+        "allowedParry": true,
+        "strikeProgression": [0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4],
+        "parryProgression": [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5],
+        "thrownProgression": [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4],
+        "rangeProgression": []
+      }
+    }
+  },
+  {
+    "name": "W.P. Sword",
+    "type": "skill",
+    "system": {
+      "description": "Training with short swords, sabers, rapiers, and two-handed blades.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-sword",
+        "classification": "ancient",
+        "allowedParry": true,
+        "strikeProgression": [1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5],
+        "parryProgression": [1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 5, 5],
+        "thrownProgression": [],
+        "rangeProgression": []
+      }
+    }
+  },
+  {
+    "name": "W.P. Revolver",
+    "type": "skill",
+    "system": {
+      "description": "Training with cylinder handguns.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-revolver",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to revolvers and similar sidearms. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Automatic Pistol",
+    "type": "skill",
+    "system": {
+      "description": "Training with automatic pistols and machine pistols.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-automatic-pistol",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to automatic pistols. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Bolt Action Rifle",
+    "type": "skill",
+    "system": {
+      "description": "Training with hunting rifles, precision rifles, and other bolt-action long arms.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-bolt-action-rifle",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to bolt-action rifles and hunting rifles. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Automatic and Semi-automatic Rifles",
+    "type": "skill",
+    "system": {
+      "description": "Training with assault rifles and other self-loading rifles.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-assault-rifle",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to automatic and semi-automatic rifles. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Sub-Machinegun",
+    "type": "skill",
+    "system": {
+      "description": "Training with compact automatic firearms such as the Uzi.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-sub-machinegun",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to sub-machineguns. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Heavy",
+    "type": "skill",
+    "system": {
+      "description": "Training with machineguns, bazookas, mortars, and similar heavy weapons.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-heavy-weapon",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to heavy support weapons. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Energy Pistol",
+    "type": "skill",
+    "system": {
+      "description": "Training with laser pistols and other energy sidearms.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-energy-pistol",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to energy pistols. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Energy Rifle",
+    "type": "skill",
+    "system": {
+      "description": "Training with laser rifles and other long-range energy weapons.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-energy-rifle",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to energy rifles. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  },
+  {
+    "name": "W.P. Heavy Energy Weapons",
+    "type": "skill",
+    "system": {
+      "description": "Training with rail guns, plasma ejectors, and similar heavy energy weapons.",
+      "category": "Weapon Proficiency",
+      "base": 0,
+      "perLevel": 0,
+      "modifier": 0,
+      "automationType": "weaponProficiency",
+      "weaponProficiency": {
+        "proficiencyKey": "wp-heavy-energy-weapon",
+        "classification": "modern",
+        "allowedParry": false,
+        "strikeProgression": [],
+        "parryProgression": [],
+        "thrownProgression": [],
+        "rangeProgression": []
+      },
+      "notes": "Match this proficiency to heavy energy weapons. Until the full modern W.P. combat table is entered, use normal attack rolls and handle any special bonuses manually."
+    }
+  }
+]

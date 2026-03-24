@@ -13,6 +13,8 @@ import * as RiftsImpact from "./services/impact.mjs";
 import * as RiftsMovement from "./services/movement.mjs";
 import * as RiftsBulkImport from "./services/bulk-import.mjs";
 import * as RiftsLevelUp from "./services/level-up.mjs";
+import * as RiftsStatusEffects from "./services/status-effects.mjs";
+import * as RiftsRulesSettings from "./services/rules-settings.mjs";
 import { openBulkImporter, RiftsBulkImporterMenu } from "./apps/bulk-importer.mjs";
 import { openLevelUpDialog } from "./apps/level-up.mjs";
 import { openCharacterCreationWizard } from "./apps/character-creation-wizard.mjs";
@@ -201,6 +203,7 @@ Hooks.once("init", () => {
   };
 
   registerDataRepairSettings();
+  RiftsRulesSettings.registerRulesSettings(RIFTS_SYSTEM_ID);
   registerActorVisualDefaults();
   registerVehiclePrototypeTokenDefaults();
   registerBulkImporterMenu();
@@ -238,6 +241,7 @@ Hooks.once("ready", async () => {
   RiftsMeleeSequencer.registerMeleeSequencerHooks();
   RiftsCombatTracker.registerCombatTrackerIntegration();
   RiftsMovement.registerMovementHooks();
+  RiftsStatusEffects.registerStatusEffectHooks();
 
   game.rifts = {
     rolls: RiftsRolls,
@@ -252,6 +256,8 @@ Hooks.once("ready", async () => {
     maneuvers: RiftsManeuvers,
     impact: RiftsImpact,
     movement: RiftsMovement,
+    statusEffects: RiftsStatusEffects,
+    rules: RiftsRulesSettings,
     importer: {
       ...RiftsBulkImport,
       open: openBulkImporter

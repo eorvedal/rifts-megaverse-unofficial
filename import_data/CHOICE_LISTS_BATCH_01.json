@@ -1,0 +1,264 @@
+[
+  {
+    "name": "All Base Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-all",
+      "label": "All Base Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": {
+        "category": ["Communications", "Domestic", "Electrical", "Espionage", "Mechanical", "Medical", "Military", "Physical", "Pilot", "Pilot Related", "Rogue", "Science", "Technical", "Wilderness"]
+      },
+      "notes": "Use this list when a character may choose from the full base skill catalog."
+    }
+  },
+  {
+    "name": "Communications Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-communications",
+      "label": "Communications Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Communications" },
+      "notes": "Use this list when a class or package grants a Communications skill choice."
+    }
+  },
+  {
+    "name": "Domestic Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-domestic",
+      "label": "Domestic Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Domestic" },
+      "notes": "Use this list when a character may choose from Domestic skills."
+    }
+  },
+  {
+    "name": "Electrical Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-electrical",
+      "label": "Electrical Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Electrical" },
+      "notes": "Use this list when a character may choose from Electrical skills."
+    }
+  },
+  {
+    "name": "Espionage Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-espionage",
+      "label": "Espionage Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Espionage" },
+      "notes": "Use this list when a character may choose from Espionage skills."
+    }
+  },
+  {
+    "name": "Mechanical Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-mechanical",
+      "label": "Mechanical Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Mechanical" },
+      "notes": "Use this list when a character may choose from Mechanical skills."
+    }
+  },
+  {
+    "name": "Medical Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-medical",
+      "label": "Medical Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Medical" },
+      "notes": "Use this list when a character may choose from Medical skills."
+    }
+  },
+  {
+    "name": "Military Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-military",
+      "label": "Military Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Military" },
+      "notes": "Use this list when a character may choose from Military skills."
+    }
+  },
+  {
+    "name": "Physical Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-physical",
+      "label": "Physical Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Physical" },
+      "notes": "Use this list when a character may choose from Physical skills."
+    }
+  },
+  {
+    "name": "Pilot Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-pilot",
+      "label": "Pilot Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Pilot" },
+      "notes": "Use this list when a character may choose from Pilot skills."
+    }
+  },
+  {
+    "name": "Pilot Related Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-pilot-related",
+      "label": "Pilot Related Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Pilot Related" },
+      "notes": "Use this list when a character may choose from Pilot Related skills."
+    }
+  },
+  {
+    "name": "Rogue Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-rogue",
+      "label": "Rogue Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Rogue" },
+      "notes": "Use this list when a character may choose from Rogue skills."
+    }
+  },
+  {
+    "name": "Science Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-science",
+      "label": "Science Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Science" },
+      "notes": "Use this list when a character may choose from Science skills."
+    }
+  },
+  {
+    "name": "Technical Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-technical",
+      "label": "Technical Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Technical" },
+      "notes": "Use this list when a character may choose from Technical skills."
+    }
+  },
+  {
+    "name": "Wilderness Skills",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-wilderness",
+      "label": "Wilderness Skills",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": { "category": "Wilderness" },
+      "notes": "Use this list when a character may choose from Wilderness skills."
+    }
+  },
+  {
+    "name": "All Weapon Proficiencies",
+    "type": "choiceList",
+    "system": {
+      "listId": "wp-all",
+      "label": "All Weapon Proficiencies",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": {
+        "automationType": "weaponProficiency"
+      },
+      "notes": "Use this list when a character may choose from any weapon proficiency currently in the world."
+    }
+  },
+  {
+    "name": "Ancient Weapon Proficiencies",
+    "type": "choiceList",
+    "system": {
+      "listId": "wp-ancient",
+      "label": "Ancient Weapon Proficiencies",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": {
+        "automationType": "weaponProficiency",
+        "weaponProficiency.classification": "ancient"
+      },
+      "notes": "Use this list when a character may choose from ancient weapon proficiencies."
+    }
+  },
+  {
+    "name": "Modern Weapon Proficiencies",
+    "type": "choiceList",
+    "system": {
+      "listId": "wp-modern",
+      "label": "Modern Weapon Proficiencies",
+      "entryType": "skill",
+      "sourceMode": "filter",
+      "entries": [],
+      "staticEntries": [],
+      "filters": {
+        "automationType": "weaponProficiency",
+        "weaponProficiency.classification": "modern"
+      },
+      "notes": "Use this list when a character may choose from modern weapon proficiencies."
+    }
+  }
+]

@@ -1,0 +1,658 @@
+﻿[
+    {
+        "name":  "Psychic Pilot Choices (+10%)",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "skills-psychic-pilot-10",
+                       "label":  "Psychic Pilot Choices (+10%)",
+                       "entryType":  "skill",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Airplane",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Airplane",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Automobile",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Automobile",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  2,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                                 "category":  "Pilot",
+                                                                 "base":  55,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Sail Type",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Sail Type",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Ships",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Ships",
+                                                                 "category":  "Pilot",
+                                                                 "base":  45,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Helicopter",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Helicopter",
+                                                                 "category":  "Pilot",
+                                                                 "base":  35,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Horsemanship",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Horsemanship",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Hover Craft (Ground)",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Hover Craft (Ground)",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Aircraft",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Aircraft",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Fighters",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Fighters",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Packs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Packs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  42,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Motorcycle",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Motorcycle",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Basic",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Basic",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Elite",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Elite",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robots and Power Armor",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robots and Power Armor",
+                                                                 "category":  "Pilot",
+                                                                 "base":  56,
+                                                                 "perLevel":  3,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Tanks and APCs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Tanks and APCs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  36,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Truck",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Truck",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose pilot skills from this list when the class grants two piloting skills at a +10% bonus."
+                   }
+    },
+    {
+        "name":  "Psychic Pilot Choices (+5%)",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "skills-psychic-pilot-5",
+                       "label":  "Psychic Pilot Choices (+5%)",
+                       "entryType":  "skill",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Airplane",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Airplane",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Automobile",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Automobile",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  2,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                                 "category":  "Pilot",
+                                                                 "base":  55,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Sail Type",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Sail Type",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Ships",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Ships",
+                                                                 "category":  "Pilot",
+                                                                 "base":  45,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Helicopter",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Helicopter",
+                                                                 "category":  "Pilot",
+                                                                 "base":  35,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Horsemanship",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Horsemanship",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Hover Craft (Ground)",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Hover Craft (Ground)",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Aircraft",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Aircraft",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Fighters",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Fighters",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Packs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Packs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  42,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Motorcycle",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Motorcycle",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Basic",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Basic",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Elite",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Elite",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robots and Power Armor",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robots and Power Armor",
+                                                                 "category":  "Pilot",
+                                                                 "base":  56,
+                                                                 "perLevel":  3,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Tanks and APCs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Tanks and APCs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  36,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Truck",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Truck",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose pilot skills from this list when the class grants two piloting skills at a +5% bonus."
+                   }
+    },
+    {
+        "name":  "Burster Minor Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-burster-minor",
+                       "label":  "Burster Minor Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Death Trance"
+                                             },
+                                             {
+                                                 "name":  "Levitation"
+                                             },
+                                             {
+                                                 "name":  "Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Resist Fatigue"
+                                             },
+                                             {
+                                                 "name":  "Resist Thirst"
+                                             },
+                                             {
+                                                 "name":  "Resist Hunger"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose three minor psionic powers from this list when creating a Burster."
+                   }
+    },
+    {
+        "name":  "Dog Pack Extra Sensitive Power",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-dog-pack-extra-sensitive",
+                       "label":  "Dog Pack Extra Sensitive Power",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Astral Projection"
+                                             },
+                                             {
+                                                 "name":  "Clairvoyance"
+                                             },
+                                             {
+                                                 "name":  "Commune with Spirits"
+                                             },
+                                             {
+                                                 "name":  "Intuitive Combat"
+                                             },
+                                             {
+                                                 "name":  "Machine Ghost"
+                                             },
+                                             {
+                                                 "name":  "Mask I.S.P. and Psionics"
+                                             },
+                                             {
+                                                 "name":  "Mask P.P.E."
+                                             },
+                                             {
+                                                 "name":  "Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Object Read"
+                                             },
+                                             {
+                                                 "name":  "Presence Sense"
+                                             },
+                                             {
+                                                 "name":  "Read Dimensional Portal"
+                                             },
+                                             {
+                                                 "name":  "Remote Viewing"
+                                             },
+                                             {
+                                                 "name":  "See Aura"
+                                             },
+                                             {
+                                                 "name":  "See the Invisible"
+                                             },
+                                             {
+                                                 "name":  "Sense Dimensional Anomaly"
+                                             },
+                                             {
+                                                 "name":  "Sense Time"
+                                             },
+                                             {
+                                                 "name":  "Speed Reading"
+                                             },
+                                             {
+                                                 "name":  "Telepathy"
+                                             },
+                                             {
+                                                 "name":  "Total Recall"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose one additional Sensitive power beyond the automatic Dog Pack powers."
+                   }
+    },
+    {
+        "name":  "Mind Melter Early Super Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-mind-melter-super-early",
+                       "label":  "Mind Melter Early Super Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Bio-Manipulation"
+                                             },
+                                             {
+                                                 "name":  "Bio-Regeneration (Super)"
+                                             },
+                                             {
+                                                 "name":  "Electrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Empathic Transmission"
+                                             },
+                                             {
+                                                 "name":  "Group Mind Block"
+                                             },
+                                             {
+                                                 "name":  "Group Trance"
+                                             },
+                                             {
+                                                 "name":  "Hydrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Hypnotic Suggestion"
+                                             },
+                                             {
+                                                 "name":  "Mind Block Auto-Defense"
+                                             },
+                                             {
+                                                 "name":  "Mind Bolt"
+                                             },
+                                             {
+                                                 "name":  "Mind Bond"
+                                             },
+                                             {
+                                                 "name":  "P.P.E. Shield"
+                                             },
+                                             {
+                                                 "name":  "Psi-Shield"
+                                             },
+                                             {
+                                                 "name":  "Psionic Invisibility"
+                                             },
+                                             {
+                                                 "name":  "Psychic Body Field"
+                                             },
+                                             {
+                                                 "name":  "Psychic Omni-Sight"
+                                             },
+                                             {
+                                                 "name":  "Psychosomatic Disease"
+                                             },
+                                             {
+                                                 "name":  "Pyrokinesis"
+                                             },
+                                             {
+                                                 "name":  "Radiate Horror Factor"
+                                             },
+                                             {
+                                                 "name":  "Telekinesis (Super)"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Acceleration Attack"
+                                             },
+                                             {
+                                                 "name":  "Telekinetic Force Field"
+                                             },
+                                             {
+                                                 "name":  "Telemechanics"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Mental Operation"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Paralysis"
+                                             },
+                                             {
+                                                 "name":  "Telemechanic Possession"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Use this list for Mind Melter Super psionic picks before third level. Mind Wipe, Psi-Sword, and Mentally Possess Others remain unavailable until third level."
+                   }
+    }
+]

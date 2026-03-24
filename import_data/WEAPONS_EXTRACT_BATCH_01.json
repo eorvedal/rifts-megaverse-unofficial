@@ -1,0 +1,380 @@
+[
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  2,
+                                      "notes":  "A durable, accurate laser sidearm. The +2 bonus applies on an aimed shot. Each blast counts as one melee attack. Cost: 11,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d6",
+                                      "proficiencyKey":  "wp-energy-pistol",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  20,
+                                                   "max":  20
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "1000 ft"
+                                  }
+                   },
+        "name":  "Wilk\u0027s 320 Laser Pistol",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  1,
+                                      "notes":  "A rifle version of the Wilk?s laser sidearm. The +1 bonus applies on an aimed shot. Each blast counts as one melee attack. Cost: 18,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "3d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  20,
+                                                   "max":  20
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "2000 ft"
+                                  }
+                   },
+        "name":  "Wilk\u0027s 447 Laser Rifle",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "Primarily a cutting and welding tool, not a combat weapon. Adjustable damage settings range from 1D4 M.D. to 4D6 M.D. or from 1D6 to 1D6x10 S.D.C. Each cut or weld counts as one melee attack. Cost: 7,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d4",
+                                      "proficiencyKey":  "",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  100,
+                                                   "max":  100
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "10 ft"
+                                  }
+                   },
+        "name":  "Wilk\u0027s Portable Laser Torch",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A compact detail laser for electronics and fine work. It is not meant to be used as a weapon. S.D.C. settings are 1D4, 1D6, 2D6, or 3D6. Cost: 2,000 credits plus mini energy clips.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1",
+                                      "proficiencyKey":  "",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  50,
+                                                   "max":  50
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "10 ft"
+                                  }
+                   },
+        "name":  "Wilk\u0027s Laser Wand",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A sturdy heavy ion pistol with two damage settings: 2D4 or 3D6 M.D. Each blast counts as one melee attack. Cost: 8,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "2d4",
+                                      "proficiencyKey":  "wp-energy-pistol",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  10,
+                                                   "max":  10
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "500 ft"
+                                  }
+                   },
+        "name":  "NG-57 Northern Gun Heavy-Duty Ion Blaster",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A dual-purpose weapon with a 2D4 M.D. laser and a 4D6 M.D. grenade launcher with a 6-foot blast radius. Characters with P.S. 19 or less are -3 to strike one-handed and -1 to strike when braced. Grenade launcher payload is 6 loaded plus 8 in the top clip, and reloading the launcher takes one full melee.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "2d4",
+                                      "proficiencyKey":  "wp-energy-pistol",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  20,
+                                                   "max":  20
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "800 ft"
+                                  }
+                   },
+        "name":  "NG-Super Laser Pistol and Grenade Launcher",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A lighter Northern Gun laser sidearm. Each blast counts as one melee attack. Cost: 6,500 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d6",
+                                      "proficiencyKey":  "wp-energy-pistol",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  20,
+                                                   "max":  20
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "800 ft"
+                                  }
+                   },
+        "name":  "NG-33 Northern Gun Laser Pistol",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A durable heavy-duty laser rifle. It uses a 10-shot standard clip or a 20-shot long clip. Each blast counts as one melee attack. Cost: 16,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "3d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  10,
+                                                   "max":  10
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "1600 ft"
+                                  }
+                   },
+        "name":  "NG-LS5 Northern Gun Laser Rifle",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A heavy particle beam rifle built for dependable battlefield work. Each blast counts as one melee attack. Cost: 22,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d4x10",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  8,
+                                                   "max":  8
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "1200 ft"
+                                  }
+                   },
+        "name":  "NG-P7 Northern Gun Particle Beam Rifle",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A common frontier rifle that can fire a 2D6 M.D. single shot or a 6D6 M.D. three-shot pulse burst. Each shot or burst counts as one melee attack. Cost: 25,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "2d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  40,
+                                                   "max":  40
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "1600 ft"
+                                  }
+                   },
+        "name":  "L-20 Pulse Rifle",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  1,
+                                      "notes":  "A precision rifle that can fire lasers, an ion beam, or hand-loaded 7.62 mm rounds. The +1 bonus applies on an aimed shot with the targeting system. The laser has two settings, 2D6 or 4D6 M.D.; the ion beam does 3D6 M.D.; the loaded 7.62 mm round does S.D.C. damage. Cost: 40,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "2d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  10,
+                                                   "max":  10
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "4000 ft"
+                                  }
+                   },
+        "name":  "JA-11 Juicer Assassin\u0027s Energy Rifle",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  1,
+                                      "notes":  "A variable-frequency laser rifle built to defeat laser-resistant armor. The +1 bonus applies on an aimed shot. Each blast counts as one melee attack. Cost: 20,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "2d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  10,
+                                                   "max":  10
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "4000 ft"
+                                  }
+                   },
+        "name":  "JA-9 Juicer Assassin Variable Laser Rifle",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A heavy rail gun. A standard burst uses 30 rounds and inflicts 6D6 M.D.; one round does 1D4 M.D. Each burst counts as one melee attack. Cost: 55,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "6d6",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  300,
+                                                   "max":  300
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "4000 ft"
+                                  }
+                   },
+        "name":  "NG-101 Rail Gun",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A heavier rail gun. A standard burst uses 40 rounds and inflicts 1D4x10 M.D.; one round does 1D4 M.D. Each burst counts as one melee attack. Cost: 70,000 credits.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d4x10",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  false,
+                                      "ammo":  {
+                                                   "value":  300,
+                                                   "max":  300
+                                               },
+                                      "mountName":  "",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "4000 ft"
+                                  }
+                   },
+        "name":  "NG-202 Rail Gun",
+        "type":  "weapon"
+    }
+]

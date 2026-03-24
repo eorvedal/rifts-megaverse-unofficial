@@ -46,7 +46,102 @@
         <label>{{localize "RIFTS.Skills.SourceId"}}</label>
         <input type="text" name="system.sourceId" value="{{system.sourceId}}">
       </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.AutomationType"}}</label>
+        <select name="system.automationType">
+          {{selectOptions skillAutomationTypeOptions selected=system.automationType localize=false}}
+        </select>
+      </div>
     </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Skills.PassiveEffects"}}</label>
+      <textarea rows="8" data-action="skill-effects">{{skillEffectsText}}</textarea>
+    </section>
+
+    <section class="sheet-section">
+      <label>{{localize "RIFTS.Skills.RollableEffects"}}</label>
+      <textarea rows="8" data-action="skill-rollable-effects">{{skillRollableEffectsText}}</textarea>
+      {{#if skillHasRollableEffects}}
+        <label>{{localize "RIFTS.Skills.ResolvedEffects"}}</label>
+        <textarea rows="6" readonly>{{skillResolvedEffectsText}}</textarea>
+      {{/if}}
+    </section>
+
+    {{#if isSkillAutomationPhysical}}
+      <section class="sheet-section two-col">
+        <div>
+          <label>{{localize "RIFTS.Skills.RollWithPunchBonus"}}</label>
+          <input type="number" data-action="skill-physical-rules" data-rule-key="rollWithPunchBonus" value="{{skillPhysicalRules.rollWithPunchBonus}}">
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.ClimbBonus"}}</label>
+          <input type="number" data-action="skill-physical-rules" data-rule-key="climbBonus" value="{{skillPhysicalRules.climbBonus}}">
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.ClimbBaseGrant"}}</label>
+          <input type="number" data-action="skill-physical-rules" data-rule-key="climbBaseGrant" value="{{skillPhysicalRules.climbBaseGrant}}">
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.ProwlBonus"}}</label>
+          <input type="number" data-action="skill-physical-rules" data-rule-key="prowlBonus" value="{{skillPhysicalRules.prowlBonus}}">
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.ProwlBaseGrant"}}</label>
+          <input type="number" data-action="skill-physical-rules" data-rule-key="prowlBaseGrant" value="{{skillPhysicalRules.prowlBaseGrant}}">
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.KickAttackUnlock"}}</label>
+          <input type="checkbox" data-action="skill-physical-rules" data-rule-key="kickAttack" {{#if skillPhysicalRules.kickAttack}}checked{{/if}}>
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.KickDamageFormula"}}</label>
+          <input type="text" data-action="skill-physical-rules" data-rule-key="kickDamageFormula" value="{{skillPhysicalRules.kickDamageFormula}}">
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.CrushSqueezeUnlock"}}</label>
+          <input type="checkbox" data-action="skill-physical-rules" data-rule-key="crushSqueeze" {{#if skillPhysicalRules.crushSqueeze}}checked{{/if}}>
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.AutomaticKnockoutOn20"}}</label>
+          <input type="checkbox" data-action="skill-physical-rules" data-rule-key="automaticKnockoutOn20" {{#if skillPhysicalRules.automaticKnockoutOn20}}checked{{/if}}>
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.BodyBlockTackleDamage"}}</label>
+          <input type="text" data-action="skill-physical-rules" data-rule-key="bodyBlockTackleDamage" value="{{skillPhysicalRules.bodyBlockTackleDamage}}">
+        </div>
+      </section>
+    {{/if}}
+
+    {{#if isSkillAutomationWeaponProficiency}}
+      <section class="sheet-section two-col">
+        <div>
+          <label>{{localize "RIFTS.Skills.WeaponProficiencyKey"}}</label>
+          <input type="text" data-action="skill-wp-key" value="{{skillWpData.proficiencyKey}}">
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.WPClassification"}}</label>
+          <select name="system.weaponProficiency.classification">
+            {{selectOptions skillWpClassificationOptions selected=skillWpData.classification localize=false}}
+          </select>
+        </div>
+        <div>
+          <label>{{localize "RIFTS.Skills.WPAllowedParry"}}</label>
+          <input type="checkbox" name="system.weaponProficiency.allowedParry" {{#if skillWpData.allowedParry}}checked{{/if}}>
+        </div>
+      </section>
+
+      <section class="sheet-section">
+        <label>{{localize "RIFTS.Skills.WPStrikeProgression"}}</label>
+        <textarea rows="2" data-action="skill-wp-progression-array" data-progression-key="strikeProgression">{{skillWpStrikeProgressionText}}</textarea>
+        <label>{{localize "RIFTS.Skills.WPParryProgression"}}</label>
+        <textarea rows="2" data-action="skill-wp-progression-array" data-progression-key="parryProgression">{{skillWpParryProgressionText}}</textarea>
+        <label>{{localize "RIFTS.Skills.WPThrownProgression"}}</label>
+        <textarea rows="2" data-action="skill-wp-progression-array" data-progression-key="thrownProgression">{{skillWpThrownProgressionText}}</textarea>
+        <label>{{localize "RIFTS.Skills.WPRangeProgression"}}</label>
+        <textarea rows="2" data-action="skill-wp-progression-array" data-progression-key="rangeProgression">{{skillWpRangeProgressionText}}</textarea>
+      </section>
+    {{/if}}
 
     <section class="sheet-section">
       <label>{{localize "RIFTS.Item.Description"}}</label>
@@ -85,6 +180,10 @@
       <div>
         <label>{{localize "RIFTS.Item.Range"}}</label>
         <input type="text" name="system.weapon.range" value="{{system.weapon.range}}">
+      </div>
+      <div>
+        <label>{{localize "RIFTS.Skills.WeaponProficiencyKey"}}</label>
+        <input type="text" data-action="weapon-proficiency-key" value="{{system.weapon.proficiencyKey}}">
       </div>
       <div>
         <label title="Marks this weapon as mounted so it can be treated as a mounted system.">{{localize "RIFTS.Vehicle.IsMounted"}}</label>

@@ -1,0 +1,245 @@
+[
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A light mounted laser used on common frontier vehicles such as hovercycles and motorcycles. Each blast counts as one melee attack. This is a good default mount for a Speedster Hovercycle, Highway-Man Motorcycle, or similar vehicle.",
+                                      "linkedToVehicle":  true,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  20,
+                                                   "max":  20
+                                               },
+                                      "mountName":  "Vehicle Mount",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "1200 ft"
+                                  }
+                   },
+        "name":  "Mounted Laser Weapon",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A mounted machine-gun that inflicts 1D4 M.D. per 50-round burst. A standard payload is 600 rounds, or 12 bursts. Each burst counts as one melee attack. Use this as the common heavy gun mount for motorcycles, hovercycles, and similar vehicles.",
+                                      "linkedToVehicle":  true,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d4",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  600,
+                                                   "max":  600
+                                               },
+                                      "mountName":  "Vehicle Mount",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "2000 ft"
+                                  }
+                   },
+        "name":  "Mounted Machine-Gun",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A pair of small side-mounted launchers that fire two mini-missiles each. Standard armor-piercing mini-missiles inflict 1D4x10 M.D. per shot, though other mini-missile types may be loaded if available. Fire one or two missiles as a normal vehicle attack.",
+                                      "linkedToVehicle":  true,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d4x10",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  4,
+                                                   "max":  4
+                                               },
+                                      "mountName":  "Vehicle Side Mount",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "1 mile"
+                                  }
+                   },
+        "name":  "Vehicle Mini-Missile Launcher Pair",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A roof-mounted laser rifle with 360-degree rotation and a 90-degree arc of fire. Use this as the standard dune-buggy or transport roof gun when a vehicle description calls for a mounted laser rifle.",
+                                      "linkedToVehicle":  true,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "3d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  20,
+                                                   "max":  20
+                                               },
+                                      "mountName":  "Roof Turret",
+                                      "requiresPowerArmor":  false,
+                                      "range":  "2000 ft"
+                                  }
+                   },
+        "name":  "Roof-Mounted Laser Rifle",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "The standard Samson power armor rail gun. A burst uses 60 rounds and inflicts 1D6x10 M.D.; a single round inflicts 1D6 M.D. Each burst counts as one melee attack. A full drum holds 6,000 rounds, or 100 bursts.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d6x10",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  6000,
+                                                   "max":  6000
+                                               },
+                                      "mountName":  "Samson Power Armor Mount",
+                                      "requiresPowerArmor":  true,
+                                      "range":  "4000 ft"
+                                  }
+                   },
+        "name":  "NG-202 Super Rail Gun Mount",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "Mini-missile launchers built into the forearms of the Samson power armor. Standard issue loads armor-piercing or plasma mini-missiles, but other mini-missile types can be used if available. Fire one or two missiles at a time; both count as one melee attack.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d4x10",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  4,
+                                                   "max":  4
+                                               },
+                                      "mountName":  "Samson Forearm Mount",
+                                      "requiresPowerArmor":  true,
+                                      "range":  "1 mile"
+                                  }
+                   },
+        "name":  "Samson Forearm Rocket Launcher",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "Retractable knuckle blades built into the Samson hands. Add 1D6 M.D. to punch attacks when the blades are extended.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d6",
+                                      "proficiencyKey":  "",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  0,
+                                                   "max":  0
+                                               },
+                                      "mountName":  "Samson Hand Mount",
+                                      "requiresPowerArmor":  true,
+                                      "range":  "melee"
+                                  }
+                   },
+        "name":  "Samson Knuckle Blades",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "A pair of small laser turrets mounted under the Flying Titan wings. They can rotate freely and are fired by voice command or concealed forearm studs. Each shot counts as one melee attack. The power supply is effectively unlimited.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "2d6",
+                                      "proficiencyKey":  "wp-energy-rifle",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  0,
+                                                   "max":  0
+                                               },
+                                      "mountName":  "Flying Titan Wing Mount",
+                                      "requiresPowerArmor":  true,
+                                      "range":  "4000 ft"
+                                  }
+                   },
+        "name":  "Flying Titan Wing Lasers",
+        "type":  "weapon"
+    },
+    {
+        "system":  {
+                       "equipped":  false,
+                       "active":  false,
+                       "weapon":  {
+                                      "bonusStrike":  0,
+                                      "notes":  "Wing-mounted missile racks for the Flying Titan. Each wing can carry six mini-missiles or three short-range missiles. Fire one missile at a time or launch volleys of two, three, or four; each volley counts as one melee attack. Damage depends on the missile type loaded.",
+                                      "linkedToVehicle":  false,
+                                      "requiresCrew":  1,
+                                      "attackType":  "strike",
+                                      "damage":  "1d4x10",
+                                      "proficiencyKey":  "wp-heavy",
+                                      "linkedArmorId":  "",
+                                      "isMegaDamage":  true,
+                                      "isMounted":  true,
+                                      "ammo":  {
+                                                   "value":  12,
+                                                   "max":  12
+                                               },
+                                      "mountName":  "Flying Titan Wing Mount",
+                                      "requiresPowerArmor":  true,
+                                      "range":  "1-5 miles"
+                                  }
+                   },
+        "name":  "Flying Titan Wing Rocket Mount",
+        "type":  "weapon"
+    }
+]

@@ -467,7 +467,17 @@
                 {{#each weapons as |entry|}}
                   <div class="item-row weapons-row inventory-item-row" data-item-id="{{entry.item.id}}">
                     <span>{{entry.item.name}}</span>
-                    <span>{{entry.data.damage}} ({{localize "RIFTS.Advanced.FireMode"}}: {{entry.data.fireModeLabel}} | {{localize "RIFTS.Vehicle.Mount"}}: {{#if entry.data.mountName}}{{entry.data.mountName}}{{else}}-{{/if}})</span>
+                    <span>
+                      {{entry.data.damage}} ({{localize "RIFTS.Advanced.FireMode"}}: {{entry.data.fireModeLabel}} | {{localize "RIFTS.Vehicle.Mount"}}: {{#if entry.data.mountName}}{{entry.data.mountName}}{{else}}-{{/if}})
+                      {{#if entry.data.proficiencyKey}}
+                        <br>{{localize "RIFTS.Skills.WeaponProficiencyKey"}}: {{entry.data.proficiencyKey}}
+                        {{#if entry.data.proficiencyMatched}}
+                          | {{localize "RIFTS.Skills.MatchedWeaponProficiency"}}: {{entry.data.proficiencyName}}
+                          {{#if entry.data.proficiencyStrikeBonus}} | {{localize "RIFTS.Skills.WPStrikeBonus"}}: +{{entry.data.proficiencyStrikeBonus}}{{/if}}
+                          {{#if entry.data.proficiencyRangeBonus}} | {{localize "RIFTS.Skills.WPRangeBonus"}}: +{{entry.data.proficiencyRangeBonus}}{{/if}}
+                        {{/if}}
+                      {{/if}}
+                    </span>
                     <span>{{#if entry.data.isMegaDamage}}MD{{else}}SDC{{/if}}</span>
                     <span><input type="checkbox" data-action="toggle-weapon-equipped" data-item-id="{{entry.item.id}}" {{#if entry.data.equipped}}checked{{/if}}></span>
                     <span class="item-actions">
@@ -594,6 +604,16 @@
 
           <section class="sheet-section">
             <h2>{{localize "RIFTS.Sheet.Skills"}}</h2>
+            {{#if hasPhysicalSkillSummary}}
+              <div class="class-summary-grid">
+                <div><span>{{localize "RIFTS.Skills.PhysicalSkillAutomation"}}</span><strong>{{physicalSkillSummary.count}}</strong></div>
+                <div><span>{{localize "RIFTS.Sheet.PassiveEffects"}}</span><strong>{{#if physicalSkillEffectsSummary}}{{physicalSkillEffectsSummary}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</strong></div>
+                <div><span>{{localize "RIFTS.Skills.RollWithPunchBonus"}}</span><strong>+{{physicalSkillSummary.rollWithPunchBonus}}</strong></div>
+                <div><span>{{localize "RIFTS.Skills.ClimbTarget"}}</span><strong>{{physicalSkillSummary.climbTarget}}%</strong></div>
+                <div><span>{{localize "RIFTS.Skills.ProwlTarget"}}</span><strong>{{physicalSkillSummary.prowlTarget}}%</strong></div>
+                <div><span>{{localize "RIFTS.Skills.UnlockedActions"}}</span><strong>{{#if physicalSkillUnlockedActionsLabel}}{{physicalSkillUnlockedActionsLabel}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</strong></div>
+              </div>
+            {{/if}}
             <div class="item-list">
               <div class="item-row skills-row item-header">
                 <span>{{localize "RIFTS.Item.Name"}}</span>
@@ -610,9 +630,19 @@
                     <span>{{entry.item.name}}</span>
                     <span>{{#if entry.category}}{{entry.category}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
                     <span>{{entry.target}}%</span>
-                    <span>{{#if entry.tagsLabel}}{{entry.tagsLabel}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
+                    <span>
+                      {{#if entry.tagsLabel}}{{entry.tagsLabel}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}
+                      {{#if entry.hasResolvedBonuses}}
+                        <br>{{localize "RIFTS.Skills.ResolvedEffects"}}: {{entry.resolvedBonusSummary}}
+                      {{/if}}
+                    </span>
                     <span>{{#if entry.sourceType}}{{entry.sourceType}}{{else}}{{localize "RIFTS.Sheet.None"}}{{/if}}</span>
-                    <span><button type="button" data-action="roll-skill" data-skill-id="{{entry.item.id}}">{{localize "RIFTS.Rolls.Skill"}}</button></span>
+                    <span>
+                      <button type="button" data-action="roll-skill" data-skill-id="{{entry.item.id}}">{{localize "RIFTS.Rolls.Skill"}}</button>
+                      {{#if entry.canRollBonuses}}
+                        <button type="button" data-action="roll-skill-bonuses" data-skill-id="{{entry.item.id}}">{{localize "RIFTS.Skills.RollBonuses"}}</button>
+                      {{/if}}
+                    </span>
                     <span class="item-actions">
                       <button type="button" data-action="edit-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Edit"}}</button>
                       <button type="button" data-action="delete-item" data-item-id="{{entry.item.id}}">{{localize "RIFTS.Sheet.Delete"}}</button>

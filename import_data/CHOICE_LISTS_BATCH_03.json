@@ -1,0 +1,1194 @@
+[
+    {
+        "name":  "All Spells",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-all",
+                       "label":  "All Spells",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Blinding Flash"
+                                             },
+                                             {
+                                                 "name":  "Cloud of Smoke"
+                                             },
+                                             {
+                                                 "name":  "Death Trance"
+                                             },
+                                             {
+                                                 "name":  "Globe of Daylight"
+                                             },
+                                             {
+                                                 "name":  "Lantern Light"
+                                             },
+                                             {
+                                                 "name":  "See Aura"
+                                             },
+                                             {
+                                                 "name":  "See the Invisible"
+                                             },
+                                             {
+                                                 "name":  "Sense Evil"
+                                             },
+                                             {
+                                                 "name":  "Sense Magic"
+                                             },
+                                             {
+                                                 "name":  "Thunderclap"
+                                             },
+                                             {
+                                                 "name":  "Befuddle"
+                                             },
+                                             {
+                                                 "name":  "Chameleon"
+                                             },
+                                             {
+                                                 "name":  "Cleanse"
+                                             },
+                                             {
+                                                 "name":  "Climb"
+                                             },
+                                             {
+                                                 "name":  "Cloak of Darkness"
+                                             },
+                                             {
+                                                 "name":  "Concealment"
+                                             },
+                                             {
+                                                 "name":  "Detect Concealment"
+                                             },
+                                             {
+                                                 "name":  "Extinguish Fire"
+                                             },
+                                             {
+                                                 "name":  "Fear (Horror Factor: 16)"
+                                             },
+                                             {
+                                                 "name":  "Heavy Breathing"
+                                             },
+                                             {
+                                                 "name":  "Levitation"
+                                             },
+                                             {
+                                                 "name":  "Manipulate Objects"
+                                             },
+                                             {
+                                                 "name":  "Turn Dead"
+                                             },
+                                             {
+                                                 "name":  "Armor of Ithan"
+                                             },
+                                             {
+                                                 "name":  "Breathe Without Air"
+                                             },
+                                             {
+                                                 "name":  "Energy Bolt"
+                                             },
+                                             {
+                                                 "name":  "Fingers of the Wind"
+                                             },
+                                             {
+                                                 "name":  "Float in Air"
+                                             },
+                                             {
+                                                 "name":  "Fuel Flame"
+                                             },
+                                             {
+                                                 "name":  "Ignite Fire"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Fire"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Poison"
+                                             },
+                                             {
+                                                 "name":  "Invisibility: Simple"
+                                             },
+                                             {
+                                                 "name":  "Life Source"
+                                             },
+                                             {
+                                                 "name":  "Light Healing"
+                                             },
+                                             {
+                                                 "name":  "Magic Shield"
+                                             },
+                                             {
+                                                 "name":  "Mystic Fulcrum"
+                                             },
+                                             {
+                                                 "name":  "Negate Poison/Toxin"
+                                             },
+                                             {
+                                                 "name":  "Paralysis: Lesser"
+                                             },
+                                             {
+                                                 "name":  "Resist Fire"
+                                             },
+                                             {
+                                                 "name":  "Blind"
+                                             },
+                                             {
+                                                 "name":  "Carpet of Adhesion"
+                                             },
+                                             {
+                                                 "name":  "Charismatic Aura"
+                                             },
+                                             {
+                                                 "name":  "Cure Minor Disorders"
+                                             },
+                                             {
+                                                 "name":  "Electric Arc"
+                                             },
+                                             {
+                                                 "name":  "Energy Field"
+                                             },
+                                             {
+                                                 "name":  "Fire Bolt"
+                                             },
+                                             {
+                                                 "name":  "Fist of Fury"
+                                             },
+                                             {
+                                                 "name":  "Fool€s Gold"
+                                             },
+                                             {
+                                                 "name":  "Ley Line Transmission"
+                                             },
+                                             {
+                                                 "name":  "Magic Net"
+                                             },
+                                             {
+                                                 "name":  "Multiple Image"
+                                             },
+                                             {
+                                                 "name":  "Repel Animals"
+                                             },
+                                             {
+                                                 "name":  "Shadow Meld"
+                                             },
+                                             {
+                                                 "name":  "Swim as a Fish (lesser)"
+                                             },
+                                             {
+                                                 "name":  "Trance"
+                                             },
+                                             {
+                                                 "name":  "Armor Bizarre"
+                                             },
+                                             {
+                                                 "name":  "Calling"
+                                             },
+                                             {
+                                                 "name":  "Charm"
+                                             },
+                                             {
+                                                 "name":  "Circle of Flame"
+                                             },
+                                             {
+                                                 "name":  "Distant Voice"
+                                             },
+                                             {
+                                                 "name":  "Domination"
+                                             },
+                                             {
+                                                 "name":  "Energy Disruption"
+                                             },
+                                             {
+                                                 "name":  "Escape"
+                                             },
+                                             {
+                                                 "name":  "Eyes of Thoth"
+                                             },
+                                             {
+                                                 "name":  "Featherlight"
+                                             },
+                                             {
+                                                 "name":  "Fly"
+                                             },
+                                             {
+                                                 "name":  "Heal Wounds"
+                                             },
+                                             {
+                                                 "name":  "House of Glass"
+                                             },
+                                             {
+                                                 "name":  "Lifeblast"
+                                             },
+                                             {
+                                                 "name":  "Sleep"
+                                             },
+                                             {
+                                                 "name":  "Superhuman Endurance"
+                                             },
+                                             {
+                                                 "name":  "Superhuman Speed"
+                                             },
+                                             {
+                                                 "name":  "Superhuman Strength"
+                                             },
+                                             {
+                                                 "name":  "Call Lightning"
+                                             },
+                                             {
+                                                 "name":  "Compulsion"
+                                             },
+                                             {
+                                                 "name":  "Cure Illness"
+                                             },
+                                             {
+                                                 "name":  "Fire Ball"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Energy"
+                                             },
+                                             {
+                                                 "name":  "Magic Pigeon"
+                                             },
+                                             {
+                                                 "name":  "Mask of Deceit"
+                                             },
+                                             {
+                                                 "name":  "Reduce Self (6 inches)"
+                                             },
+                                             {
+                                                 "name":  "Sheltering Force"
+                                             },
+                                             {
+                                                 "name":  "Teleport: Lesser"
+                                             },
+                                             {
+                                                 "name":  "Tongues"
+                                             },
+                                             {
+                                                 "name":  "Words of Truth"
+                                             },
+                                             {
+                                                 "name":  "Agony"
+                                             },
+                                             {
+                                                 "name":  "Animate and Control Dead"
+                                             },
+                                             {
+                                                 "name":  "Ballistic Fire"
+                                             },
+                                             {
+                                                 "name":  "Constrain Being"
+                                             },
+                                             {
+                                                 "name":  "Dispel Magic Barriers"
+                                             },
+                                             {
+                                                 "name":  "Fly as the Eagle"
+                                             },
+                                             {
+                                                 "name":  "Globe of Silence"
+                                             },
+                                             {
+                                                 "name":  "Heal Self"
+                                             },
+                                             {
+                                                 "name":  "Invisibility (Superior)"
+                                             },
+                                             {
+                                                 "name":  "Life Drain"
+                                             },
+                                             {
+                                                 "name":  "Lightblade"
+                                             },
+                                             {
+                                                 "name":  "Metamorphosis: Animal"
+                                             },
+                                             {
+                                                 "name":  "Purification"
+                                             },
+                                             {
+                                                 "name":  "Wind Rush"
+                                             },
+                                             {
+                                                 "name":  "Commune with Spirits"
+                                             },
+                                             {
+                                                 "name":  "Exorcism"
+                                             },
+                                             {
+                                                 "name":  "Expel Demons"
+                                             },
+                                             {
+                                                 "name":  "Eyes of the Wolf"
+                                             },
+                                             {
+                                                 "name":  "Forcebonds"
+                                             },
+                                             {
+                                                 "name":  "Greater Healing"
+                                             },
+                                             {
+                                                 "name":  "Ley Line Tendril Bolts"
+                                             },
+                                             {
+                                                 "name":  "Lightning Arc"
+                                             },
+                                             {
+                                                 "name":  "Locate"
+                                             },
+                                             {
+                                                 "name":  "Luck Curse"
+                                             },
+                                             {
+                                                 "name":  "Magical-Adrenal Rush"
+                                             },
+                                             {
+                                                 "name":  "Metamorphosis: Human"
+                                             },
+                                             {
+                                                 "name":  "Negate Magic"
+                                             },
+                                             {
+                                                 "name":  "Power Weapon"
+                                             },
+                                             {
+                                                 "name":  "Shockwave"
+                                             },
+                                             {
+                                                 "name":  "Sickness"
+                                             },
+                                             {
+                                                 "name":  "Spoil"
+                                             },
+                                             {
+                                                 "name":  "Wisps of Confusion"
+                                             },
+                                             {
+                                                 "name":  "Desiccate the Supernatural"
+                                             },
+                                             {
+                                                 "name":  "Dragon Fire"
+                                             },
+                                             {
+                                                 "name":  "Familiar Link"
+                                             },
+                                             {
+                                                 "name":  "Mute"
+                                             },
+                                             {
+                                                 "name":  "Protection Circle: Simple"
+                                             },
+                                             {
+                                                 "name":  "Speed of the Snail"
+                                             },
+                                             {
+                                                 "name":  "Wall of Defense"
+                                             },
+                                             {
+                                                 "name":  "Water to Wine"
+                                             },
+                                             {
+                                                 "name":  "Banishment"
+                                             },
+                                             {
+                                                 "name":  "Control \u0026 Enslave Entity"
+                                             },
+                                             {
+                                                 "name":  "Deathword"
+                                             },
+                                             {
+                                                 "name":  "Meteor"
+                                             },
+                                             {
+                                                 "name":  "Giant"
+                                             },
+                                             {
+                                                 "name":  "Metamorphosis: Superior"
+                                             },
+                                             {
+                                                 "name":  "Mystic Portal"
+                                             },
+                                             {
+                                                 "name":  "Plane Skip"
+                                             },
+                                             {
+                                                 "name":  "Speed Weapon"
+                                             },
+                                             {
+                                                 "name":  "Summon and Control Rodents (Ritual)"
+                                             },
+                                             {
+                                                 "name":  "Summon Shadow Beast"
+                                             },
+                                             {
+                                                 "name":  "Super-Healing"
+                                             },
+                                             {
+                                                 "name":  "Anti-Magic Cloud"
+                                             },
+                                             {
+                                                 "name":  "Create Mummy (Ritual)"
+                                             },
+                                             {
+                                                 "name":  "Firequake"
+                                             },
+                                             {
+                                                 "name":  "Remove Curse"
+                                             },
+                                             {
+                                                 "name":  "Re-Open Gateway (Rift)"
+                                             },
+                                             {
+                                                 "name":  "Rift Teleportation"
+                                             },
+                                             {
+                                                 "name":  "Amulet"
+                                             },
+                                             {
+                                                 "name":  "Calm Storms"
+                                             },
+                                             {
+                                                 "name":  "Create Zombie (Ritual)"
+                                             },
+                                             {
+                                                 "name":  "Ensorcel"
+                                             },
+                                             {
+                                                 "name":  "Summon and Control Entity (Ritual)"
+                                             },
+                                             {
+                                                 "name":  "Protection Circle: Superior"
+                                             },
+                                             {
+                                                 "name":  "Sanctum"
+                                             },
+                                             {
+                                                 "name":  "Close Rift"
+                                             },
+                                             {
+                                                 "name":  "Restoration"
+                                             },
+                                             {
+                                                 "name":  "Resurrection"
+                                             },
+                                             {
+                                                 "name":  "Dimensional Portal (Rift)"
+                                             },
+                                             {
+                                                 "name":  "Teleport: Superior"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose any spell from the full invocation list."
+                   }
+    },
+    {
+        "name":  "Spell Level 1",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-1",
+                       "label":  "Spell Level 1",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Blinding Flash"
+                                             },
+                                             {
+                                                 "name":  "Cloud of Smoke"
+                                             },
+                                             {
+                                                 "name":  "Death Trance"
+                                             },
+                                             {
+                                                 "name":  "Globe of Daylight"
+                                             },
+                                             {
+                                                 "name":  "Lantern Light"
+                                             },
+                                             {
+                                                 "name":  "See Aura"
+                                             },
+                                             {
+                                                 "name":  "See the Invisible"
+                                             },
+                                             {
+                                                 "name":  "Sense Evil"
+                                             },
+                                             {
+                                                 "name":  "Sense Magic"
+                                             },
+                                             {
+                                                 "name":  "Thunderclap"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 1 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 2",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-2",
+                       "label":  "Spell Level 2",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Befuddle"
+                                             },
+                                             {
+                                                 "name":  "Chameleon"
+                                             },
+                                             {
+                                                 "name":  "Cleanse"
+                                             },
+                                             {
+                                                 "name":  "Climb"
+                                             },
+                                             {
+                                                 "name":  "Cloak of Darkness"
+                                             },
+                                             {
+                                                 "name":  "Concealment"
+                                             },
+                                             {
+                                                 "name":  "Detect Concealment"
+                                             },
+                                             {
+                                                 "name":  "Extinguish Fire"
+                                             },
+                                             {
+                                                 "name":  "Fear (Horror Factor: 16)"
+                                             },
+                                             {
+                                                 "name":  "Heavy Breathing"
+                                             },
+                                             {
+                                                 "name":  "Levitation"
+                                             },
+                                             {
+                                                 "name":  "Manipulate Objects"
+                                             },
+                                             {
+                                                 "name":  "Turn Dead"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 2 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 3",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-3",
+                       "label":  "Spell Level 3",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Armor of Ithan"
+                                             },
+                                             {
+                                                 "name":  "Breathe Without Air"
+                                             },
+                                             {
+                                                 "name":  "Energy Bolt"
+                                             },
+                                             {
+                                                 "name":  "Fingers of the Wind"
+                                             },
+                                             {
+                                                 "name":  "Float in Air"
+                                             },
+                                             {
+                                                 "name":  "Fuel Flame"
+                                             },
+                                             {
+                                                 "name":  "Ignite Fire"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Fire"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Poison"
+                                             },
+                                             {
+                                                 "name":  "Invisibility: Simple"
+                                             },
+                                             {
+                                                 "name":  "Life Source"
+                                             },
+                                             {
+                                                 "name":  "Light Healing"
+                                             },
+                                             {
+                                                 "name":  "Magic Shield"
+                                             },
+                                             {
+                                                 "name":  "Mystic Fulcrum"
+                                             },
+                                             {
+                                                 "name":  "Negate Poison/Toxin"
+                                             },
+                                             {
+                                                 "name":  "Paralysis: Lesser"
+                                             },
+                                             {
+                                                 "name":  "Resist Fire"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 3 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 4",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-4",
+                       "label":  "Spell Level 4",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Blind"
+                                             },
+                                             {
+                                                 "name":  "Carpet of Adhesion"
+                                             },
+                                             {
+                                                 "name":  "Charismatic Aura"
+                                             },
+                                             {
+                                                 "name":  "Cure Minor Disorders"
+                                             },
+                                             {
+                                                 "name":  "Electric Arc"
+                                             },
+                                             {
+                                                 "name":  "Energy Field"
+                                             },
+                                             {
+                                                 "name":  "Fire Bolt"
+                                             },
+                                             {
+                                                 "name":  "Fist of Fury"
+                                             },
+                                             {
+                                                 "name":  "Fool€s Gold"
+                                             },
+                                             {
+                                                 "name":  "Ley Line Transmission"
+                                             },
+                                             {
+                                                 "name":  "Magic Net"
+                                             },
+                                             {
+                                                 "name":  "Multiple Image"
+                                             },
+                                             {
+                                                 "name":  "Repel Animals"
+                                             },
+                                             {
+                                                 "name":  "Shadow Meld"
+                                             },
+                                             {
+                                                 "name":  "Swim as a Fish (lesser)"
+                                             },
+                                             {
+                                                 "name":  "Trance"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 4 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 5",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-5",
+                       "label":  "Spell Level 5",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Armor Bizarre"
+                                             },
+                                             {
+                                                 "name":  "Calling"
+                                             },
+                                             {
+                                                 "name":  "Charm"
+                                             },
+                                             {
+                                                 "name":  "Circle of Flame"
+                                             },
+                                             {
+                                                 "name":  "Distant Voice"
+                                             },
+                                             {
+                                                 "name":  "Domination"
+                                             },
+                                             {
+                                                 "name":  "Energy Disruption"
+                                             },
+                                             {
+                                                 "name":  "Escape"
+                                             },
+                                             {
+                                                 "name":  "Eyes of Thoth"
+                                             },
+                                             {
+                                                 "name":  "Featherlight"
+                                             },
+                                             {
+                                                 "name":  "Fly"
+                                             },
+                                             {
+                                                 "name":  "Heal Wounds"
+                                             },
+                                             {
+                                                 "name":  "House of Glass"
+                                             },
+                                             {
+                                                 "name":  "Lifeblast"
+                                             },
+                                             {
+                                                 "name":  "Sleep"
+                                             },
+                                             {
+                                                 "name":  "Superhuman Endurance"
+                                             },
+                                             {
+                                                 "name":  "Superhuman Speed"
+                                             },
+                                             {
+                                                 "name":  "Superhuman Strength"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 5 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 6",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-6",
+                       "label":  "Spell Level 6",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Call Lightning"
+                                             },
+                                             {
+                                                 "name":  "Compulsion"
+                                             },
+                                             {
+                                                 "name":  "Cure Illness"
+                                             },
+                                             {
+                                                 "name":  "Fire Ball"
+                                             },
+                                             {
+                                                 "name":  "Impervious to Energy"
+                                             },
+                                             {
+                                                 "name":  "Magic Pigeon"
+                                             },
+                                             {
+                                                 "name":  "Mask of Deceit"
+                                             },
+                                             {
+                                                 "name":  "Reduce Self (6 inches)"
+                                             },
+                                             {
+                                                 "name":  "Sheltering Force"
+                                             },
+                                             {
+                                                 "name":  "Teleport: Lesser"
+                                             },
+                                             {
+                                                 "name":  "Tongues"
+                                             },
+                                             {
+                                                 "name":  "Words of Truth"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 6 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 7",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-7",
+                       "label":  "Spell Level 7",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Agony"
+                                             },
+                                             {
+                                                 "name":  "Animate and Control Dead"
+                                             },
+                                             {
+                                                 "name":  "Ballistic Fire"
+                                             },
+                                             {
+                                                 "name":  "Constrain Being"
+                                             },
+                                             {
+                                                 "name":  "Dispel Magic Barriers"
+                                             },
+                                             {
+                                                 "name":  "Fly as the Eagle"
+                                             },
+                                             {
+                                                 "name":  "Globe of Silence"
+                                             },
+                                             {
+                                                 "name":  "Heal Self"
+                                             },
+                                             {
+                                                 "name":  "Invisibility (Superior)"
+                                             },
+                                             {
+                                                 "name":  "Life Drain"
+                                             },
+                                             {
+                                                 "name":  "Lightblade"
+                                             },
+                                             {
+                                                 "name":  "Metamorphosis: Animal"
+                                             },
+                                             {
+                                                 "name":  "Purification"
+                                             },
+                                             {
+                                                 "name":  "Wind Rush"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 7 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 8",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-8",
+                       "label":  "Spell Level 8",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Commune with Spirits"
+                                             },
+                                             {
+                                                 "name":  "Exorcism"
+                                             },
+                                             {
+                                                 "name":  "Expel Demons"
+                                             },
+                                             {
+                                                 "name":  "Eyes of the Wolf"
+                                             },
+                                             {
+                                                 "name":  "Forcebonds"
+                                             },
+                                             {
+                                                 "name":  "Greater Healing"
+                                             },
+                                             {
+                                                 "name":  "Ley Line Tendril Bolts"
+                                             },
+                                             {
+                                                 "name":  "Lightning Arc"
+                                             },
+                                             {
+                                                 "name":  "Locate"
+                                             },
+                                             {
+                                                 "name":  "Luck Curse"
+                                             },
+                                             {
+                                                 "name":  "Magical-Adrenal Rush"
+                                             },
+                                             {
+                                                 "name":  "Metamorphosis: Human"
+                                             },
+                                             {
+                                                 "name":  "Negate Magic"
+                                             },
+                                             {
+                                                 "name":  "Power Weapon"
+                                             },
+                                             {
+                                                 "name":  "Shockwave"
+                                             },
+                                             {
+                                                 "name":  "Sickness"
+                                             },
+                                             {
+                                                 "name":  "Spoil"
+                                             },
+                                             {
+                                                 "name":  "Wisps of Confusion"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 8 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 9",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-9",
+                       "label":  "Spell Level 9",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Desiccate the Supernatural"
+                                             },
+                                             {
+                                                 "name":  "Dragon Fire"
+                                             },
+                                             {
+                                                 "name":  "Familiar Link"
+                                             },
+                                             {
+                                                 "name":  "Mute"
+                                             },
+                                             {
+                                                 "name":  "Protection Circle: Simple"
+                                             },
+                                             {
+                                                 "name":  "Speed of the Snail"
+                                             },
+                                             {
+                                                 "name":  "Wall of Defense"
+                                             },
+                                             {
+                                                 "name":  "Water to Wine"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 9 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 10",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-10",
+                       "label":  "Spell Level 10",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Banishment"
+                                             },
+                                             {
+                                                 "name":  "Control \u0026 Enslave Entity"
+                                             },
+                                             {
+                                                 "name":  "Deathword"
+                                             },
+                                             {
+                                                 "name":  "Meteor"
+                                             },
+                                             {
+                                                 "name":  "Giant"
+                                             },
+                                             {
+                                                 "name":  "Metamorphosis: Superior"
+                                             },
+                                             {
+                                                 "name":  "Mystic Portal"
+                                             },
+                                             {
+                                                 "name":  "Plane Skip"
+                                             },
+                                             {
+                                                 "name":  "Speed Weapon"
+                                             },
+                                             {
+                                                 "name":  "Summon and Control Rodents (Ritual)"
+                                             },
+                                             {
+                                                 "name":  "Summon Shadow Beast"
+                                             },
+                                             {
+                                                 "name":  "Super-Healing"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 10 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 11",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-11",
+                       "label":  "Spell Level 11",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Anti-Magic Cloud"
+                                             },
+                                             {
+                                                 "name":  "Create Mummy (Ritual)"
+                                             },
+                                             {
+                                                 "name":  "Firequake"
+                                             },
+                                             {
+                                                 "name":  "Remove Curse"
+                                             },
+                                             {
+                                                 "name":  "Re-Open Gateway (Rift)"
+                                             },
+                                             {
+                                                 "name":  "Rift Teleportation"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 11 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 12",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-12",
+                       "label":  "Spell Level 12",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Amulet"
+                                             },
+                                             {
+                                                 "name":  "Calm Storms"
+                                             },
+                                             {
+                                                 "name":  "Create Zombie (Ritual)"
+                                             },
+                                             {
+                                                 "name":  "Ensorcel"
+                                             },
+                                             {
+                                                 "name":  "Summon and Control Entity (Ritual)"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 12 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 13",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-13",
+                       "label":  "Spell Level 13",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Protection Circle: Superior"
+                                             },
+                                             {
+                                                 "name":  "Sanctum"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 13 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 14",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-14",
+                       "label":  "Spell Level 14",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Close Rift"
+                                             },
+                                             {
+                                                 "name":  "Restoration"
+                                             },
+                                             {
+                                                 "name":  "Resurrection"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 14 invocations."
+                   }
+    },
+    {
+        "name":  "Spell Level 15",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "spells-level-15",
+                       "label":  "Spell Level 15",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Dimensional Portal (Rift)"
+                                             },
+                                             {
+                                                 "name":  "Teleport: Superior"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "notes":  "Choose one spell from level 15 invocations."
+                   }
+    }
+]

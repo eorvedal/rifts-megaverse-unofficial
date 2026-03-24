@@ -1,0 +1,382 @@
+[
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "Disposable air filters for masks, helmets, or breathing gear.",
+                       "notes":  "Cost: 5 credits. Carry spare filters when traveling in smoke, dust, or tainted air."
+                   },
+        "name":  "Air Filter (12 disposable)",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A large, high-quality adventuring pack for general travel and field gear.",
+                       "notes":  "Cost: 100-200 credits."
+                   },
+        "name":  "Backpack, Large",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A small, high-quality pack for light travel and personal gear.",
+                       "notes":  "Cost: 40-100 credits."
+                   },
+        "name":  "Backpack, Small",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A simple bedroll for field camps and overnight travel.",
+                       "notes":  "Cost: 30 credits."
+                   },
+        "name":  "Bedroll",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A heavy blanket for cold-weather travel or rough field camps.",
+                       "notes":  "Cost: 20 credits."
+                   },
+        "name":  "Blanket, Heavy",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A standard field canteen for carrying drinking water.",
+                       "notes":  "Cost: 20 credits."
+                   },
+        "name":  "Canteen, Plastic",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A basic navigation compass for overland travel.",
+                       "notes":  "Cost: 50-150 credits."
+                   },
+        "name":  "Compass",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A tough carry bag for extra gear, clothing, or supplies.",
+                       "notes":  "Cost: 25-80 credits."
+                   },
+        "name":  "Duffle Bag",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A face mask that protects against smoke, dust, and many airborne threats.",
+                       "notes":  "Human-size cost: 50-80 credits. Larger sizes cost 80-120 credits."
+                   },
+        "name":  "Gas Mask",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A grappling hook with 100 feet of line for climbing, crossing gaps, or hauling gear.",
+                       "notes":  "Cost: 80 credits."
+                   },
+        "name":  "Grappling Hook and Line",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "Twenty feet of rope for climbing, tying down gear, or field work.",
+                       "notes":  "Cost: 15 credits per 20 feet."
+                   },
+        "name":  "Rope (20 ft)",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A travel sleeping bag for wilderness camps and rough shelter.",
+                       "notes":  "Cost: 110-160 credits."
+                   },
+        "name":  "Sleeping Bag",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0.5,
+                       "quantity":  1,
+                       "description":  "A basic field radio used for short-range military or adventuring communication.",
+                       "notes":  "Range: 3 miles. S.D.C.: 30. Cost: 150 credits."
+                   },
+        "name":  "Communicator, Old Style Radio",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0.31,
+                       "quantity":  1,
+                       "description":  "A compact clipped communicator for personal field use.",
+                       "notes":  "Range: 5 miles. S.D.C.: 10. Cost: 1,500 credits, or 3,500 credits for a 1 M.D.C. version."
+                   },
+        "name":  "Communicator, Small",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0.9,
+                       "quantity":  1,
+                       "description":  "A walkie-talkie-sized field communicator with better range and durability.",
+                       "notes":  "Range: 10 miles. S.D.C.: 30. Cost: 3,000 credits, or 6,000 credits for a 4 M.D.C. version."
+                   },
+        "name":  "Communicator, Medium",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A protective helmet with built-in two-way radio and automatic visor adjustment.",
+                       "notes":  "Range: 5 or 10 miles. M.D.C.: 30 or 50 for the helmet. Cost: 5,500 or 10,000 credits."
+                   },
+        "name":  "Communications Helmet",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  1,
+                       "quantity":  1,
+                       "description":  "A hand computer with scanner, rangefinder, and standard field programs.",
+                       "notes":  "Cost: 2,500 credits. Use it for calculations, word processing, measurements, and data transfer in the field."
+                   },
+        "name":  "Portable Field Computer",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  16,
+                       "quantity":  1,
+                       "description":  "A backpack radio transmitter and receiver for long-range field communication.",
+                       "notes":  "Range: 60 miles in cities or cluttered areas, 150 miles in the wilderness. Cost: 600 credits."
+                   },
+        "name":  "Field Radio",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0.5,
+                       "quantity":  1,
+                       "description":  "A portable translation unit for spoken languages and recorded conversation.",
+                       "notes":  "Translates up to three voices. Cost: 9,600 credits."
+                   },
+        "name":  "Language Translator (Portable)",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  25,
+                       "quantity":  1,
+                       "description":  "A hardened backpack radio with long-range military transmission capability.",
+                       "notes":  "Range: 300 miles in cluttered areas or 500 miles in the wilderness. Cost: 6,000 credits, or 16,000 credits for a 15 M.D.C. version."
+                   },
+        "name":  "Military Field Radio",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A handheld video-and-radio communicator for mobile field contact.",
+                       "notes":  "Range: 10 miles, or double in open areas. Cost: 10,000 credits."
+                   },
+        "name":  "Video Communicator",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A portable vital-sign monitor that records a patient?s immediate condition.",
+                       "notes":  "Cost: 2,500 credits."
+                   },
+        "name":  "Bio-Comp Monitor",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A standard first-aid kit with bandages, wipes, tape, aspirin, and simple field tools.",
+                       "notes":  "Cost: 100 credits."
+                   },
+        "name":  "First-Aid Kit (Standard)",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A quick, low-pain injector for administering medicines and shots.",
+                       "notes":  "Cost: 200 credits, drugs not included."
+                   },
+        "name":  "Hypodermic Gun",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A medical unit that releases microscopic surgical robots to repair internal injury.",
+                       "notes":  "Equal to a surgical skill of 75% for internal repair work. Four uses per unit. Cost: 42,000 credits."
+                   },
+        "name":  "IRMSS Internal Robot Medical Surgeon System",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A compact robot medical kit that cleans, disinfects, and closes wounds.",
+                       "notes":  "Equal to a paramedic suturing skill of 90%. Cost: 24,000 credits."
+                   },
+        "name":  "RMK Robot Medical Kit",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A protein-rich salve used on burns, cuts, and rashes to improve recovery.",
+                       "notes":  "Doubles normal healing on treated wounds. Cost: 100 credits per tube."
+                   },
+        "name":  "Protein Healing Salve",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A binocular system with infrared adjustments, cross-hair indicators, and range readout.",
+                       "notes":  "Range: 2 miles. Cost: 1,200 credits."
+                   },
+        "name":  "Infrared Distancing Binoculars",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A protective helmet with targeting sight, infrared optics, telescopic monocular, and thermal imaging.",
+                       "notes":  "Targeting sight and thermal imager grant +1 to strike when engaged. Cost: 2,800-3,400 credits."
+                   },
+        "name":  "Multi-Optics Helmet",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "Passive nightvision goggles that amplify ambient light.",
+                       "notes":  "Range: 1,600 feet. Cost: 1,800 credits."
+                   },
+        "name":  "Night Sight Goggles",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A headband-style optics package for close technical work and research.",
+                       "notes":  "Includes infrared, ultraviolet, magnification, night sight, and color filters. Cost: 800-1,200 credits."
+                   },
+        "name":  "Optics Band",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A compact monocular night viewer for concealed or portable observation.",
+                       "notes":  "Range: 800 feet. Cost: 800-1,000 credits."
+                   },
+        "name":  "Pocket Night Viewer",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "An optical heat sensor that lets the user see warm targets through darkness, shadow, and smoke.",
+                       "notes":  "Range: 1,600 feet. Cost: about 2,000 credits."
+                   },
+        "name":  "Thermal-Imager",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  18,
+                       "quantity":  1,
+                       "description":  "A portable radar unit able to track many airborne targets at once.",
+                       "notes":  "Tracks up to 72 images. Range: 5 miles. Cost: 2,500 credits."
+                   },
+        "name":  "Mini Radar",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  15,
+                       "quantity":  1,
+                       "description":  "A portable movement sensor that detects minute shifts in the air.",
+                       "notes":  "Range: 60 feet. Cost: 400 credits."
+                   },
+        "name":  "Motion Detection System",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A handheld device that scrambles outgoing radio signals.",
+                       "notes":  "Use it to reduce the chance of interception. Cost: 300 credits."
+                   },
+        "name":  "Pocket Scrambler",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A small tracking bug that can be attached to gear, vehicles, or a target?s belongings.",
+                       "notes":  "Transmission range: 8 miles. Battery life: 72 hours. Cost: 140 credits."
+                   },
+        "name":  "Tracer Bug",
+        "type":  "gear"
+    },
+    {
+        "system":  {
+                       "weight":  0,
+                       "quantity":  1,
+                       "description":  "A compact microphone for short-range listening and transmission.",
+                       "notes":  "Picks up sound up to 14 feet away and broadcasts up to 300 feet. Cost: 250 credits."
+                   },
+        "name":  "Wireless Microphone",
+        "type":  "gear"
+    }
+]

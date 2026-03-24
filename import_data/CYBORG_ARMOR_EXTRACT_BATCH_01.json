@@ -1,0 +1,106 @@
+[
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -5,
+                                     "mdc":  {
+                                                 "value":  202,
+                                                 "max":  202
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "External cyborg armor built for stealthier or lighter operations. Adds 135 M.D.C. to the main body, 15 to each arm, 25 to each leg, and 12 to the head. Apply a -5% penalty to physical skills such as Acrobatics, Climbing, Gymnastics, Pick Pockets, Prowl, and Swimming. Cost: 20,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "LE-B1 Light Espionage Cyborg Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -5,
+                                     "mdc":  {
+                                                 "value":  255,
+                                                 "max":  255
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "Light cyborg infantry armor. Adds 150 M.D.C. to the main body, 20 to each arm, 35 to each leg, and 15 to the head. Apply a -5% penalty to physical skills such as Acrobatics, Climbing, Gymnastics, Pick Pockets, Prowl, and Swimming. Cost: 28,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "LI-B1 Light Infantry Cyborg Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -15,
+                                     "mdc":  {
+                                                 "value":  426,
+                                                 "max":  426
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "Bulkier cyborg infantry armor for frontline fighting. Adds 230 M.D.C. to the main body, 38 to each arm, 60 to each leg, and 30 to the head. Apply a -15% penalty to physical skills such as Acrobatics, Climbing, Gymnastics, Pick Pockets, Prowl, and Swimming. Cost: 52,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "MI-B2 Medium Infantry Cyborg Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -20,
+                                     "mdc":  {
+                                                 "value":  650,
+                                                 "max":  650
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  -2,
+                                     "notes":  "Heavy cyborg armor meant only for full conversion cyborgs. Adds 360 M.D.C. to the main body, 50 to each arm, 100 to each leg, and 40 to the head. Reduce running and swimming speed by 20%, apply a -25% penalty to major physical skills, Prowl is impossible, and suffer -2 to strike, parry, and dodge while wearing it. Cost: 74,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "HI-B3 Heavy Infantry Cyborg Armor",
+        "type":  "armor"
+    }
+]

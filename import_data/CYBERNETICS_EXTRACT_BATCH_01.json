@@ -1,0 +1,628 @@
+[
+    {
+        "system":  {
+                       "notes":  "Keep exact time and calendar date internally and route it to an ear implant, display, or monitor if available.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "general"
+                   },
+        "name":  "Clock Calendar",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Plug directly into radios, sensors, robots, and similar equipment to receive data transmissions.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "Fingerjack",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Always know north, the other directions, and up from down. Especially useful for pilots and underwater work.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "general"
+                   },
+        "name":  "Gyro-Compass",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Run spoken or transmitted mathematical problems through the implant and receive the answer through linked audio or visual systems.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Internal Comp-Calculator",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Translate spoken languages through linked audio systems. Best when only one or two speakers are talking at once.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Language Translator",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Alter tone, pitch, and resonance to disguise the voice or imitate accents and speech patterns.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "throat"
+                   },
+        "name":  "Modulating Voice Synthesizer",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Test the air for dangerous chemicals, gas, oil, pollution, and other harmful molecules.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Molecular Analyzer",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Hear faint sounds and distant conversation far beyond normal hearing. Background noise and barriers still interfere as the Game Master sees fit.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+                                                      "initiative":  3,
+                                                      "parry":  1,
+                                                      "dodge":  2
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "ears"
+                   },
+        "name":  "Amplified Hearing",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Record or transmit everything seen through the eye. Useful for surveillance, evidence, and remote monitoring.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Cyber-Camera Eye",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Project an infrared beam and use it to see in darkness. Others with infrared vision can spot and trace the beam.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Infrared",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Magnify tiny details at close range for delicate work, inspection, medicine, forgery, or engineering.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Macro",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Use telescopic vision, macro lens, passive nightvision, thermal imaging, glare filters, and a targeting display from a single optic package.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Multi-Optics",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Amplify ambient light to see in darkness. Absolute darkness still defeats it.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Passive Nightvision",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Switch from normal vision to long-distance magnified sight.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Telescopic",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Project cross-hairs over a target to help line up ranged attacks.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Targeting Sight",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "See heat patterns through darkness, shadow, and smoke by reading warm objects as visible color bands.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "eyes"
+                   },
+        "name":  "Eye: Thermal-Imager",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Sense movement and pressure changes in the air. Best for detecting nearby motion or the rapid approach of large objects.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Motion Detector",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Warn when hostile radar is scanning the wearer.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Radar Sensor",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Detect and measure dangerous radiation and warn the wearer as levels rise.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Radiation Sensor",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Receive commercial radio stations internally through a cybernetic ear or implant.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "ears"
+                   },
+        "name":  "Radio Ear (Basic)",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "A prosthetic hand packed with heat, motion, radiation, radar, compass, and clock sensors. Route the readout to an ear implant or monitor.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "hand"
+                   },
+        "name":  "Sensor Hand (Standard)",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Automatically dampen gunfire, explosions, heavy machinery, and other punishing noise.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "ears"
+                   },
+        "name":  "Sound Filtration System",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Listen in the ultrasonic range to catch high-frequency sounds, silent alarms, and subtle movement noises. Turn it off when normal speech matters.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "ears"
+                   },
+        "name":  "Ultra-Ear",
+        "type":  "cybernetic"
+    },
+    {
+        "system":  {
+                       "notes":  "Plug directly into audio, video, sensor, robot, and computer systems. Upgrades can add radio transmission as well as reception.",
+                       "effects":  {
+                                       "flags":  {
+
+                                                 },
+                                       "attributes":  {
+
+                                                      },
+                                       "combat":  {
+
+                                                  },
+                                       "resources":  {
+
+                                                     }
+                                   },
+                       "grantedAbilities":  [
+
+                                            ],
+                       "installed":  false,
+                       "slot":  "head"
+                   },
+        "name":  "Universal Headjack and Ear Implant",
+        "type":  "cybernetic"
+    }
+]

@@ -1,0 +1,350 @@
+[
+    {
+        "system":  {
+                       "entryType":  "gear",
+                       "sourceMode":  "filter",
+                       "listId":  "gear-all",
+                       "label":  "All Gear",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from the full catalog of general gear and field equipment."
+                   },
+        "name":  "All Gear",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "weapon",
+                       "sourceMode":  "filter",
+                       "listId":  "weapons-all",
+                       "label":  "All Weapons",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from the full catalog of weapons currently available in the world."
+                   },
+        "name":  "All Weapons",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "weapon",
+                       "sourceMode":  "filter",
+                       "listId":  "weapons-mounted",
+                       "label":  "Mounted Weapons",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+                                       "weapon.isMounted":  true
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from weapons built to mount on vehicles or power armor."
+                   },
+        "name":  "Mounted Weapons",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "weapon",
+                       "sourceMode":  "filter",
+                       "listId":  "weapons-energy",
+                       "label":  "Energy Weapons",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+                                       "weapon.proficiencyKey":  [
+                                                                     "wp-energy-pistol",
+                                                                     "wp-energy-rifle"
+                                                                 ]
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from energy pistols, rifles, and similar directed-energy weapons."
+                   },
+        "name":  "Energy Weapons",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "weapon",
+                       "sourceMode":  "filter",
+                       "listId":  "weapons-heavy",
+                       "label":  "Heavy Weapons",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+                                       "weapon.proficiencyKey":  "wp-heavy"
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from heavy support and anti-armor weapons."
+                   },
+        "name":  "Heavy Weapons",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "armor",
+                       "sourceMode":  "filter",
+                       "listId":  "armor-all",
+                       "label":  "All Armor",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from the full catalog of armor, including body armor, cyborg armor, and power armor."
+                   },
+        "name":  "All Armor",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "armor",
+                       "sourceMode":  "filter",
+                       "listId":  "armor-power",
+                       "label":  "Power Armor",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+                                       "armor.isPowerArmor":  true
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from powered armor frames and armored exoskeletons."
+                   },
+        "name":  "Power Armor",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "armor",
+                       "sourceMode":  "static",
+                       "listId":  "armor-cyborg",
+                       "label":  "Cyborg Armor",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "LE-B1 Light Espionage Cyborg Armor"
+                                             },
+                                             {
+                                                 "name":  "LI-B1 Light Infantry Cyborg Armor"
+                                             },
+                                             {
+                                                 "name":  "MI-B2 Medium Infantry Cyborg Armor"
+                                             },
+                                             {
+                                                 "name":  "HI-B3 Heavy Infantry Cyborg Armor"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from external armor designed specifically for full conversion cyborgs."
+                   },
+        "name":  "Cyborg Armor",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "armor",
+                       "sourceMode":  "static",
+                       "listId":  "armor-body",
+                       "label":  "Body Armor",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "CA-1 Heavy Dead Boy Body Armor"
+                                             },
+                                             {
+                                                 "name":  "CA-2 Light Dead Boy Body Armor"
+                                             },
+                                             {
+                                                 "name":  "Dog Pack DPM 101 Light Riot Armor"
+                                             },
+                                             {
+                                                 "name":  "Gladiator Full Environmental Body Armor"
+                                             },
+                                             {
+                                                 "name":  "Crusader Full Environmental Body Armor"
+                                             },
+                                             {
+                                                 "name":  "Juicer Assassin Plate Armor"
+                                             },
+                                             {
+                                                 "name":  "Urban Warrior Padded Environmental Body Armor"
+                                             },
+                                             {
+                                                 "name":  "Plastic-Man Full Environmental Body Armor"
+                                             },
+                                             {
+                                                 "name":  "Huntsman Plate and Padded Armor"
+                                             },
+                                             {
+                                                 "name":  "Bushman Full Composite Environmental Body Armor"
+                                             },
+                                             {
+                                                 "name":  "Bushman Trooper Environmental Body Armor"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from standard personal body armor and environmental suits."
+                   },
+        "name":  "Body Armor",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "cybernetic",
+                       "sourceMode":  "filter",
+                       "listId":  "cybernetics-all",
+                       "label":  "All Cybernetics",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from the full catalog of cybernetic implants and systems."
+                   },
+        "name":  "All Cybernetics",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "bionic",
+                       "sourceMode":  "filter",
+                       "listId":  "bionics-all",
+                       "label":  "All Bionics",
+                       "staticEntries":  [
+
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from the full catalog of bionic systems, upgrades, and weapon mounts."
+                   },
+        "name":  "All Bionics",
+        "type":  "choiceList"
+    },
+    {
+        "system":  {
+                       "entryType":  "bionic",
+                       "sourceMode":  "static",
+                       "listId":  "bionics-weapons",
+                       "label":  "Bionic Weapons and Tools",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Forearm Light Laser Blaster"
+                                             },
+                                             {
+                                                 "name":  "Forearm Medium Laser Blaster"
+                                             },
+                                             {
+                                                 "name":  "Forearm Heavy Laser Blaster"
+                                             },
+                                             {
+                                                 "name":  "Forearm Ion Blaster"
+                                             },
+                                             {
+                                                 "name":  "Forearm Mini-Machine-Gun"
+                                             },
+                                             {
+                                                 "name":  "Forearm or Shoulder Mini-Missile Launcher"
+                                             },
+                                             {
+                                                 "name":  "Forearm Plasma Ejector"
+                                             },
+                                             {
+                                                 "name":  "Forearm Particle Beam"
+                                             },
+                                             {
+                                                 "name":  "Garrote Wrist Wire"
+                                             },
+                                             {
+                                                 "name":  "Grapnel and Launcher"
+                                             },
+                                             {
+                                                 "name":  "High Explosive Finger Joints"
+                                             },
+                                             {
+                                                 "name":  "Knuckle Spikes"
+                                             },
+                                             {
+                                                 "name":  "Laser Eye"
+                                             },
+                                             {
+                                                 "name":  "Laser Finger Blaster"
+                                             },
+                                             {
+                                                 "name":  "Laser Utility Finger"
+                                             },
+                                             {
+                                                 "name":  "Pneumatic Punching Jackhammer Arm"
+                                             },
+                                             {
+                                                 "name":  "Retractable Finger Blades"
+                                             },
+                                             {
+                                                 "name":  "Retractable Knuckle Blades"
+                                             },
+                                             {
+                                                 "name":  "Retractable Vibro-Blade"
+                                             },
+                                             {
+                                                 "name":  "Weapon Rod Concealed in Leg"
+                                             },
+                                             {
+                                                 "name":  "Wrist Needle and Drug Dispenser"
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from built-in bionic combat systems, weapon mounts, and hidden attack tools."
+                   },
+        "name":  "Bionic Weapons and Tools",
+        "type":  "choiceList"
+    }
+]

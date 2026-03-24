@@ -1,0 +1,80 @@
+[
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  -10,
+                                     "mdc":  {
+                                                 "value":  250,
+                                                 "max":  250
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "Old-style Coalition heavy body armor worn by infantry. Location M.D.C.: helmet 50, arms 35 each, legs 50 each, main body 80. Complete environmental armor suitable for hostile conditions, including space. Apply a -10% penalty on mobility-dependent skills such as Acrobatics, Climbing, Prowl, and Swimming. Black market price: 35,000 to 45,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "CA-1 Heavy Dead Boy Body Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  0,
+                                     "mdc":  {
+                                                 "value":  163,
+                                                 "max":  163
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "Old-style Coalition light body armor used by pilots, city police, and covert operators. Location M.D.C.: helmet 35, arms 15 each, legs 24 each, main body 50. Complete environmental armor suitable for hostile conditions, including space. It imposes no movement penalty, but apply a -5% penalty on highly mobile physical skills. Black market price: 35,000 to 45,000 credits.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "CA-2 Light Dead Boy Body Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  false,
+                                     "speedMod":  0,
+                                     "mdc":  {
+                                                 "value":  90,
+                                                 "max":  90
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "Light riot armor issued to many Dog Pack units. It is not environmental armor and is meant mainly to stop gunfire. Location M.D.C.: main body 30, arms 10 each, legs 20 each. Full mobility with no Prowl or movement penalty. Standard issue often includes fist and wrist spikes plus vibro-blades, a neural mace, or a C-12 Laser Rifle depending on assignment.",
+                                     "powerArmorClass":  "",
+                                     "mountCapacity":  0,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Dog Pack DPM 101 Light Riot Armor",
+        "type":  "armor"
+    }
+]

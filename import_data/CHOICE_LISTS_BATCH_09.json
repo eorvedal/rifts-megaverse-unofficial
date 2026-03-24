@@ -1,0 +1,21 @@
+﻿[
+  {
+    "name": "Dragon Special Interests",
+    "type": "choiceList",
+    "system": {
+      "listId": "skills-dragon-special-interest",
+      "label": "Dragon Special Interests",
+      "entryType": "skill",
+      "sourceMode": "static",
+      "staticEntries": [
+        { "name": "Language" },
+        { "name": "Literacy" },
+        { "name": "Lore - Demons and Monsters" },
+        { "name": "Lore - Faerie" }
+      ],
+      "filters": {},
+      "entries": [],
+      "notes": "Choose the dragon's favorite scholarly obsession from languages, literacy, or lore. If Research is available in the campaign, treat it as part of this pool as well."
+    }
+  }
+]

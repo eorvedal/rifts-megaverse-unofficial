@@ -54,8 +54,21 @@
   <p><strong>{{localize "RIFTS.Combat.NaturalRoll"}}:</strong> {{natural}}</p>
   <p><strong>{{localize "RIFTS.Combat.StrikeTotal"}}:</strong> {{strikeTotal}}</p>
   <p><strong>{{localize "RIFTS.Combat.WeaponBonus"}}:</strong> {{weaponBonus}}</p>
+  {{#if weaponProficiencyMatched}}
+    <p><strong>{{localize "RIFTS.Skills.WeaponProficiency"}}:</strong> {{weaponProficiencyName}}</p>
+    {{#if weaponProficiencyKey}}
+      <p><strong>{{localize "RIFTS.Skills.WeaponProficiencyKey"}}:</strong> {{weaponProficiencyKey}}</p>
+    {{/if}}
+    <p><strong>{{localize "RIFTS.Skills.WPStrikeBonus"}}:</strong> +{{weaponProficiencyAppliedStrikeBonus}}</p>
+    {{#if weaponProficiencyRangeBonus}}
+      <p><strong>{{localize "RIFTS.Skills.WPRangeBonus"}}:</strong> +{{weaponProficiencyRangeBonus}}</p>
+    {{/if}}
+  {{/if}}
   <p><strong>{{localize "RIFTS.Advanced.Modifier"}}:</strong> {{attackModifier}}</p>
   <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{outcomeLabel}}</p>
+  {{#if resolutionSummaryText}}
+    <p class="rifts-reaction-outcome {{#if resolutionSummaryPending}}is-pending{{else}}{{#if resolutionSummarySuccess}}is-success{{else}}is-failure{{/if}}{{/if}}"><strong>{{resolutionSummaryLabel}}:</strong> {{resolutionSummaryText}}</p>
+  {{/if}}
   {{#if isCritical}}
     <p><strong>{{localize "RIFTS.Combat.CriticalStrike"}}:</strong> {{localize "RIFTS.Combat.CriticalRangeLabel"}} {{criticalRange}}+ (x{{criticalDamageMultiplier}})</p>
   {{/if}}
@@ -66,6 +79,10 @@
     {{else}}
       {{#if knockoutStunPending}}
         <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.KnockoutStunPending"}}</p>
+      {{else}}
+        {{#if knockoutStunAwaiting}}
+          <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.KnockoutStunAwaiting"}}</p>
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/if}}
@@ -74,14 +91,36 @@
     {{#if deathBlowApplied}}
       <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.DeathBlowApplied"}}</p>
     {{else}}
-      {{#if deathBlowPending}}
+      {{#if deathBlowDirectHp}}
+        <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.DeathBlowDirectHp"}}</p>
+      {{else}}
+        {{#if deathBlowPending}}
         <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.DeathBlowPending"}}</p>
+        {{else}}
+          {{#if deathBlowAwaiting}}
+            <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.DeathBlowAwaiting"}}</p>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+  {{#if controlEffectTriggered}}
+    <p><strong>{{localize "RIFTS.Combat.ControlEffect"}}:</strong> {{controlEffectLabel}}</p>
+    {{#if controlEffectApplied}}
+      <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.ControlEffectApplied"}}</p>
+    {{else}}
+      {{#if controlEffectPending}}
+        <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.ControlEffectPending"}}</p>
+      {{else}}
+        {{#if controlEffectAwaiting}}
+          <p><strong>{{localize "RIFTS.Rolls.Outcome"}}:</strong> {{localize "RIFTS.Combat.ControlEffectAwaiting"}}</p>
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/if}}
   <p><strong>{{localize "RIFTS.Combat.HitLocationLabel"}}:</strong> {{hitLocationLabel}}</p>
 
-  {{#if canReact}}
+  {{#if showReactionOptions}}
     <p><strong>{{localize "RIFTS.Combat.DefenderAPM"}}:</strong> {{defenderApmRemaining}} / {{defenderApmTotal}}</p>
     <div class="reaction-row">
       {{#if canParry}}
@@ -127,6 +166,14 @@
           {{#unless canAllOutDodgeNow}}disabled{{/unless}}
         >{{localize "RIFTS.Advanced.AllOutDodge"}} ({{localize "RIFTS.Advanced.CostsAttack"}})</button>
       {{/if}}
+      {{#if showResolveHitButton}}
+        <button
+          type="button"
+          data-action="resolve-hit"
+          data-defender-id="{{defenderId}}"
+          data-defender-token-id="{{defenderTokenId}}"
+        >{{localize "RIFTS.Combat.NoReactionResolveHit"}}</button>
+      {{/if}}
       <button
         type="button"
         data-action="gm-reset-apm"
@@ -142,7 +189,7 @@
     </div>
   {{/if}}
 
-  {{#if canRollDamage}}
+  {{#if showDamageButton}}
     <button
       type="button"
       data-action="roll-damage"
@@ -157,10 +204,16 @@
       data-unarmed-maneuver-key="{{unarmedManeuverKey}}"
       data-unarmed-damage-formula="{{unarmedDamageFormula}}"
       data-critical-damage-multiplier="{{criticalDamageMultiplier}}"
-      data-reaction-damage-multiplier="1"
-      data-reaction-outcome-text=""
+      data-reaction-damage-multiplier="{{reactionDamageMultiplier}}"
+      data-reaction-outcome-text="{{reactionOutcomeText}}"
+      data-death-blow-direct-hp="{{deathBlowDirectHp}}"
+      data-death-blow-direct-hp-multiplier="{{deathBlowDirectHpMultiplier}}"
+      {{#if damageButtonDisabled}}disabled{{/if}}
     >{{localize "RIFTS.Combat.RollDamage"}}</button>
+    {{#if resolutionPending}}
+      <p>{{localize "RIFTS.Combat.RollDamagePendingReaction"}}</p>
+    {{/if}}
   {{else}}
-    <p>{{localize "RIFTS.Combat.NoDamageWithoutTarget"}}</p>
+    <p>{{noDamageText}}</p>
   {{/if}}
 </div>

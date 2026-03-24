@@ -184,6 +184,12 @@
   font-weight: 700;
 }
 
+.rifts-attack-card .rifts-reaction-outcome.is-pending,
+.rifts-damage-card .rifts-reaction-outcome.is-pending {
+  color: #2f4f6f;
+  font-weight: 700;
+}
+
 .rifts-attack-card .rifts-reaction-outcome.is-failure,
 .rifts-damage-card .rifts-reaction-outcome.is-failure {
   color: #7a3d00;

@@ -1,6 +1,19 @@
 import { isXPTableAscending, normalizeXPThresholdTable } from "./progression.mjs";
 import { normalizeManeuverPackageEntries, normalizeSpecialManeuverEntry } from "./maneuvers.mjs";
 import { normalizeChoicePoolSource } from "./choice-lists.mjs";
+import { normalizeHandToHandSpecialRuleId } from "./hand-to-hand-rules.mjs";
+import {
+  defaultPhysicalSkillRules,
+  defaultSkillEffects,
+  defaultSkillRollableEffects,
+  defaultWeaponProficiencyData,
+  normalizePhysicalSkillRules,
+  normalizeSkillAutomationType,
+  normalizeSkillEffects,
+  normalizeSkillRollableEffects,
+  normalizeWeaponProficiencyData,
+  normalizeWeaponProficiencyKey
+} from "./skill-automation.mjs";
 const BOOLEAN_TRUE = new Set(["true", "t", "yes", "y", "1", "on"]);
 const BOOLEAN_FALSE = new Set(["false", "f", "no", "n", "0", "off"]);
 
@@ -81,6 +94,50 @@ function deepClone(value) {
   return foundry.utils.deepClone(value);
 }
 
+function normalizeEffects(value) {
+  const parsed = typeof value === "string"
+    ? (() => {
+        const trimmed = value.trim();
+        if (!trimmed) return {};
+        const parsedJson = parseJSON(trimmed);
+        return parsedJson.ok ? parsedJson.data : {};
+      })()
+    : value;
+
+  const source = isPlainObject(parsed) ? parsed : {};
+  const out = {
+    attributes: { iq: 0, me: 0, ma: 0, ps: 0, pp: 0, pe: 0, pb: 0, spd: 0 },
+    combat: { strike: 0, parry: 0, dodge: 0, initiative: 0, apm: 0 },
+    resources: { hp: 0, sdc: 0, mdc: 0, ppe: 0, isp: 0 },
+    flags: {}
+  };
+
+  for (const key of ["iq", "me", "ma", "ps", "pp", "pe", "pb", "spd"]) {
+    const numeric = Number(source?.attributes?.[key] ?? 0);
+    out.attributes[key] = Number.isFinite(numeric) ? numeric : 0;
+  }
+
+  for (const key of ["strike", "parry", "dodge", "initiative", "apm"]) {
+    const numeric = Number(source?.combat?.[key] ?? 0);
+    out.combat[key] = Number.isFinite(numeric) ? numeric : 0;
+  }
+
+  for (const key of ["hp", "sdc", "mdc", "ppe", "isp"]) {
+    const numeric = Number(source?.resources?.[key] ?? 0);
+    out.resources[key] = Number.isFinite(numeric) ? numeric : 0;
+  }
+
+  if (isPlainObject(source?.flags)) {
+    for (const [key, valueRaw] of Object.entries(source.flags)) {
+      const normalizedKey = text(key);
+      if (!normalizedKey) continue;
+      out.flags[normalizedKey] = parseBoolean(valueRaw, false);
+    }
+  }
+
+  return out;
+}
+
 function parseNumericArray(value, fallback = []) {
   if (Array.isArray(value)) {
     return value
@@ -120,9 +177,6 @@ function parseNumericArray(value, fallback = []) {
   return [...fallback];
 }
 
-
-const HTH_SPECIAL_RULE_IDS = new Set(["kickAttack", "critRange19", "critRange18", "critRange17", "knockoutStun18", "knockoutStun17", "deathBlow20", "deathBlow19", "bodyThrow", "pullRollBonus"]);
-
 function normalizeHthSpecialRulesProgressionImport(value, issues, fieldName = "specialRulesProgression") {
   if (value === null || value === undefined || value === "") return {};
 
@@ -147,10 +201,10 @@ function normalizeHthSpecialRulesProgressionImport(value, issues, fieldName = "s
     const sourceRules = Array.isArray(rawRules) ? rawRules : [rawRules];
     const normalizedRules = [];
     for (const rawRule of sourceRules) {
-      const ruleId = text(rawRule);
-      if (!ruleId) continue;
-      if (!HTH_SPECIAL_RULE_IDS.has(ruleId)) {
-        issues.warnings.push(`Ignored unknown ${fieldName} rule id: ${ruleId}.`);
+      const rawRuleText = text(rawRule);
+      const ruleId = normalizeHandToHandSpecialRuleId(rawRule);
+      if (!ruleId) {
+        if (rawRuleText) issues.warnings.push(`Ignored unknown ${fieldName} rule id: ${rawRuleText}.`);
         continue;
       }
       if (!normalizedRules.includes(ruleId)) normalizedRules.push(ruleId);
@@ -418,7 +472,20 @@ function parseInput({ inputFormat, raw }) {
 }
 
 function mapSkillProfile(rawRow, issues) {
-  const read = buildRowAccessor(rawRow);
+  const source = isPlainObject(rawRow?.system) ? rawRow.system : rawRow;
+  const read = buildRowAccessor({
+    ...(isPlainObject(rawRow) ? rawRow : {}),
+    ...(isPlainObject(source) ? source : {})
+  });
+  const normalizedEffects = normalizeSkillEffects(source?.effects ?? rawRow?.effects ?? defaultSkillEffects());
+  const normalizedRollableEffects = normalizeSkillRollableEffects(
+    source?.rollableEffects ?? rawRow?.rollableEffects ?? defaultSkillRollableEffects()
+  );
+  const normalizedPhysical = normalizePhysicalSkillRules(source?.physical ?? rawRow?.physical ?? defaultPhysicalSkillRules());
+  const normalizedWeaponProficiency = normalizeWeaponProficiencyData(
+    source?.weaponProficiency ?? rawRow?.weaponProficiency ?? defaultWeaponProficiencyData()
+  );
+
   return {
     name: read.text(["name"]),
     type: "skill",
@@ -433,6 +500,11 @@ function mapSkillProfile(rawRow, issues) {
       isSecondarySkill: read.boolean(["isSecondarySkill", "is_secondary_skill"], false),
       sourceType: read.text(["sourceType", "source_type"]),
       sourceId: read.text(["sourceId", "source_id"]),
+      automationType: normalizeSkillAutomationType(read.text(["automationType", "automation_type"])),
+      effects: normalizedEffects,
+      rollableEffects: normalizedRollableEffects,
+      physical: normalizedPhysical,
+      weaponProficiency: normalizedWeaponProficiency,
       notes: read.text(["notes"])
     }
   };
@@ -480,7 +552,12 @@ function mapPowerProfile(rawRow, issues) {
 }
 
 function mapWeaponProfile(rawRow, issues) {
-  const read = buildRowAccessor(rawRow);
+  const source = isPlainObject(rawRow?.system) ? rawRow.system : rawRow;
+  const read = buildRowAccessor({
+    ...(isPlainObject(rawRow) ? rawRow : {}),
+    ...(isPlainObject(source) ? source : {}),
+    ...(isPlainObject(source?.weapon) ? source.weapon : {})
+  });
   const ammoMax = Math.max(0, read.integer(["ammoMax", "ammo_max"], 0, issues, "ammoMax"));
   const ammoValue = Math.max(0, read.integer(["ammo", "ammoValue", "ammo_value"], ammoMax, issues, "ammo"));
   const isMdc = read.boolean(["isMdc", "isMegaDamage", "is_mega_damage"], false);
@@ -497,6 +574,7 @@ function mapWeaponProfile(rawRow, issues) {
         damage: read.text(["damage"], "1d6") || "1d6",
         bonusStrike: read.number(["bonusStrike", "bonus_strike"], 0, issues, "bonusStrike"),
         range: read.text(["range"]),
+        proficiencyKey: normalizeWeaponProficiencyKey(read.text(["proficiencyKey", "proficiency_key"])),
         ammo: {
           value: ammoValue,
           max: ammoMax
@@ -600,6 +678,38 @@ function mapVehicleProfile(rawRow, issues) {
         initiativeMod: read.number(["initiativeMod", "initiative_mod"], 0, issues, "initiativeMod"),
         pilotBonus: read.number(["pilotBonus", "pilot_bonus"], 0, issues, "pilotBonus")
       }
+    }
+  };
+}
+
+function mapAugmentationProfile(rawRow, issues, itemType) {
+  const source = isPlainObject(rawRow?.system) ? rawRow.system : rawRow;
+  const read = buildRowAccessor({
+    ...(isPlainObject(rawRow) ? rawRow : {}),
+    ...(isPlainObject(source) ? source : {})
+  });
+
+  const rawEffects = source.effects ?? rawRow?.effects ?? {};
+  const rawGrantedAbilities = source.grantedAbilities ?? rawRow?.grantedAbilities ?? [];
+
+  if (rawGrantedAbilities !== undefined && !Array.isArray(rawGrantedAbilities)) {
+    issues.warnings.push("grantedAbilities should be an array; using empty array.");
+  }
+
+  return {
+    name: read.text(["name"]),
+    type: itemType,
+    system: {
+      installed: read.boolean(["installed"], false),
+      slot: read.text(["slot"]),
+      sourceType: read.text(["sourceType", "source_type"]),
+      sourceId: read.text(["sourceId", "source_id"]),
+      sourceName: read.text(["sourceName", "source_name"]),
+      notes: read.text(["notes"]),
+      effects: normalizeEffects(rawEffects),
+      grantedAbilities: Array.isArray(rawGrantedAbilities)
+        ? rawGrantedAbilities.map((entry) => deepClone(entry)).filter((entry) => Boolean(entry))
+        : []
     }
   };
 }
@@ -1375,6 +1485,60 @@ const IMPORT_PROFILES = {
         quantity: 1,
         weight: 5,
         description: "50 ft nylon rope"
+      }
+    ], null, 2)
+  },
+  cybernetic: {
+    id: "cybernetic",
+    labelKey: "RIFTS.Importer.Profile.Cybernetic",
+    documentName: "Item",
+    documentType: "cybernetic",
+    required: ["name"],
+    map: (rawRow, issues) => mapAugmentationProfile(rawRow, issues, "cybernetic"),
+    exampleCsv: [
+      "name,slot,installed,notes",
+      "Universal Headjack,head,false,Basic neural and audio interface."
+    ].join("\n"),
+    exampleJson: JSON.stringify([
+      {
+        name: "Universal Headjack",
+        slot: "head",
+        installed: false,
+        notes: "Plug into computers, radios, and sensory equipment.",
+        effects: {
+          attributes: { iq: 0, me: 0, ma: 0, ps: 0, pp: 0, pe: 0, pb: 0, spd: 0 },
+          combat: { strike: 0, parry: 0, dodge: 0, initiative: 0, apm: 0 },
+          resources: { hp: 0, sdc: 0, mdc: 0, ppe: 0, isp: 0 },
+          flags: {}
+        },
+        grantedAbilities: []
+      }
+    ], null, 2)
+  },
+  bionic: {
+    id: "bionic",
+    labelKey: "RIFTS.Importer.Profile.Bionic",
+    documentName: "Item",
+    documentType: "bionic",
+    required: ["name"],
+    map: (rawRow, issues) => mapAugmentationProfile(rawRow, issues, "bionic"),
+    exampleCsv: [
+      "name,slot,installed,notes",
+      "Bionic Booster Jets,legs,false,Improve jumps and burst movement."
+    ].join("\n"),
+    exampleJson: JSON.stringify([
+      {
+        name: "Bionic Booster Jets",
+        slot: "legs",
+        installed: false,
+        notes: "Use the jets to boost leaps higher and farther.",
+        effects: {
+          attributes: { iq: 0, me: 0, ma: 0, ps: 0, pp: 0, pe: 0, pb: 0, spd: 0 },
+          combat: { strike: 0, parry: 0, dodge: 0, initiative: 0, apm: 0 },
+          resources: { hp: 0, sdc: 0, mdc: 0, ppe: 0, isp: 0 },
+          flags: {}
+        },
+        grantedAbilities: []
       }
     ], null, 2)
   },

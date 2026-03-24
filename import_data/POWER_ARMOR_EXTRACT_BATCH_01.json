@@ -1,0 +1,54 @@
+[
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  true,
+                                     "speedMod":  0,
+                                     "mdc":  {
+                                                 "value":  540,
+                                                 "max":  540
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "An all-purpose combat and exploration power armor suit. Location M.D.C.: rear booster jets 50 each, ammo drum 30, rail gun 50, forearm mini-missile launchers 50 each, head 70, main body 240. Running speed: 150 mph. Leaping: 25 feet unassisted, 100 feet high or 200 feet across with booster assist. Robotic P.S. 30. Standard weapons include an NG-202 Super Rail Gun, forearm rocket launchers, and knuckle blades. Cost: 850,000-950,000 credits.",
+                                     "powerArmorClass":  "assault",
+                                     "mountCapacity":  1,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Northern Gun Samson Power Armor",
+        "type":  "armor"
+    },
+    {
+        "system":  {
+                       "armor":  {
+                                     "isPowerArmor":  true,
+                                     "speedMod":  0,
+                                     "mdc":  {
+                                                 "value":  460,
+                                                 "max":  460
+                                             },
+                                     "sdc":  {
+                                                 "value":  0,
+                                                 "max":  0
+                                             },
+                                     "handlingMod":  0,
+                                     "notes":  "A light, fast, maneuverable flying power armor suit used for reconnaissance and infantry support. Location M.D.C.: shoulder wings 30 each, rear jet packs 50 each, lower maneuvering jets 25 each, head 70, main body 180. Running speed: 50 mph. Flight speed: up to 400 mph. Standard systems include wing lasers and wing missile mounts. Cost: 1,000,000 credits.",
+                                     "powerArmorClass":  "flight",
+                                     "mountCapacity":  1,
+                                     "isMegaDamageArmor":  true,
+                                     "ar":  0
+                                 },
+                       "equipped":  false,
+                       "active":  false
+                   },
+        "name":  "Flying Titan Power Armor",
+        "type":  "armor"
+    }
+]

@@ -1,0 +1,40 @@
+﻿[
+  {
+    "name": "Bionic Weapons or Appendages",
+    "type": "choiceList",
+    "system": {
+      "listId": "bionics-weapons-or-appendages",
+      "label": "Bionic Weapons or Appendages",
+      "entryType": "bionic",
+      "sourceMode": "static",
+      "staticEntries": [
+        { "name": "Additional Hand and Arm" },
+        { "name": "Legs for Leaping" },
+        { "name": "Pneumatic Punching Jackhammer Arm" },
+        { "name": "Forearm Light Laser Blaster" },
+        { "name": "Forearm Medium Laser Blaster" },
+        { "name": "Forearm Heavy Laser Blaster" },
+        { "name": "Forearm Ion Blaster" },
+        { "name": "Forearm Mini-Machine-Gun" },
+        { "name": "Forearm or Shoulder Mini-Missile Launcher" },
+        { "name": "Forearm Plasma Ejector" },
+        { "name": "Forearm Particle Beam" },
+        { "name": "Garrote Wrist Wire" },
+        { "name": "Grapnel and Launcher" },
+        { "name": "High Explosive Finger Joints" },
+        { "name": "Knuckle Spikes" },
+        { "name": "Laser Eye" },
+        { "name": "Laser Finger Blaster" },
+        { "name": "Laser Utility Finger" },
+        { "name": "Retractable Finger Blades" },
+        { "name": "Retractable Knuckle Blades" },
+        { "name": "Retractable Vibro-Blade" },
+        { "name": "Weapon Rod Concealed in Leg" },
+        { "name": "Wrist Needle and Drug Dispenser" }
+      ],
+      "filters": {},
+      "entries": [],
+      "notes": "Choose from bionic weapons, combat limbs, and replacement appendages suitable for a Coalition military specialist package."
+    }
+  }
+]

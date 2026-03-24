@@ -1,0 +1,2263 @@
+﻿[
+    {
+        "name":  "Crazy Minor Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-crazy-minor",
+                       "label":  "Crazy Minor Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Empathy",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Empathy",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  0,
+                                                                 "range":  "100 foot (30.5 m) area.",
+                                                                 "duration":  "Two minutes (8 melees) per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "I:S.P.: 4\nSaving Throw: Standard; a save vs Empathy means the psychic can\nnot get a clear sense of the emotions of that particular person. To save\nvs Empathy the person must roll to save once each melee that the psychic is using Empathy. Mind Block will prevent any empathic emanations from the blocked person.\nEmpathy is a psi-ability that makes the psychic aware of, or feel, the\nemotions of other people, animals and supernatural creatures. The\nstrongest emotions are easiest to sense: hate, anger, terror, love. Feeling\nfor emotions can often be used to establish that somebody or something\nis nearby, but can NOT be used to pinpoint an invisible or hiding person/ creature. Empathy can be especially helpful in recognizing and\ncommunicating with ghosts and other supernatural creatures.\nQuestioning a person/being while using Empathy can be very handy\nin establishing how they are reacting to you. In a limited sense, Empathy can be used like a lie detector to see if the emotions match the verbal response. For Example: €œDid you know the deceased?€ The verbal\nanswer 1s no, but there is a sudden flare of nervousness and fear (or\nhate). This doesn€t mean the guy is the killer, but it might mean he is\nlying about knowing the dead man. Further questions might pull out a\nstrong emotion such as anger or hate (or happiness), which may confirm the psychic€s suspicions that this man might be involved in the\nmurder. However, remember that this is, at best, circumstantial evidence and definitely inadmissible in court. Physical proof must be\nfound, but the empathic readings may put characters on the right track.\nAlso, remember that the empathic psychic is feeling the person€s real\nemotions, but interpreting their significance. A very nervous person\nmay always radiate fear or anxiety, while a cold-blooded, pathological\nkiller may feel nothing at all and stay calm and cool as he lies through\nhis teeth. The feeling of hate may mean that the person did know the\nmurder victim, or knew of him, and hated him for any number of reasons. That does not mean he killed him. As you can see, interpreting\nemotions can be a tricky thing.\nHaunting Ghosts and Entities rarely mask their emotions. Thus, the\npsychic can easily tell if one or more is nearby (within 100 feet/30,5 m)\nand what it is fecling. €œ] sense great sorrow.€ or €œDo as it says! It is anery. almost crazed. | think it will carry out its threat if you try to stop\nit.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Mind Block",
+                                                 "category":  "shared",
+                                                 "payload":  {
+                                                                 "name":  "Mind Block",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  4,
+                                                                 "range":  "Self.",
+                                                                 "duration":  "10 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "This is the ability to completely close or block oneself from all psychic/mental emanations. When intentionally closed to supernatural or\npsychic forces the character can not sense anything, can not use psychic\nabilities. nor be influenced by others. A Mind Block will prevent penetration of Telepathy, Empathy, Hypnotic Suggestion, and Empathic\nTransmission. It can be an invaluable protective mask when dealing\nwith malevolent psychic forces. Adds a bonus of +1 to save vs all psychic and mental attacks.",
+                                                                 "notes":  "This power is listed among Physical and Sensitive Psionics."
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "See the Invisible",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "See the Invisible",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  4,
+                                                                 "range":  "120 feet (36.6 m); double on a Iey line.",
+                                                                 "duration":  "| minute per each level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  "None.",
+                                                                 "damage":  null,
+                                                                 "description":  "The character can see entities, beings, forces, objects and creatures\nwhich can turn invisible or are naturally invisible. Even if the creature\nhas no form per se, the psychic will be able to discern the vaporous image or energy sphere which is the being. This includes ghosts, Entities,\nElementals and Astra! Beings.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Sense Evil",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Sense Evil",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  2,
+                                                                 "range":  "140 feet (42.7 m) area.",
+                                                                 "duration":  "2 minutes (8 melees) per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  "None.",
+                                                                 "damage":  null,
+                                                                 "description":  "This psi-power is a much more refined ability to feel the presence of\nevil. All supernatural creatures radiate their alignment, good or evil. A\npsychic sensitive will automatically feel supernatural evil without\nspending a single I.S.P. point. However, to get a clearer picture of the\nevil force(s) the character must open himself and use the Sense Evil\nability.\nSense Evil will indicate the general number of supernatural evil:\none, a few (2-6), several (7-14), or many (15 or more). It can also register the intensity of the evil and pinpoint the general location of the\nsource(s} to a particular room(s), possessed object, character, and distance; i.e. very near (within 15 feet/4.5 m), near (within 50 feet/15.2\nm), or far (60 to 140 feet/18.2 to 42.7 m). The character can track the\nsource of supernatural evil, like a bloodhound, by sensing how close it\nis to him,\nEvil emanations from human beings are much Jess distinct and can\nnot be felt unless the source-person has an immediate evil intention and\nhas psychic powers or is psychotic. The former can mask his evil intentions with a Mind Block.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Sense Magic",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Sense Magic",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  3,
+                                                                 "range":  "120 feet (36.6 m) area.",
+                                                                 "duration":  "2 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  "None.",
+                                                                 "damage":  null,
+                                                                 "description":  "The ability to sense magic enables the psychic to feel magic energy,\ntell whether it is near (within 20 feet/6.1 m) or far (up to 120 feet/36.6\nm away) and follow the emanations to pinpoint their source as a particular place, room, person or object. Note: Invisible, magical or supernatural creatures or objects can only be traced to a general area, like a\nspecific room or area. The psychic will also be able to sense whether or\nnot an object has magic powers, if a person or item is enchanted/under\na magic spell (this does not include psionic influences), when magic ts\nbeing used within the area (120 feet/36.6 m) and when a person is casting a spell (human users of magic do not radiate magic energies until\nthey call upon them).",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Sixth Sense",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Sixth Sense",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  0,
+                                                                 "range":  "90 feet (27.4 m).",
+                                                                 "duration":  "Until the danger passes or happens. Bonuses apply only to the first melee round of the attack from the source of the sensed danger.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "1.S8.P.: 2\nSaving Throw: None.\nThe Sixth Sense is a power that gives the psychic a precognitive\nflash of imminent danger to himself or somebody near him (within 90\nfeet/27.4 m). The character will not know what the danger is or where it\nwill come from, nor who it will be directed at when in a group. All he\nknows ts that something life threatening will happen within the next 60\nseconds (4 melees)! The Sixth Sense is triggered automatically, without\nthe consent of the psychic. whenever his life is in great peril or the life\nof somebody he greatly cares about (friend, partner, loved one, etc.).\nThe Sixth Sense is only triggered by an unexpected, life threatening\nevent (a trap or ambush is within 90 feet/27.4 m or a flash flood is rushing his way} which ts already set into motion and will happen any second. The power can not be called upon at will to sense for traps or\nambush. Instead, it works like an automatic reflex. [f the character has\nused all his I.S.P. the Sixth Sense is temporarily rendered inoperative.\nBonuses: The sudden flash of insight provides the following bonuses. All bonuses apply only to the first, initial melee (15 seconds)\nwhen the attack/danger occurs. Bonuses are lost in subsequent melee\nrounds after the danver ts revealed. +6 on initiative roll, +2 to parry, +3\nto dodge and the character can not be surprised by a sneak attack from\nbehind.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Speed Reading",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Speed Reading",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  0,
+                                                                 "range":  "Self.",
+                                                                 "duration":  "3 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "1.8.P.: 2\nThis is the ability to read and comprehend the written word extremely quickly. Speed of reading ts 30 pages per minute (4 melee\nrounds). The psychic will retain the information as he would normally.\nHighly technical texts will reduce the speed reading by half (15 pages\nper minute) and may require two readings to remember in detail.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Summon Inner Strength",
+                                                 "category":  "physical",
+                                                 "payload":  {
+                                                                 "name":  "Summon Inner Strength",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  4,
+                                                                 "range":  "Self.",
+                                                                 "duration":  "10 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "This psi-power enables the character to draw on his inner reserves\nof strength to ward off pain and fatigue. Every time the psychic calls\nupon his Inner Strength the following bonuses apply:\n@ Add+l0S.DC.\nAdd +2 to save vs poison or toxins.\nAdd +5% to save vs coma/death.\nFatigue is temporarily forgotten and the character can function as if\nhe was fully rested for the full duration of the Summon Inner\nStrength power.",
+                                                                 "notes":  ""
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose three minor psionic powers from this list when creating a Crazy."
+                   }
+    },
+    {
+        "name":  "Cyber-Knight Psionics",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "psionics-cyber-knight",
+                       "label":  "Cyber-Knight Psionics",
+                       "entryType":  "power",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Empathy",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Empathy",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  0,
+                                                                 "range":  "100 foot (30.5 m) area.",
+                                                                 "duration":  "Two minutes (8 melees) per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "I:S.P.: 4\nSaving Throw: Standard; a save vs Empathy means the psychic can\nnot get a clear sense of the emotions of that particular person. To save\nvs Empathy the person must roll to save once each melee that the psychic is using Empathy. Mind Block will prevent any empathic emanations from the blocked person.\nEmpathy is a psi-ability that makes the psychic aware of, or feel, the\nemotions of other people, animals and supernatural creatures. The\nstrongest emotions are easiest to sense: hate, anger, terror, love. Feeling\nfor emotions can often be used to establish that somebody or something\nis nearby, but can NOT be used to pinpoint an invisible or hiding person/ creature. Empathy can be especially helpful in recognizing and\ncommunicating with ghosts and other supernatural creatures.\nQuestioning a person/being while using Empathy can be very handy\nin establishing how they are reacting to you. In a limited sense, Empathy can be used like a lie detector to see if the emotions match the verbal response. For Example: €œDid you know the deceased?€ The verbal\nanswer 1s no, but there is a sudden flare of nervousness and fear (or\nhate). This doesn€t mean the guy is the killer, but it might mean he is\nlying about knowing the dead man. Further questions might pull out a\nstrong emotion such as anger or hate (or happiness), which may confirm the psychic€s suspicions that this man might be involved in the\nmurder. However, remember that this is, at best, circumstantial evidence and definitely inadmissible in court. Physical proof must be\nfound, but the empathic readings may put characters on the right track.\nAlso, remember that the empathic psychic is feeling the person€s real\nemotions, but interpreting their significance. A very nervous person\nmay always radiate fear or anxiety, while a cold-blooded, pathological\nkiller may feel nothing at all and stay calm and cool as he lies through\nhis teeth. The feeling of hate may mean that the person did know the\nmurder victim, or knew of him, and hated him for any number of reasons. That does not mean he killed him. As you can see, interpreting\nemotions can be a tricky thing.\nHaunting Ghosts and Entities rarely mask their emotions. Thus, the\npsychic can easily tell if one or more is nearby (within 100 feet/30,5 m)\nand what it is fecling. €œ] sense great sorrow.€ or €œDo as it says! It is anery. almost crazed. | think it will carry out its threat if you try to stop\nit.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Mind Block",
+                                                 "category":  "shared",
+                                                 "payload":  {
+                                                                 "name":  "Mind Block",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  4,
+                                                                 "range":  "Self.",
+                                                                 "duration":  "10 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "This is the ability to completely close or block oneself from all psychic/mental emanations. When intentionally closed to supernatural or\npsychic forces the character can not sense anything, can not use psychic\nabilities. nor be influenced by others. A Mind Block will prevent penetration of Telepathy, Empathy, Hypnotic Suggestion, and Empathic\nTransmission. It can be an invaluable protective mask when dealing\nwith malevolent psychic forces. Adds a bonus of +1 to save vs all psychic and mental attacks.",
+                                                                 "notes":  "This power is listed among Physical and Sensitive Psionics."
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Object Read",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Object Read",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  6,
+                                                                 "range":  "Touch.",
+                                                                 "duration":  "Varies; usually about 2D6 minutes.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  "None.",
+                                                                 "damage":  null,
+                                                                 "description":  "48% +2% per level. Present: 38% +2% per level of experience.\nAlso known as Psychometry, this uncanny ability enables the psychic sensitive to receive impressions and images from an object regarding its use, history and last owner. This is done by holding the object\nand concentrating on a specific line of thought or opening up to general\nimpressions (the latter is always more vague and random). Just as a\npsychic must open himself tosense evil or magic, he must open himself\nto the object. If successful, he will receive impressions and/or images\nrevealing bits of information.\nImpressions include: General alignment of its last owner (good,\nselfish, evil), general emotional state of mind (angry, happy, sad, hate\nfilled, confused, etc.), the object€s general purpose (what it is used for),\nwhether or not the last owner is living or dead, and whether the item\nhas been used with/by magic or supernatural forces. Object Read will\nalso conclusively indicate whether the item is currently enchanted or\ncontains a supernatural force/entity (as well as its alignment and emotions). If the item is possessed, an Object Read makes the reader totally\nvulnerable to psychic attack (no bonuses to save).\nImages: The psychic can also see images of isolated events which\nhave happened in the past. This will provide brief snippets of images\nand events that will offer glances of the previous owner and others\nclose to him. Traumatic and emotion filled events/images are the easiest to see. Impressions will accompany the images, adding to the story\nas it unfolds. Information includes: approximate age, height, weight,\nbuild, race, sex, sometimes occupation, hair color and fength; special\nfacial or body features such as a scar or tattoo or beard (very often the\nexact facial features are out of focus, blurred or obscured); the object€s\nuse/purpose; and some special event, usually very traumatic, important\nor happy. Often the event image will be fragmented as if it was a piece\nof movie film edited by a crazy man. The event will always be one in\nwhich the object was involved in some way.\nThe success or failure of an Object Read: Roll percentile dice\nonce for impressions and once for images. The roll must fall under the\ncharacter€s base skill ability to succeed. A roll higher than the base skill\nmeans a failure and the psychic feels and/or sees nothing. Impressions\nand images are two different things, so roll for each. The psychic may\nget no impressions, but see images or vice versa. The present can not\nbe seen unless the psychic was successful on at least one of the previous read impressions or images rolls. Once an object has been read it\ncan not be read again by the same psychic, even if he did not see or feel\na thing. Of course, the psychic can attempt to Object Read other items,\nbut each attempt will cost 6 I.S.P.\nThe present can also be glimpsed, but costs an additional 4 I.S.P.,\nwith no guarantee of success. Sometimes the psychic can focus in to\nsee and feel the ast owner as he or she ts at that very moment. This\nwill provide an idea of what is his current state of mind/emotion, appearance, dress, general location (that is to say, a bedroom, office,\nstreet, outdoors, etc.; no address or sense of close or far is provided),\ngeneral features (shaved his beard, dyed hair, etc.) and so on. The psychic may be able to identify a place or person by feature if he has seen\nit before or runs into him in the near future.",
+                                                                 "notes":  "Base Skill: Impressions: 56% +2% per level of experience. Images:"
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "See the Invisible",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "See the Invisible",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  4,
+                                                                 "range":  "120 feet (36.6 m); double on a Iey line.",
+                                                                 "duration":  "| minute per each level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  "None.",
+                                                                 "damage":  null,
+                                                                 "description":  "The character can see entities, beings, forces, objects and creatures\nwhich can turn invisible or are naturally invisible. Even if the creature\nhas no form per se, the psychic will be able to discern the vaporous image or energy sphere which is the being. This includes ghosts, Entities,\nElementals and Astra! Beings.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Sense Evil",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Sense Evil",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  2,
+                                                                 "range":  "140 feet (42.7 m) area.",
+                                                                 "duration":  "2 minutes (8 melees) per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  "None.",
+                                                                 "damage":  null,
+                                                                 "description":  "This psi-power is a much more refined ability to feel the presence of\nevil. All supernatural creatures radiate their alignment, good or evil. A\npsychic sensitive will automatically feel supernatural evil without\nspending a single I.S.P. point. However, to get a clearer picture of the\nevil force(s) the character must open himself and use the Sense Evil\nability.\nSense Evil will indicate the general number of supernatural evil:\none, a few (2-6), several (7-14), or many (15 or more). It can also register the intensity of the evil and pinpoint the general location of the\nsource(s} to a particular room(s), possessed object, character, and distance; i.e. very near (within 15 feet/4.5 m), near (within 50 feet/15.2\nm), or far (60 to 140 feet/18.2 to 42.7 m). The character can track the\nsource of supernatural evil, like a bloodhound, by sensing how close it\nis to him,\nEvil emanations from human beings are much Jess distinct and can\nnot be felt unless the source-person has an immediate evil intention and\nhas psychic powers or is psychotic. The former can mask his evil intentions with a Mind Block.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Sense Magic",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Sense Magic",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  3,
+                                                                 "range":  "120 feet (36.6 m) area.",
+                                                                 "duration":  "2 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  "None.",
+                                                                 "damage":  null,
+                                                                 "description":  "The ability to sense magic enables the psychic to feel magic energy,\ntell whether it is near (within 20 feet/6.1 m) or far (up to 120 feet/36.6\nm away) and follow the emanations to pinpoint their source as a particular place, room, person or object. Note: Invisible, magical or supernatural creatures or objects can only be traced to a general area, like a\nspecific room or area. The psychic will also be able to sense whether or\nnot an object has magic powers, if a person or item is enchanted/under\na magic spell (this does not include psionic influences), when magic ts\nbeing used within the area (120 feet/36.6 m) and when a person is casting a spell (human users of magic do not radiate magic energies until\nthey call upon them).",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Sixth Sense",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Sixth Sense",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  0,
+                                                                 "range":  "90 feet (27.4 m).",
+                                                                 "duration":  "Until the danger passes or happens. Bonuses apply only to the first melee round of the attack from the source of the sensed danger.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "1.S8.P.: 2\nSaving Throw: None.\nThe Sixth Sense is a power that gives the psychic a precognitive\nflash of imminent danger to himself or somebody near him (within 90\nfeet/27.4 m). The character will not know what the danger is or where it\nwill come from, nor who it will be directed at when in a group. All he\nknows ts that something life threatening will happen within the next 60\nseconds (4 melees)! The Sixth Sense is triggered automatically, without\nthe consent of the psychic. whenever his life is in great peril or the life\nof somebody he greatly cares about (friend, partner, loved one, etc.).\nThe Sixth Sense is only triggered by an unexpected, life threatening\nevent (a trap or ambush is within 90 feet/27.4 m or a flash flood is rushing his way} which ts already set into motion and will happen any second. The power can not be called upon at will to sense for traps or\nambush. Instead, it works like an automatic reflex. [f the character has\nused all his I.S.P. the Sixth Sense is temporarily rendered inoperative.\nBonuses: The sudden flash of insight provides the following bonuses. All bonuses apply only to the first, initial melee (15 seconds)\nwhen the attack/danger occurs. Bonuses are lost in subsequent melee\nrounds after the danver ts revealed. +6 on initiative roll, +2 to parry, +3\nto dodge and the character can not be surprised by a sneak attack from\nbehind.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Speed Reading",
+                                                 "category":  "sensitive",
+                                                 "payload":  {
+                                                                 "name":  "Speed Reading",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  0,
+                                                                 "range":  "Self.",
+                                                                 "duration":  "3 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "1.8.P.: 2\nThis is the ability to read and comprehend the written word extremely quickly. Speed of reading ts 30 pages per minute (4 melee\nrounds). The psychic will retain the information as he would normally.\nHighly technical texts will reduce the speed reading by half (15 pages\nper minute) and may require two readings to remember in detail.",
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Summon Inner Strength",
+                                                 "category":  "physical",
+                                                 "payload":  {
+                                                                 "name":  "Summon Inner Strength",
+                                                                 "powerType":  "psionic",
+                                                                 "costType":  "isp",
+                                                                 "cost":  4,
+                                                                 "range":  "Self.",
+                                                                 "duration":  "10 minutes per level of experience.",
+                                                                 "activationTime":  null,
+                                                                 "saveType":  null,
+                                                                 "damage":  null,
+                                                                 "description":  "This psi-power enables the character to draw on his inner reserves\nof strength to ward off pain and fatigue. Every time the psychic calls\nupon his Inner Strength the following bonuses apply:\n@ Add+l0S.DC.\nAdd +2 to save vs poison or toxins.\nAdd +5% to save vs coma/death.\nFatigue is temporarily forgotten and the character can function as if\nhe was fully rested for the full duration of the Summon Inner\nStrength power.",
+                                                                 "notes":  ""
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Use this list if the Cyber-Knight qualifies for psionic abilities."
+                   }
+    },
+    {
+        "name":  "Glitter Boy Medical Choice",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "skills-glitter-boy-medical",
+                       "label":  "Glitter Boy Medical Choice",
+                       "entryType":  "skill",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "First Aid",
+                                                 "category":  "Medical",
+                                                 "payload":  {
+                                                                 "name":  "First Aid",
+                                                                 "category":  "Medical",
+                                                                 "base":  45,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  0,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Paramedic",
+                                                 "category":  "Medical",
+                                                 "payload":  {
+                                                                 "name":  "Paramedic",
+                                                                 "category":  "Medical",
+                                                                 "base":  40,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  0,
+                                                                 "notes":  ""
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose either First Aid or Paramedic as the Glitter Boy medical training skill."
+                   }
+    },
+    {
+        "name":  "Headhunter Pilot Choices",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "skills-headhunter-pilot",
+                       "label":  "Headhunter Pilot Choices",
+                       "entryType":  "skill",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Airplane",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Airplane",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Automobile",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Automobile",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  2,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                                 "category":  "Pilot",
+                                                                 "base":  55,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Sail Type",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Sail Type",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Ships",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Ships",
+                                                                 "category":  "Pilot",
+                                                                 "base":  45,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Helicopter",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Helicopter",
+                                                                 "category":  "Pilot",
+                                                                 "base":  35,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Horsemanship",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Horsemanship",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Hover Craft (Ground)",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Hover Craft (Ground)",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Aircraft",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Aircraft",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Fighters",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Fighters",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Packs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Packs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  42,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Motorcycle",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Motorcycle",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Basic",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Basic",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Elite",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Elite",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robots and Power Armor",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robots and Power Armor",
+                                                                 "category":  "Pilot",
+                                                                 "base":  56,
+                                                                 "perLevel":  3,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Tanks and APCs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Tanks and APCs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  36,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Truck",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Truck",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  5,
+                                                                 "notes":  ""
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose two additional pilot skills for the Headhunter at +5% each."
+                   }
+    },
+    {
+        "name":  "Juicer Pilot Choices",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "skills-juicer-pilot",
+                       "label":  "Juicer Pilot Choices",
+                       "entryType":  "skill",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Airplane",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Airplane",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Automobile",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Automobile",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  2,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Motor and Hydrofoils",
+                                                                 "category":  "Pilot",
+                                                                 "base":  55,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Sail Type",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Sail Type",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Boat: Ships",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Boat: Ships",
+                                                                 "category":  "Pilot",
+                                                                 "base":  45,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Helicopter",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Helicopter",
+                                                                 "category":  "Pilot",
+                                                                 "base":  35,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Horsemanship",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Horsemanship",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Hover Craft (Ground)",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Hover Craft (Ground)",
+                                                                 "category":  "Pilot",
+                                                                 "base":  50,
+                                                                 "perLevel":  5,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Aircraft",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Aircraft",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Fighters",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Fighters",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Jet Packs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Jet Packs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  42,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Motorcycle",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Motorcycle",
+                                                                 "category":  "Pilot",
+                                                                 "base":  60,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Basic",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Basic",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robot Combat: Elite",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robot Combat: Elite",
+                                                                 "category":  "Pilot",
+                                                                 "base":  0,
+                                                                 "perLevel":  0,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Robots and Power Armor",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Robots and Power Armor",
+                                                                 "category":  "Pilot",
+                                                                 "base":  56,
+                                                                 "perLevel":  3,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Tanks and APCs",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Tanks and APCs",
+                                                                 "category":  "Pilot",
+                                                                 "base":  36,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Truck",
+                                                 "category":  "Pilot",
+                                                 "payload":  {
+                                                                 "name":  "Truck",
+                                                                 "category":  "Pilot",
+                                                                 "base":  40,
+                                                                 "perLevel":  4,
+                                                                 "modifier":  10,
+                                                                 "notes":  ""
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose two pilot skills for the Juicer at +10% each."
+                   }
+    },
+    {
+        "name":  "Bionic Appendages",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "bionics-appendages",
+                       "label":  "Bionic Appendages",
+                       "entryType":  "bionic",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Additional Hand and Arm",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Additional Hand and Arm",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Gain one additional arm and hand or a full second pair. A full extra pair adds one attack per melee plus +1 to strike and parry.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "apm":  1,
+                                                                                                               "parry":  1,
+                                                                                                               "strike":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "chest"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Legs for Leaping",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Legs for Leaping",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Use these legs for long jumps, quick evasive movement, and rapid bursts of motion. Combine with booster jets for even greater leaps.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "dodge":  1,
+                                                                                                               "initiative":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "legs"
+                                                                            }
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from replacement limbs and appendage-grade bionics."
+                   }
+    },
+    {
+        "name":  "Bionic Weapons and Tools",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "bionics-weapons",
+                       "label":  "Bionic Weapons and Tools",
+                       "entryType":  "bionic",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Forearm Light Laser Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Light Laser Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A built-in light laser weapon for quick battlefield firing. Each blast counts as one melee attack.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Medium Laser Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Medium Laser Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A medium laser built into the forearm for stronger firepower at standard rifle range.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Heavy Laser Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Heavy Laser Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A heavy laser weapon built into the arm for powerful short-ranged assault shots.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Ion Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Ion Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A built-in ion weapon suited to repeated battlefield shots.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Mini-Machine-Gun",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Mini-Machine-Gun",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A belt-fed forearm machine-gun that can fire either S.D.C. or M.D. rounds depending on the ammunition loaded.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm or Shoulder Mini-Missile Launcher",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm or Shoulder Mini-Missile Launcher",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Launch mini-missiles from an arm or shoulder housing. Reload individual missiles by hand between attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Plasma Ejector",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Plasma Ejector",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A built-in plasma weapon for hard-hitting short-range fire.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Particle Beam",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Particle Beam",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A forearm particle beam projector for punishing short-range attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Garrote Wrist Wire",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Garrote Wrist Wire",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Conceal a thin wire in the wrist for strangling or similar close-quarters attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "wrist"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Grapnel and Launcher",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Grapnel and Launcher",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Fire a grappling hook and line for climbing, hitching rides on larger machines, or crossing obstacles.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "High Explosive Finger Joints",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "High Explosive Finger Joints",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Turn a finger into a tiny explosive charge for desperate close-range demolition or thrown attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Knuckle Spikes",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Knuckle Spikes",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Drive sharpened spikes through the knuckles for nastier punches and blade parries.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Laser Eye",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Laser Eye",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Fire a laser blast directly from one or both eyes. A simultaneous double blast counts as one melee action.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "strike":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "eyes"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Laser Finger Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Laser Finger Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Hide a tiny M.D. laser in a finger for quick surprise shots at short range.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Laser Utility Finger",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Laser Utility Finger",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Use a built-in finger laser as a fine cutting, repair, and soldering tool.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Pneumatic Punching Jackhammer Arm",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Pneumatic Punching Jackhammer Arm",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A piston-driven combat arm designed for brutal close-quarters strikes. It grants one extra attack per melee and improves initiative.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "initiative":  1,
+                                                                                                               "apm":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "arm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Retractable Finger Blades",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Retractable Finger Blades",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Extend blades from the fingers for close hand-to-hand fighting.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Retractable Knuckle Blades",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Retractable Knuckle Blades",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Extend larger blades from the knuckles to turn a punch into a slashing attack.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Retractable Vibro-Blade",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Retractable Vibro-Blade",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Keep a vibro-blade hidden in the forearm and deploy it when melee combat begins.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Weapon Rod Concealed in Leg",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Weapon Rod Concealed in Leg",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Hide a removable hand-held energy blaster in a leg compartment or mount it externally on the leg or back.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "leg"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Wrist Needle and Drug Dispenser",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Wrist Needle and Drug Dispenser",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Slide out a concealed injection needle to deliver drugs, tranquilizers, poison, or similar chemicals in close contact.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "wrist"
+                                                                            }
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from combat-grade bionic weapons and built-in tools."
+                   }
+    },
+    {
+        "name":  "Bionic Weapons or Appendages",
+        "type":  "choiceList",
+        "system":  {
+                       "listId":  "bionics-weapons-or-appendages",
+                       "label":  "Bionic Weapons or Appendages",
+                       "entryType":  "bionic",
+                       "sourceMode":  "static",
+                       "staticEntries":  [
+                                             {
+                                                 "name":  "Additional Hand and Arm",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Additional Hand and Arm",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Gain one additional arm and hand or a full second pair. A full extra pair adds one attack per melee plus +1 to strike and parry.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "apm":  1,
+                                                                                                               "parry":  1,
+                                                                                                               "strike":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "chest"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Legs for Leaping",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Legs for Leaping",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Use these legs for long jumps, quick evasive movement, and rapid bursts of motion. Combine with booster jets for even greater leaps.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "dodge":  1,
+                                                                                                               "initiative":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "legs"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Light Laser Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Light Laser Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A built-in light laser weapon for quick battlefield firing. Each blast counts as one melee attack.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Medium Laser Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Medium Laser Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A medium laser built into the forearm for stronger firepower at standard rifle range.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Heavy Laser Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Heavy Laser Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A heavy laser weapon built into the arm for powerful short-ranged assault shots.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Ion Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Ion Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A built-in ion weapon suited to repeated battlefield shots.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Mini-Machine-Gun",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Mini-Machine-Gun",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A belt-fed forearm machine-gun that can fire either S.D.C. or M.D. rounds depending on the ammunition loaded.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm or Shoulder Mini-Missile Launcher",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm or Shoulder Mini-Missile Launcher",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Launch mini-missiles from an arm or shoulder housing. Reload individual missiles by hand between attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Plasma Ejector",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Plasma Ejector",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A built-in plasma weapon for hard-hitting short-range fire.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Forearm Particle Beam",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Forearm Particle Beam",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A forearm particle beam projector for punishing short-range attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Garrote Wrist Wire",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Garrote Wrist Wire",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Conceal a thin wire in the wrist for strangling or similar close-quarters attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "wrist"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Grapnel and Launcher",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Grapnel and Launcher",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Fire a grappling hook and line for climbing, hitching rides on larger machines, or crossing obstacles.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "High Explosive Finger Joints",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "High Explosive Finger Joints",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Turn a finger into a tiny explosive charge for desperate close-range demolition or thrown attacks.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Knuckle Spikes",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Knuckle Spikes",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Drive sharpened spikes through the knuckles for nastier punches and blade parries.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Laser Eye",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Laser Eye",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Fire a laser blast directly from one or both eyes. A simultaneous double blast counts as one melee action.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "strike":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "eyes"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Laser Finger Blaster",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Laser Finger Blaster",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Hide a tiny M.D. laser in a finger for quick surprise shots at short range.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Laser Utility Finger",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Laser Utility Finger",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Use a built-in finger laser as a fine cutting, repair, and soldering tool.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Pneumatic Punching Jackhammer Arm",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Pneumatic Punching Jackhammer Arm",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "A piston-driven combat arm designed for brutal close-quarters strikes. It grants one extra attack per melee and improves initiative.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+                                                                                                               "initiative":  1,
+                                                                                                               "apm":  1
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "arm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Retractable Finger Blades",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Retractable Finger Blades",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Extend blades from the fingers for close hand-to-hand fighting.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Retractable Knuckle Blades",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Retractable Knuckle Blades",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Extend larger blades from the knuckles to turn a punch into a slashing attack.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "hand"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Retractable Vibro-Blade",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Retractable Vibro-Blade",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Keep a vibro-blade hidden in the forearm and deploy it when melee combat begins.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "forearm"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Weapon Rod Concealed in Leg",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Weapon Rod Concealed in Leg",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Hide a removable hand-held energy blaster in a leg compartment or mount it externally on the leg or back.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "leg"
+                                                                            }
+                                                             }
+                                             },
+                                             {
+                                                 "name":  "Wrist Needle and Drug Dispenser",
+                                                 "category":  "",
+                                                 "payload":  {
+                                                                 "name":  "Wrist Needle and Drug Dispenser",
+                                                                 "itemType":  "bionic",
+                                                                 "system":  {
+                                                                                "notes":  "Slide out a concealed injection needle to deliver drugs, tranquilizers, poison, or similar chemicals in close contact.",
+                                                                                "effects":  {
+                                                                                                "flags":  {
+
+                                                                                                          },
+                                                                                                "attributes":  {
+
+                                                                                                               },
+                                                                                                "combat":  {
+
+                                                                                                           },
+                                                                                                "resources":  {
+
+                                                                                                              }
+                                                                                            },
+                                                                                "grantedAbilities":  [
+
+                                                                                                     ],
+                                                                                "installed":  false,
+                                                                                "slot":  "wrist"
+                                                                            }
+                                                             }
+                                             }
+                                         ],
+                       "filters":  {
+
+                                   },
+                       "entries":  [
+
+                                   ],
+                       "notes":  "Choose from bionic weapons, combat limbs, and replacement appendages for military packages that allow either type."
+                   }
+    }
+]
