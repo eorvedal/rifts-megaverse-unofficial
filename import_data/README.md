@@ -85,8 +85,8 @@ Import batches in this order.
 
 Use the file prefix to choose the correct `Content Type` in the importer.
 
-|        File Pattern           | Content Type  |
-|            ---                |     ---       |
+| File Pattern                  | Content Type  |
+| ---                           | ---           |
 | `BASE_SKILLS_EXTRACT_BATCH_*` | `Skill Items` |
 | `PSIONICS_EXTRACT_BATCH_*`    | `Powers` |
 | `SPELLS_EXTRACT_BATCH_*`      | `Powers` |
@@ -119,6 +119,18 @@ For class imports:
 - some refresh batches contain OCC entries
 - some refresh batches contain RCC entries
 - choose the matching importer `Content Type` for the file you are importing
+
+Current RCC refresh batches:
+- `OCC_RCC_REFRESH_BATCH_06.json`
+- `OCC_RCC_REFRESH_BATCH_08.json`
+
+Current OCC refresh batches:
+- `OCC_RCC_REFRESH_BATCH_01.json`
+- `OCC_RCC_REFRESH_BATCH_02.json`
+- `OCC_RCC_REFRESH_BATCH_03.json`
+- `OCC_RCC_REFRESH_BATCH_04.json`
+- `OCC_RCC_REFRESH_BATCH_05.json`
+- `OCC_RCC_REFRESH_BATCH_07.json`
 
 ## Updating an Existing World
 
